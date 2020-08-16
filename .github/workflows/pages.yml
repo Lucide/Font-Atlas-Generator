@@ -31,8 +31,11 @@ jobs:
         path: ~/.npm
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
-    - name: Install Dependencies and Build
+    - name: Install Dependencies
       run: npm install
+    
+    - name: Build
+      run: npm run build
     
     - name: GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
