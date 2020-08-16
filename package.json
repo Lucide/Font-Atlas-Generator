@@ -9,13 +9,13 @@
     "@types/node": "^14.0.27",
     "@types/webfontloader": "^1.6.32",
     "font-atlas": "^2.1.0",
-    "normalize.css": "^8.0.1",
     "parse-css-font": "^4.0.0",
     "promise-file-reader": "^1.0.2",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "browserify": "^16.5.2",
+    "copyfiles": "^2.3.0",
     "sass": "^1.26.10",
     "typescript": "^3.9.7"
   },
@@ -24,7 +24,8 @@
     "build:sass": "npx sass scss/:build/css/",
     "build:typescript": "npx -p typescript tsc",
     "build:browserify": "npx browserify build/js/main.js -o build/js/bundle.js",
-    "prepare": "npm run build:sass && npm run build:typescript && npm run build:browserify"
+    "build:files": "npx copyfiles -f index.html build/",
+    "build": "npm run build:sass && npm run build:typescript && npm run build:browserify && npm run build:files"
   },
   "author": "Lucide",
   "license": "MIT",
