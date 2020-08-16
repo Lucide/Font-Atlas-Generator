@@ -39,7 +39,7 @@ jobs:
     
     - name: Copy static files
       run: |
-        echo "::ls"
+        ls
         cp index.html ./build/
         cp node_modules/normalize.css/normalize.css ./build/
     
