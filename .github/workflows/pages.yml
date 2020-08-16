@@ -35,19 +35,11 @@ jobs:
       run: npm install
 
     - name: Build
-      run: npm build
-    
-    - name: Copy static files
-      run: |
-        ls
-        cp index.html ./build/
-        cp node_modules/normalize.css/normalize.css ./build/
+      run: npm run prepare
     
     - name: GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
-      with: 
-        # Set a generated GITHUB_TOKEN for pushing to the remote branch.
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      with:
         # Set an input directory for deployment.
         publish_dir: ./build
         # Set a custom commit message with a triggered commit hash
