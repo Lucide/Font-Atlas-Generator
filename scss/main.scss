@@ -1,0 +1,182 @@
+@use "defaults";
+@use "helpers" as *;
+@use "tabbed";
+
+body {
+  font: {
+    family: defaults.$openSans;
+    size: 16pt;
+  };
+  display: grid;
+  background-color: white;
+  grid: "header header" minmax(70pt, auto)
+"preview controls" auto
+"charset charset" auto
+"footer footer" auto
+/ minmax(30vh, auto) minmax(150pt, 300pt);
+}
+
+.header {
+  @include flex(column);
+  padding-bottom: 10pt;
+  animation: slide 10s linear infinite;
+  text-align: center;
+  @include defaults.waves;
+  grid-area: header;
+  @keyframes slide {
+    0% {
+      background-position-x: 100px;
+    }
+    100% {
+      background-position-x: 0;
+    }
+  }
+
+  :nth-child(1) {
+    font-size: 40pt;
+  }
+
+  :nth-child(2) {
+    font-size: 16pt;
+  }
+}
+
+.preview {
+  position: relative;
+  overflow: hidden;
+  border: 0 solid black {
+    right-width: 1pt;
+    top-width: 1pt;
+    radius: 5pt 5pt 0 0;
+  }
+  grid-area: preview;
+
+  > div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    overflow: scroll;
+    max-width: 100%;
+    max-height: 100%;
+    @include fillSpace;
+    padding: 5pt;
+    @include defaults.reticulate;
+  }
+
+  canvas {
+    margin: 0 auto;
+  }
+}
+
+.controls {
+  @include flex(column);
+  grid-area: controls;
+
+  > :not(.section) {
+    padding-bottom: 10pt;
+  }
+}
+
+.fontInputs {
+  @include tabbed.container {
+    @include tabbed.labels {
+      font-size: 15pt;
+      width: 50%;
+      text-align: center;;
+      border: 1pt solid {
+        radius: 5pt 5pt 0 0;
+      }
+
+      &:nth-of-type(1) {
+        border-width: 1pt 1pt 1pt 0;
+      }
+
+      &:nth-of-type(2) {
+        border-width: 1pt 0 1pt 0;
+      }
+    }
+
+    @include tabbed.tabs {
+      @include flex(column);
+      align-items: center;
+      padding: 5pt;
+
+      > label {
+        padding-bottom: 10pt;
+      }
+
+      > input {
+        display: block;
+        width: 80%;
+      }
+    }
+  }
+}
+
+.numberInputs {
+  @include flex(column);
+  justify-content: space-between;
+  min-height: 30%;
+  padding: 0 10pt;
+
+  > div {
+    $label-width: 140pt;
+
+    @include flex(row);
+    align-items: baseline;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    > label {
+      display: block;
+      width: $label-width;
+      padding-bottom: 3pt;
+    }
+  }
+}
+
+.previewInputs {
+  @include flex(column);
+  align-items: center;
+
+  > * {
+    padding-bottom: 5pt;
+  }
+}
+
+.charset {
+  @include flex(column);
+  align-items: center;
+  padding-bottom: 10pt;
+  grid-area: charset;
+
+  > div {
+    width: 80%;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+.footer {
+  font: {
+    family: defaults.$ubuntuMono;
+    size: 10pt;
+  }
+
+  text-align: center;;
+  border: 0 solid black {
+    top-width: 1pt;
+  }
+  grid-area: footer;
+
+  > a {
+    color: black;
+  }
+
+  > span {
+    text-decoration: underline line-through;
+  }
+}

@@ -1,0 +1,67 @@
+@use "helpers" as *;
+@use "inputs";
+
+$ubuntuMono: "Ubuntu Mono", monospace;
+$openSans: "Open Sans", sans-serif;
+
+* {
+  box-sizing: border-box;
+}
+
+canvas {
+  display: block;
+}
+
+input, label, span {
+  display: inline-block;
+}
+
+.section {
+  font: {
+    size: 23pt;
+    weight: bold;
+  }
+  width: 100%;
+  padding: 5pt;
+  border: 0 solid black {
+    top-width: 1pt;
+    radius: 5pt 5pt 0 0;
+  };
+}
+
+.input-text-file {
+  @include inputs.text-file;
+}
+
+.input-number {
+  @include inputs.number(80pt);
+  margin-bottom: 7pt;
+}
+
+.input-checkbox {
+  @include inputs.checkbox;
+}
+
+.input-textarea {
+  @include inputs.textarea;
+
+  > textarea {
+    font: {
+      family: $ubuntuMono;
+      size: 13pt;
+    }
+    word-break: break-all;
+  }
+}
+
+@mixin reticulate {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239a9a9a' fill-opacity='0.26'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+@mixin waves {
+  background: {
+    repeat: repeat-x;
+    position: center;
+    image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 14c8.44 0 13.718-1.21 22.272-4.402l1.768-.661C33.64 5.347 39.647 4 50 4c10.271 0 15.362 1.222 24.629 4.928C84.112 12.722 89.438 14 100 14v-2c-10.271 0-15.362-1.222-24.629-4.928C65.888 3.278 60.562 2 50 2 39.374 2 33.145 3.397 23.34 7.063l-1.767.662C13.223 10.84 8.163 12 0 12v2z' fill='black' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+  };
+}

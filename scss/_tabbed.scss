@@ -1,0 +1,61 @@
+//inspired from https://codepen.io/mikestreety/details/yVNNNm
+@use "sass:list";
+@use "sass:selector";
+
+@mixin container {
+  display: flex;
+  flex-wrap: wrap; // make sure it wraps
+
+  @content;
+
+  > input {
+    display: none;
+
+    &:checked + label {
+      border-bottom-color: transparent;
+    }
+
+    &:not(:checked) + label + div {
+      display: none;
+    }
+  }
+}
+
+@mixin labels($indexes...) {
+  $selectors: ();
+
+  @if (length($indexes)==0) {
+    $selectors: "&";
+  } @else {
+    @each $index in $indexes {
+      $selectors: list.append($selectors, "&:nth-of-type(#{$index})", $separator: comma);
+    }
+  }
+  > label {
+    #{$selectors} {
+      @content;
+      display: block;
+      order: 1;
+      cursor: pointer;
+    }
+  }
+}
+
+@mixin tabs($indexes...) {
+  $selectors: ();
+
+  @if (length($indexes)==0) {
+    $selectors: "&";
+  } @else {
+    @each $index in $indexes {
+      $selectors: list.append($selectors, "&:nth-of-type(#{$index})", $separator: comma);
+    }
+  }
+  > div {
+    #{$selectors} {
+      @content;
+      width: 100%;
+      order: 2;
+    }
+  }
+}

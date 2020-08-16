@@ -1,0 +1,76 @@
+@use "helpers" as *;
+
+$highlight-color: chartreuse;
+$imprecise-color: #FF6B10;
+
+@mixin disableHighlight {
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+@mixin -border {
+  border: 1pt solid black {
+    radius: 5pt;
+  };
+
+  &:focus {
+    border-color: $highlight-color;
+  }
+}
+
+.input-highlighted {
+  border-color: $highlight-color !important;
+}
+
+.input-imprecise {
+  border-color: $imprecise-color !important;
+}
+
+@mixin text-file {
+  @include disableHighlight;
+  @include -border;
+  height: 25pt;
+}
+
+@mixin number($field-width) {
+  display: inline-block;
+  overflow: hidden;
+  width: $field-width;
+  white-space: nowrap;
+  @include -border;
+
+  > input {
+    @include disableHighlight;
+    width: calc(100% - 20pt);
+    border: none;
+  }
+}
+
+@mixin checkbox {
+  &:focus {
+    outline: $highlight-color solid 1pt;
+    box-shadow: none;
+  }
+}
+
+@mixin button {
+  @include disableHighlight;
+  @include -border;
+}
+
+@mixin textarea {
+  @include -border;
+  display: inline-block;
+  overflow: hidden;
+
+  > textarea {
+    @include disableHighlight;
+    @include fillSpace;
+    border: none;
+    display: block;
+    padding: 5pt;
+  }
+
+}
