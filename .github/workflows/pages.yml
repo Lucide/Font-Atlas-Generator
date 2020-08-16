@@ -40,6 +40,8 @@ jobs:
     - name: GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
+        # Set a generated GITHUB_TOKEN for pushing to the remote branch.
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         # Set an input directory for deployment.
         publish_dir: ./build
         # Set a custom commit message with a triggered commit hash
