@@ -2,7 +2,7 @@
   "name": "font-atlas-gui",
   "version": "1.0.0",
   "description": "a gui for font-atlas",
-  "main": "index.html",
+  "browser": "index.html",
   "dependencies": {
     "@tsconfig/recommended": "^1.0.1",
     "@types/css-font-loading-module": "0.0.4",
@@ -15,11 +15,25 @@
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
-    "browserify": "^16.5.2"
+    "browserify": "^16.5.2",
+    "sass": "^1.26.10",
+    "typescript": "^3.9.7"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:sass": "npx sass scss/:build/css/",
+    "build:typescript": "npx -p typescript tsc",
+    "build:browserify": "npx browserify build/js/main.js -o build/js/bundle.js",
+    "prepare": "npm run build:sass && npm run build:typescript && npm run build:browserify"
   },
   "author": "Lucide",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lucide/font-atlas-gui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Lucide/font-atlas-gui/issues"
+  },
+  "homepage": "https://github.com/Lucide/font-atlas-gui#readme"
 }
