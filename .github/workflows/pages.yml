@@ -39,8 +39,8 @@ jobs:
     
     - name: Copy static files
       run: |
-        cp index.html build/
-        cp node_modules/normalize.css/normalize.css build/
+        cp index.html ./build/
+        cp node_modules/normalize.css/normalize.css ./build/
     
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v2.1.2
