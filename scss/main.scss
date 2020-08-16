@@ -23,6 +23,12 @@ body {
   text-align: center;
   @include defaults.waves;
   grid-area: header;
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
   @keyframes slide {
     0% {
       background-position-x: 100px;
