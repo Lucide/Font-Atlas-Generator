@@ -44,12 +44,11 @@ jobs:
         cp node_modules/normalize.css/normalize.css ./build/
     
     - name: GitHub Pages
-      uses: crazy-max/ghaction-github-pages@v2.1.2
+      uses: peaceiris/actions-gh-pages@v3
       with: 
+        # Set a generated GITHUB_TOKEN for pushing to the remote branch.
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        # Build directory to deploy
+        # Set an input directory for deployment.
         publish_dir: ./build
-        # Commit message
+        # Set a custom commit message with a triggered commit hash
         commit_message: automatically deployed
-        # Allow Jekyll to build your site
-        jekyll: false # optional, default is true
