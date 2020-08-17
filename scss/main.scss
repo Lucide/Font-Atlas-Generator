@@ -162,6 +162,8 @@ body {
   }
 
   textarea {
+    height: 100pt;
+    line-height: 160%;
     resize: vertical;
   }
 }
@@ -178,8 +180,8 @@ body {
   }
   grid-area: footer;
 
-  > a {
-    color: black;
+  a {
+    color: inherit;
   }
 
   > span {
