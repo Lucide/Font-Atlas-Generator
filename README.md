@@ -1,6 +1,6 @@
 # Font Atlas Generator
 
-<https://lucide.github.io/font-atlas-gui/>
+<https://lucide.github.io/font-atlas-generator/>
 
 Generate a [texture atlas](https://en.wikipedia.org/wiki/Texture_atlas) from a specified font's glyphs, that you can use on [REXPaint](https://www.gridsagegames.com/rexpaint/), [lvllvl.com](https://lvllvl.com/), [Playscii](http://vectorpoem.com/playscii/), ecc
 
