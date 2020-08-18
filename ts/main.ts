@@ -1,10 +1,12 @@
-import parseCSSFont from "parse-css-font";
+import type {IFont} from "css-font";
 import {load as loadFont} from "webfontloader";
 import {readAsArrayBuffer} from "promise-file-reader";
-import type {IFont, IOptions} from "font-atlas";
+import {parse as parseCSSFont} from "css-font";
+import * as atlas from "./atlas";
+import type {IOptions} from "./atlas";
+import * as vs from "./variation-selector";
 import * as bd from "./bindings";
 import * as qr from "./queries";
-import * as draw from "./draw";
 
 bd.tabFontName.action = () => {
     if (qr.tabFontName.checked) {
@@ -19,11 +21,11 @@ bd.tabFontFile.action = () => {
 bd.fontName.action = () => {
     let value = qr.fontName.value.trim();
     if (value.length == 0) {
-        value = faOptions.font.family.join(" ");
+        value = options.font.family.join(" ");
     }
     qr.fontName.value = value;
-    faOptions.font.family = (parseCSSFont(faOptions.font.size + " " + value) as IFont).family;
-    draw.draw();
+    options.font.family = (parseCSSFont(options.font.size + " " + value) as IFont).family;
+    atlas.refresh();
 };
 bd.fontFile.action = async (update) => {
     const files = qr.fontFile.files as FileList;
@@ -35,8 +37,8 @@ bd.fontFile.action = async (update) => {
             document.fonts.add(font);
             console.log(document.fonts.size);
         }
-        faOptions.font.family[0] = "custom";
-        draw.draw();
+        options.font.family[0] = "custom";
+        atlas.refresh();
     } else {
         bd.fontName.action();
     }
@@ -44,70 +46,71 @@ bd.fontFile.action = async (update) => {
 
 bd.bitmapWidth.action = (update) => {
     if (update) {
-        faOptions.shape[0] = parseInt(qr.bitmapWidth.value);
+        options.resolution[0] = parseInt(qr.bitmapWidth.value);
     }
-    qr.impreciseHighlight(qr.bitmapWidth, faOptions.shape[0] % faOptions.step[0]);
+    qr.impreciseHighlight(qr.bitmapWidth, options.resolution[0] % options.cell[0]);
 };
 bd.bitmapHeight.action = (update) => {
     if (update) {
-        faOptions.shape[1] = parseInt(qr.bitmapHeight.value);
+        options.resolution[1] = parseInt(qr.bitmapHeight.value);
     }
-    qr.impreciseHighlight(qr.bitmapHeight, faOptions.shape[1] % faOptions.step[1]);
+    qr.impreciseHighlight(qr.bitmapHeight, options.resolution[1] % options.cell[1]);
 };
 bd.cellsRow.action = (update) => {
     if (update) {
-        faOptions.step[0] = Math.floor(faOptions.shape[0] / parseInt(qr.cellsRow.value));
+        options.cell[0] = Math.floor(options.resolution[0] / parseInt(qr.cellsRow.value));
     } else {
-        qr.cellsRow.value = Math.floor(faOptions.shape[0] / faOptions.step[0]) + "";
+        qr.cellsRow.value = Math.floor(options.resolution[0] / options.cell[0]) + "";
     }
-    qr.impreciseHighlight(qr.cellsRow, faOptions.shape[0] % faOptions.step[0]);
+    qr.impreciseHighlight(qr.cellsRow, options.resolution[0] % options.cell[0]);
 };
 bd.cellsColumn.action = (update) => {
     if (update) {
-        faOptions.step[1] = Math.floor(faOptions.shape[1] / parseInt(qr.cellsColumn.value));
+        options.cell[1] = Math.floor(options.resolution[1] / parseInt(qr.cellsColumn.value));
     } else {
-        qr.cellsColumn.value = Math.floor(faOptions.shape[1] / faOptions.step[1]) + "";
+        qr.cellsColumn.value = Math.floor(options.resolution[1] / options.cell[1]) + "";
     }
-    qr.impreciseHighlight(qr.cellsColumn, faOptions.shape[1] % faOptions.step[1]);
+    qr.impreciseHighlight(qr.cellsColumn, options.resolution[1] % options.cell[1]);
 };
 bd.cellWidth.action = (update) => {
     if (update) {
-        faOptions.step[0] = parseInt(qr.cellWidth.value);
+        options.cell[0] = parseInt(qr.cellWidth.value);
     } else {
-        qr.cellWidth.value = faOptions.step[0] + "";
+        qr.cellWidth.value = options.cell[0] + "";
     }
-    qr.impreciseHighlight(qr.cellWidth, faOptions.shape[0] % faOptions.step[0]);
+    qr.impreciseHighlight(qr.cellWidth, options.resolution[0] % options.cell[0]);
 };
 bd.cellHeight.action = (update) => {
     if (update) {
-        faOptions.step[1] = parseInt(qr.cellHeight.value);
+        options.cell[1] = parseInt(qr.cellHeight.value);
     } else {
-        qr.cellHeight.value = faOptions.step[1] + "";
+        qr.cellHeight.value = options.cell[1] + "";
     }
-    qr.impreciseHighlight(qr.cellHeight, faOptions.shape[1] % faOptions.step[1]);
+    qr.impreciseHighlight(qr.cellHeight, options.resolution[1] % options.cell[1]);
 };
 
 bd.fontSize.action = () => {
-    faOptions.font.size = qr.fontSize.value + "pt";
+    options.font.size = qr.fontSize.value + "pt";
 };
 bd.showGrid.action = () => {
-    draw.setGrid(qr.showGrid.checked);
+    options.grid = qr.showGrid.checked;
 };
 bd.charset.action = () => {
-    const value = [...new Set(qr.charset.value)].join('')
-    qr.charset.value = value;
-    faOptions.chars = value;
+    const value = [...new Set(vs.removeAll(qr.charset.value))].join("");
+    qr.charset.value = vs.textStyle((value));
+    options.charset = value;
 };
 
 //pure instantiation
-const faOptions = new class implements IOptions {
+const options = new class implements IOptions {
     canvas = qr.canvas;
-    shape = [1, 1] as [number, number];
-    step = [1, 1] as [number, number];
-    chars = "a";
+    resolution = [1, 1] as [number, number];
+    cell = [1, 1] as [number, number];
+    charset = "a";
     font = parseCSSFont("1pt serif") as IFont;
+    grid = false;
 };
-
+atlas.setOptions(options);
 bd.fire([...bd.standard, ...bd.sizes], true);
 loadFont({
     classes: false,
@@ -117,9 +120,7 @@ loadFont({
         ]
     },
     active: () => {
-        draw.draw();
+        atlas.refresh();
     }
 });
-draw.setFAOptions(faOptions);
 bd.registerAll();
-

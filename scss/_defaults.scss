@@ -50,7 +50,8 @@ input, label, span {
       family: $ubuntuMono;
       size: 13pt;
     }
-    word-break: break-all;
+    resize: vertical;
+    line-break: anywhere;
   }
 }
 

@@ -1,5 +1,5 @@
 import * as qr from "./queries";
-import {draw} from "./draw";
+import {refresh} from "./atlas";
 
 export interface IBinding {
     readonly element: HTMLInputElement;
@@ -104,7 +104,7 @@ function registerStandard() {
     standard.forEach((binding) => {
         binding.element.addEventListener("change", () => {
             binding.action(true);
-            draw();
+            refresh();
         });
     });
 }
@@ -122,7 +122,7 @@ function registerSizes() {
         binding.element.addEventListener("change", () => {
             binding.action(true);
             fire(sizes, false, binding);
-            draw();
+            refresh();
         });
     });
 }

@@ -9,6 +9,9 @@ Generate a [texture atlas](https://en.wikipedia.org/wiki/Texture_atlas) from a s
 * tweak the settings to achieve the desired spacing
 * save the image by right clicking → *save image*
 
+> **Warning**, the app uses unicode [variation selectors](https://en.wikipedia.org/wiki/Variation_Selectors_(Unicode_block)) to prevent browsers from showing symbols in the emoji style. If you copy the string in the "charset" textarea, for every char there will be a `U+FE0E` variation selector following.\
+Beware
+
 ---
 
 ### features I'd like to add:
