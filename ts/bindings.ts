@@ -72,7 +72,7 @@ export const charset: IBinding = {
     }
 };
 
-export const tabs = [
+export const checkable = [
     tabFontName,
     tabFontFile
 ];
@@ -95,7 +95,7 @@ export const standard = [
 
 export function registerAll() {
     registerStandard();
-    registerTabs();
+    registerCheckable();
     registerSizes();
     registerComplexInputs();
 }
@@ -109,8 +109,8 @@ function registerStandard() {
     });
 }
 
-function registerTabs() {
-    tabs.forEach((binding) => {
+function registerCheckable() {
+    checkable.forEach((binding) => {
         binding.element.addEventListener("change", () => {
             binding.action(true);
         });

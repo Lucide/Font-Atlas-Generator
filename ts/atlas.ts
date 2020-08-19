@@ -1,5 +1,6 @@
 import {stringify as stringifyCSSFont} from "css-font";
 import type {IFont} from "css-font";
+import * as vs from "./variation-selector";
 
 export interface IOptions {
     canvas: HTMLCanvasElement;
@@ -46,7 +47,7 @@ function atlas(options: IOptions) {
             x = options.cell[0];
             y += options.cell[1];
         }
-        ctx.fillText(options.charset.charAt(i) + "\uFE0E", x - options.cell[0] / 2, y - options.cell[1] / 2);
+        ctx.fillText(vs.textStyle(options.charset.charAt(i)), x - options.cell[0] / 2, y - options.cell[1] / 2);
     }
 }
 

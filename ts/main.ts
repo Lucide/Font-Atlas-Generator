@@ -1,4 +1,3 @@
-import type {IFont} from "css-font";
 import {load as loadFont} from "webfontloader";
 import {readAsArrayBuffer} from "promise-file-reader";
 import {parse as parseCSSFont} from "css-font";
@@ -10,12 +9,14 @@ import * as qr from "./queries";
 
 bd.tabFontName.action = () => {
     if (qr.tabFontName.checked) {
-        bd.fontName.action(false);
+        bd.fontName.action();
+        atlas.refresh();
     }
 };
 bd.tabFontFile.action = () => {
     if (qr.tabFontFile.checked) {
         bd.fontFile.action(false);
+        atlas.refresh();
     }
 };
 bd.fontName.action = () => {
@@ -24,26 +25,27 @@ bd.fontName.action = () => {
         value = options.font.family.join(" ");
     }
     qr.fontName.value = value;
-    options.font.family = (parseCSSFont(options.font.size + " " + value) as IFont).family;
-    atlas.refresh();
+    options.font.family = parseCSSFont(options.font.size + " " + value).family;
 };
-bd.fontFile.action = async (update) => {
+bd.fontFile.action = (update) => {
     const files = qr.fontFile.files as FileList;
     if (files.length > 0) {
         if (update) {
-            const font = new FontFace("custom", await readAsArrayBuffer(files[0]));
-            await font.load();
-            document.fonts.clear();
-            document.fonts.add(font);
-            console.log(document.fonts.size);
+            readAsArrayBuffer(files[0]).then(async (arrayBuffer) => {
+                const font = new FontFace("custom", arrayBuffer);
+                await font.load();
+                document.fonts.clear();
+                document.fonts.add(font);
+                atlas.refresh();
+            }).catch(() => {
+                qr.fontFile.value = "";
+            });
         }
-        options.font.family[0] = "custom";
-        atlas.refresh();
+        options.font.family = ["custom"];
     } else {
         bd.fontName.action();
     }
 };
-
 bd.bitmapWidth.action = (update) => {
     if (update) {
         options.resolution[0] = parseInt(qr.bitmapWidth.value);
@@ -107,7 +109,7 @@ const options = new class implements IOptions {
     resolution = [1, 1] as [number, number];
     cell = [1, 1] as [number, number];
     charset = "a";
-    font = parseCSSFont("1pt serif") as IFont;
+    font = parseCSSFont("1pt serif");
     grid = false;
 };
 atlas.setOptions(options);
