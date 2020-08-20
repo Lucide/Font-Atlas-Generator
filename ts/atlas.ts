@@ -21,6 +21,10 @@ export function setOptions(options: IOptions) {
     gOptions = options;
     ctx = options.context2D;
     cellCtx = (document.createElement("canvas") as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
+    ctx.textAlign = "center";
+    cellCtx.textAlign = ctx.textAlign;
+    ctx.textBaseline = "middle";
+    cellCtx.textBaseline = ctx.textBaseline;
 }
 
 export function refresh(options?: IOptions) {
@@ -42,10 +46,6 @@ function atlas(o: IOptions) {
 
     ctx.font = stringifyCSSFont(o.font);
     cellCtx.font = ctx.font;
-    ctx.textAlign = "center";
-    cellCtx.textAlign = ctx.textAlign;
-    ctx.textBaseline = "middle";
-    cellCtx.textBaseline = ctx.textBaseline;
     ctx.fillStyle = "white";
     cellCtx.fillStyle = ctx.fillStyle;
 
