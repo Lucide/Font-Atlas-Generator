@@ -3,7 +3,6 @@
   "compilerOptions": {
     "module": "CommonJS",
     "target": "es6",
-    "sourceMap": true,
     "outDir": "build/js",
     "baseUrl": "ts/@types"
   },
