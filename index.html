@@ -37,61 +37,76 @@
         </div>
     </div>
     <div class="section">
-        Options
+        Grid
     </div>
-    <div class="numberInputs">
-        <div>
+    <div class="gridInputs">
+        <div class="wrappable-input-number">
             <label for="bitmapWidth">Bitmap width:</label>
             <div class="input-number">
                 <input type="number" id="bitmapWidth" min="0" value="512">px
             </div>
         </div>
-        <div>
+        <div class="wrappable-input-number">
             <label for="bitmapHeight">Bitmap height:</label>
             <div class="input-number">
                 <input type="number" id="bitmapHeight" min="0" value="512">px
             </div>
         </div>
-        <div>
+        <div class="wrappable-input-number">
             <label for="cellsRow">Cells per row:</label>
             <div class="input-number">
                 <input type="number" id="cellsRow" min="0" value="16">px
             </div>
         </div>
-        <div>
+        <div class="wrappable-input-number">
             <label for="cellsColumn">Cells per column:</label>
             <div class="input-number">
                 <input type="number" id="cellsColumn" min="0" value="16">px
             </div>
         </div>
-        <div>
+        <div class="wrappable-input-number">
             <label for="cellWidth">Cell width:</label>
             <div class="input-number">
                 <input type="number" id="cellWidth" min="0" value="32">px
             </div>
         </div>
-        <div>
+        <div class="wrappable-input-number">
             <label for="cellHeight">Cell height:</label>
             <div class="input-number">
                 <input type="number" id="cellHeight" min="0" value="32">px
             </div>
         </div>
-        <div>
+    </div>
+    <div class="section">
+        Options
+    </div>
+    <div class="optionsInputs">
+        <div class="wrappable-input-number">
             <label for="fontSize">Font Size:</label>
             <div class="input-number">
                 <input type="number" id="fontSize" min="0" value="13">pt
             </div>
         </div>
-    </div>
-    <div class="section">
-        Preview
-    </div>
-    <div class="previewInputs">
+        <div class="wrappable-input-number">
+            <label for="offsetX">Offset X:</label>
+            <div class="input-number">
+                <input type="number" id="offsetX" value="0">px
+            </div>
+        </div>
+        <div class="wrappable-input-number">
+            <label for="offsetY">Offset Y:</label>
+            <div class="input-number">
+                <input type="number" id="offsetY" value="0">px
+            </div>
+        </div>
+        <div>
+            <input type="checkbox" id="clipCells" class="input-checkbox">
+            <label for="clipCells">clip cells</label>
+        </div>
         <div>
             <input type="checkbox" id="showGrid" class="input-checkbox">
             <label for="showGrid">show grid</label>
         </div>
-        <!--            <button id="generate" class="input-button">generate</button>-->
     </div>
 </div>
 <div class="charset">

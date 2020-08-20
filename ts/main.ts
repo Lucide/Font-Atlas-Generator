@@ -94,6 +94,15 @@ bd.cellHeight.action = (update) => {
 bd.fontSize.action = () => {
     options.font.size = qr.fontSize.value + "pt";
 };
+bd.offsetX.action = () => {
+    options.offset[0] = parseInt(qr.offsetX.value);
+};
+bd.offsetY.action = () => {
+    options.offset[1] = parseInt(qr.offsetY.value);
+};
+bd.clipCells.action = () => {
+    options.clip = qr.clipCells.checked;
+};
 bd.showGrid.action = () => {
     options.grid = qr.showGrid.checked;
 };
@@ -103,13 +112,15 @@ bd.charset.action = () => {
     options.charset = value;
 };
 
-//pure instantiation
 const options = new class implements IOptions {
-    canvas = qr.canvas;
+    context2D = qr.canvas.getContext("2d") as CanvasRenderingContext2D;
+    //pure instantiation
     resolution = [1, 1] as [number, number];
+    offset = [1, 1] as [number, number]
     cell = [1, 1] as [number, number];
     charset = "a";
     font = parseCSSFont("1pt serif");
+    clip = false;
     grid = false;
 };
 atlas.setOptions(options);

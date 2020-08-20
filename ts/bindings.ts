@@ -26,6 +26,7 @@ export const fontFile: IBinding = {
     action: () => {
     }
 };
+
 export const bitmapWidth: IBinding = {
     element: qr.bitmapWidth,
     action: () => {
@@ -56,8 +57,25 @@ export const cellHeight: IBinding = {
     action: () => {
     }
 };
+
 export const fontSize: IBinding = {
     element: qr.fontSize,
+    action: () => {
+    }
+};
+
+export const offsetX: IBinding = {
+    element: qr.offsetX,
+    action: () => {
+    }
+};
+export const offsetY: IBinding = {
+    element: qr.offsetY,
+    action: () => {
+    }
+};
+export const clipCells: IBinding = {
+    element: qr.clipCells,
     action: () => {
     }
 };
@@ -72,7 +90,7 @@ export const charset: IBinding = {
     }
 };
 
-export const checkable = [
+export const tabs = [
     tabFontName,
     tabFontFile
 ];
@@ -88,6 +106,9 @@ export const standard = [
     fontName,
     fontFile,
     fontSize,
+    offsetX,
+    offsetY,
+    clipCells,
     showGrid,
     charset
 ];
@@ -95,7 +116,7 @@ export const standard = [
 
 export function registerAll() {
     registerStandard();
-    registerCheckable();
+    registerTabs();
     registerSizes();
     registerComplexInputs();
 }
@@ -109,8 +130,8 @@ function registerStandard() {
     });
 }
 
-function registerCheckable() {
-    checkable.forEach((binding) => {
+function registerTabs() {
+    tabs.forEach((binding) => {
         binding.element.addEventListener("change", () => {
             binding.action(true);
         });

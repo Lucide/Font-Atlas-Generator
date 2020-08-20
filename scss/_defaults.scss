@@ -29,6 +29,21 @@ input, label, span {
   };
 }
 
+.wrappable-input-number {
+  $label-width: 140pt;
+
+  @include flex(row);
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  > label {
+    display: block;
+    width: $label-width;
+    padding-bottom: 3pt;
+  }
+}
+
 .input-text-file {
   @include inputs.text-file;
 }

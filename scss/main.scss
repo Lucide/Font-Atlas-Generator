@@ -120,33 +120,19 @@ body {
   }
 }
 
-.numberInputs {
+.gridInputs {
   @include flex(column);
   justify-content: space-between;
-  min-height: 30%;
   padding: 0 10pt;
-
-  > div {
-    $label-width: 140pt;
-
-    @include flex(row);
-    align-items: baseline;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    > label {
-      display: block;
-      width: $label-width;
-      padding-bottom: 3pt;
-    }
-  }
 }
 
-.previewInputs {
+.optionsInputs {
   @include flex(column);
+  justify-content: space-between;
   align-items: center;
+  padding: 0 10pt;
 
-  > * {
+  > :not(.wrappable-input-number) {
     padding-bottom: 5pt;
   }
 }
