@@ -1,8 +1,6 @@
 @use "helpers" as *;
 @use "inputs";
-
-$ubuntuMono: "Ubuntu Mono", monospace;
-$openSans: "Open Sans", sans-serif;
+@use "fonts";
 
 * {
   box-sizing: border-box;
@@ -62,7 +60,7 @@ input, label, span {
 
   > textarea {
     font: {
-      family: $ubuntuMono;
+      family: fonts.$ubuntuMono;
       size: 13pt;
     }
     resize: vertical;

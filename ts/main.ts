@@ -7,6 +7,18 @@ import * as vs from "./variation-selector";
 import * as bd from "./bindings";
 import * as qr from "./queries";
 
+const FALLBACK_FONT = "Adobe Blank";
+const options = new class implements IOptions {
+    context2D = qr.canvas.getContext("2d") as CanvasRenderingContext2D;
+    //pure instantiation
+    resolution = [1, 1] as [number, number];
+    offset = [1, 1] as [number, number]
+    cell = [1, 1] as [number, number];
+    charset = "a";
+    font = parseCSSFont("10pt Adobe NotDef");
+    clip = false;
+    grid = false;
+};
 bd.tabFontName.action = () => {
     if (qr.tabFontName.checked) {
         bd.fontName.action();
@@ -25,7 +37,7 @@ bd.fontName.action = () => {
         value = options.font.family.join(" ");
     }
     qr.fontName.value = value;
-    options.font.family = parseCSSFont(options.font.size + " " + value).family;
+    options.font.family = strictFontFamily(parseCSSFont(options.font.size + " " + value).family);
 };
 bd.fontFile.action = (update) => {
     const files = qr.fontFile.files as FileList;
@@ -41,10 +53,10 @@ bd.fontFile.action = (update) => {
                 qr.fontFile.value = "";
             });
         }
-        options.font.family = ["custom"];
-    } else {
+        options.font.family = strictFontFamily(["custom"]);
+    }/* else {
         bd.fontName.action();
-    }
+    }*/
 };
 bd.bitmapWidth.action = (update) => {
     if (update) {
@@ -112,28 +124,23 @@ bd.charset.action = () => {
     options.charset = value;
 };
 
-const options = new class implements IOptions {
-    context2D = qr.canvas.getContext("2d") as CanvasRenderingContext2D;
-    //pure instantiation
-    resolution = [1, 1] as [number, number];
-    offset = [1, 1] as [number, number]
-    cell = [1, 1] as [number, number];
-    charset = "a";
-    font = parseCSSFont("1pt serif");
-    clip = false;
-    grid = false;
-};
-atlas.setOptions(options);
 bd.fire([...bd.standard, ...bd.sizes], true);
 loadFont({
     classes: false,
-    google: {
-        families: [
-            "Open Sans"
-        ]
+    custom: {
+        families: ["DejaVu Sans Mono", FALLBACK_FONT],
+        testStrings: {
+            "DejaVu Sans Mono": options.charset,
+            "FALLBACK_FONT": options.charset
+        }
     },
     active: () => {
         atlas.refresh();
     }
 });
+atlas.setOptions(options);
 bd.registerAll();
+
+function strictFontFamily(fontFamily: string[]): string[] {
+    return [fontFamily[0], FALLBACK_FONT];
+}

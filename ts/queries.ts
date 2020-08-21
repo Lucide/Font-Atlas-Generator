@@ -27,7 +27,7 @@ function numberContainer(complexInput: HTMLInputElement): HTMLDivElement {
     return (complexInput.parentElement) as HTMLDivElement;
 }
 
-export function impreciseHighlight(complexInput: HTMLInputElement, remainder:number){
+export function impreciseHighlight(complexInput: HTMLInputElement, remainder: number) {
     if (remainder) {
         numberContainer(complexInput).classList.add("input-imprecise");
     } else {

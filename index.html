@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <title>Font Atlas Generator</title>
     <link rel="icon" href="assets/favicon.png" sizes="32x32">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8/normalize.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="build/css/main.css">
 </head>
 <body>
 <div class="header">
@@ -27,7 +26,7 @@
         <label for="tabFontName">Name</label>
         <div class="tabName">
             <label for="fontName">use an installed font:</label>
-            <input type="text" id="fontName" class="input-text-file" value="Open Sans" spellcheck="false">
+            <input type="text" id="fontName" class="input-text-file" value="DejaVu Sans Mono" spellcheck="false">
         </div>
         <input type="radio" id="tabFontFile" name="tab-group-font">
         <label for="tabFontFile">File</label>
@@ -140,6 +139,6 @@
     unicode variation selectors,
     <a href="https://github.com/shinnn/variation-selector-regex" target="_blank">@regexp-extra/variation-selector</a>
 </div>
-<script type="text/javascript" src="js/bundle.js"></script>
+<script type="text/javascript" src="build/js/bundle.js"></script>
 </body>
 </html>

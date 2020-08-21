@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=block");
+
+@font-face {
+  font-family: "DejaVu Sans Mono";
+  src: url("../../assets/DejaVuSansMono-webfont.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Adobe Blank";
+  src: url("../../assets/AdobeBlank.otf.woff") format("woff");
+  font-display: block;
+}
+
+$ubuntuMono: "Ubuntu Mono", monospace;
+$openSans: "Open Sans", sans-serif;
