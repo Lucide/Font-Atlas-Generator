@@ -38,12 +38,12 @@ jobs:
       run: npm run build
     
     - name: GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v3.7.0-8
       with:
         # Set a generated GITHUB_TOKEN for pushing to the remote branch.
         github_token: ${{ secrets.GITHUB_TOKEN }}
         # Set an input directory for deployment.
-        publish_dir: ./build
+        publish_dir: .
         # Set a custom commit message with a triggered commit hash
         commit_message: automatically deployed
         exclude_assets: ".github,*.md,*.json,scss,ts"
