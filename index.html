@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Font Atlas Generator</title>
+    <link rel="icon" href="assets/favicon.png" sizes="32x32">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8/normalize.min.css">
+    <link rel="stylesheet" type="text/css" href="build/css/main.css">
+</head>
+<body>
+<div class="header">
+    <div><a href="https://github.com/Lucide/font-atlas-generator" target="_blank">Font Atlas Generator</a></div>
+    <div>generate a sprite atlas from a specified font and charset</div>
+</div>
+<div class="preview">
+    <div>
+        <canvas id="canvas"></canvas>
+    </div>
+</div>
+<div class="controls">
+    <div class="section">
+        Load Font
+    </div>
+    <div class="fontInputs">
+        <input type="radio" id="tabFontName" name="tab-group-font" checked>
+        <label for="tabFontName">Name</label>
+        <div class="tabName">
+            <label for="fontName">use an installed font:</label>
+            <input type="text" id="fontName" class="input-text-file" value="DejaVu Sans Mono" spellcheck="false">
+        </div>
+        <input type="radio" id="tabFontFile" name="tab-group-font">
+        <label for="tabFontFile">File</label>
+        <div class="tabFile">
+            <label for="fontFile">load a font file:</label>
+            <input type="file" id="fontFile" class="input-text-file" accept=".ttf, .otf, .woff, .woff2">
+        </div>
+    </div>
+    <div class="section">
+        Grid
+    </div>
+    <div class="gridInputs">
+        <div class="wrappable-input-number">
+            <label for="bitmapWidth">Bitmap width:</label>
+            <div class="input-number">
+                <input type="number" id="bitmapWidth" min="0" value="512">px
+            </div>
+        </div>
+        <div class="wrappable-input-number">
+            <label for="bitmapHeight">Bitmap height:</label>
+            <div class="input-number">
+                <input type="number" id="bitmapHeight" min="0" value="512">px
+            </div>
+        </div>
+        <div class="wrappable-input-number">
+            <label for="cellsRow">Cells per row:</label>
+            <div class="input-number">
+                <input type="number" id="cellsRow" min="0" value="16">px
+            </div>
+        </div>
+        <div class="wrappable-input-number">
+            <label for="cellsColumn">Cells per column:</label>
+            <div class="input-number">
+                <input type="number" id="cellsColumn" min="0" value="16">px
+            </div>
+        </div>
+        <div class="wrappable-input-number">
+            <label for="cellWidth">Cell width:</label>
+            <div class="input-number">
+                <input type="number" id="cellWidth" min="0" value="32">px
+            </div>
+        </div>
+        <div class="wrappable-input-number">
+            <label for="cellHeight">Cell height:</label>
+            <div class="input-number">
+                <input type="number" id="cellHeight" min="0" value="32">px
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        Options
+    </div>
+    <div class="optionsInputs">
+        <div class="wrappable-input-number">
+            <label for="fontSize">Font Size:</label>
+            <div class="input-number">
+                <input type="number" id="fontSize" min="0" value="13">pt
+            </div>
+        </div>
+        <div class="wrappable-input-number">
+            <label for="offsetX">Offset X:</label>
+            <div class="input-number">
+                <input type="number" id="offsetX" value="0">px
+            </div>
+        </div>
+        <div class="wrappable-input-number">
+            <label for="offsetY">Offset Y:</label>
+            <div class="input-number">
+                <input type="number" id="offsetY" value="0">px
+            </div>
+        </div>
+        <div>
+            <input type="checkbox" id="clipCells" class="input-checkbox">
+            <label for="clipCells">clip cells</label>
+        </div>
+        <div>
+            <input type="checkbox" id="showGrid" class="input-checkbox">
+            <label for="showGrid">show grid</label>
+        </div>
+    </div>
+</div>
+<div class="charset">
+    <label class="section" for="charset">CharSet as string:</label>
+    <div class="input-textarea">
+        <textarea id="charset" spellcheck="false"> ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{¦}~⌂ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■□</textarea>
+    </div>
+</div>
+<div class="footer">
+    dived into
+    <a href="https://www.jetbrains.com/webstorm/" target="_blank">webstorm</a>,
+    <a href="https://www.npmjs.com/" target="_blank">npm</a>,
+    <a href="https://sass-lang.com/" target="_blank">sass</a>,
+    <a href="http://browserify.org/" target="_blank">browserify</a>,
+    <span><a href="https://github.com/benbria/aliasify" target="_blank">aliasify</a></span>,
+    ES6 modules,
+    CommonJS,
+    javascript,
+    typescript,
+    custom typings,
+    <a href="https://github.com/DefinitelyTyped/DefinitelyTyped" target="_blank">definitelyTyped</a>,
+    <a href="https://github.com/jahredhope/promise-file-reader" target="_blank">promise-file-reader</a>,
+    <a href="https://github.com/dy/css-font" target="_blank">css-font</a>,
+    FontFace api,
+    <a href="https://github.com/typekit/webfontloader" target="_blank">webfontloader</a>,
+    <a href="https://github.com/necolas/normalize.css" target="_blank">normalize.css</a>,
+    <a href="https://fonts.google.com/" target="_blank">google fonts</a>,
+    <a href="https://github.com/calvinmetcalf/copyfiles" target="_blank">copyfiles</a>,
+    gitHub actions,
+    <a href="https://github.com/peaceiris/actions-gh-pages" target="_blank">gitHub pages action</a>,
+    unicode variation selectors,
+    <a href="https://github.com/shinnn/variation-selector-regex" target="_blank">@regexp-extra/variation-selector</a>
+</div>
+<script type="text/javascript" src="build/js/bundle.js"></script>
+</body>
+</html>

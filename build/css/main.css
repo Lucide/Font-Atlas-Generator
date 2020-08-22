@@ -1,0 +1,287 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=block");
+.input-highlighted {
+  border-color: chartreuse !important;
+}
+
+.input-imprecise {
+  border-color: #FF6B10 !important;
+}
+
+@font-face {
+  font-family: "DejaVu Sans Mono";
+  src: url("../../assets/DejaVuSansMono-webfont.woff") format("woff");
+}
+@font-face {
+  font-family: "Adobe Blank";
+  src: url("../../assets/AdobeBlank.otf.woff") format("woff");
+  font-display: block;
+}
+* {
+  box-sizing: border-box;
+}
+
+canvas {
+  display: block;
+}
+
+input, label, span {
+  display: inline-block;
+}
+
+.section {
+  font-size: 23pt;
+  font-weight: bold;
+  width: 100%;
+  padding: 5pt;
+  border: 0 solid black;
+  border-top-width: 1pt;
+  border-radius: 5pt 5pt 0 0;
+}
+
+.wrappable-input-number {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.wrappable-input-number > label {
+  display: block;
+  width: 140pt;
+  padding-bottom: 3pt;
+}
+
+.input-text-file {
+  border: 1pt solid black;
+  border-radius: 5pt;
+  height: 25pt;
+}
+.input-text-file:focus {
+  outline: none;
+  box-shadow: none;
+}
+.input-text-file:focus {
+  border-color: chartreuse;
+}
+
+.input-number {
+  display: inline-block;
+  overflow: hidden;
+  width: 80pt;
+  white-space: nowrap;
+  border: 1pt solid black;
+  border-radius: 5pt;
+  margin-bottom: 7pt;
+}
+.input-number:focus {
+  border-color: chartreuse;
+}
+.input-number > input {
+  width: calc(100% - 20pt);
+  border: none;
+}
+.input-number > input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.input-checkbox:focus {
+  outline: chartreuse solid 1pt;
+  box-shadow: none;
+}
+
+.input-textarea {
+  border: 1pt solid black;
+  border-radius: 5pt;
+  display: inline-block;
+  overflow: hidden;
+}
+.input-textarea:focus {
+  border-color: chartreuse;
+}
+.input-textarea > textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  padding: 5pt;
+}
+.input-textarea > textarea:focus {
+  outline: none;
+  box-shadow: none;
+}
+.input-textarea > textarea {
+  font-family: "Ubuntu Mono", monospace;
+  font-size: 13pt;
+  resize: vertical;
+  line-break: anywhere;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16pt;
+  display: grid;
+  background-color: white;
+  grid: "header header" minmax(70pt, auto) "preview controls" auto "charset charset" auto "footer footer" auto/minmax(30vh, auto) minmax(150pt, 300pt);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10pt;
+  animation: slide 10s linear infinite;
+  text-align: center;
+  background-repeat: repeat-x;
+  background-position: center;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 14c8.44 0 13.718-1.21 22.272-4.402l1.768-.661C33.64 5.347 39.647 4 50 4c10.271 0 15.362 1.222 24.629 4.928C84.112 12.722 89.438 14 100 14v-2c-10.271 0-15.362-1.222-24.629-4.928C65.888 3.278 60.562 2 50 2 39.374 2 33.145 3.397 23.34 7.063l-1.767.662C13.223 10.84 8.163 12 0 12v2z' fill='black' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+  grid-area: header;
+}
+.header a {
+  color: inherit;
+  text-decoration: inherit;
+}
+@keyframes slide {
+  0% {
+    background-position-x: 100px;
+  }
+  100% {
+    background-position-x: 0;
+  }
+}
+.header :nth-child(1) {
+  font-size: 40pt;
+}
+.header :nth-child(2) {
+  font-size: 16pt;
+}
+
+.preview {
+  position: relative;
+  overflow: hidden;
+  border: 0 solid black;
+  border-right-width: 1pt;
+  border-top-width: 1pt;
+  border-radius: 5pt 5pt 0 0;
+  grid-area: preview;
+}
+.preview > div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  overflow: scroll;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  padding: 5pt;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239a9a9a' fill-opacity='0.26'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.preview canvas {
+  margin: 0 auto;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  grid-area: controls;
+}
+.controls > :not(.section) {
+  padding-bottom: 10pt;
+}
+
+.fontInputs {
+  display: flex;
+  flex-wrap: wrap;
+}
+.fontInputs > label {
+  font-size: 15pt;
+  width: 50%;
+  text-align: center;
+  border: 1pt solid;
+  border-radius: 5pt 5pt 0 0;
+  display: block;
+  order: 1;
+  cursor: pointer;
+}
+.fontInputs > label:nth-of-type(1) {
+  border-width: 1pt 1pt 1pt 0;
+}
+.fontInputs > label:nth-of-type(2) {
+  border-width: 1pt 0 1pt 0;
+}
+.fontInputs > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5pt;
+  width: 100%;
+  order: 2;
+}
+.fontInputs > div > label {
+  padding-bottom: 10pt;
+}
+.fontInputs > div > input {
+  display: block;
+  width: 80%;
+}
+.fontInputs > input {
+  display: none;
+}
+.fontInputs > input:checked + label {
+  border-bottom-color: transparent;
+}
+.fontInputs > input:not(:checked) + label + div {
+  display: none;
+}
+
+.gridInputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 10pt;
+}
+
+.optionsInputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10pt;
+}
+.optionsInputs > :not(.wrappable-input-number) {
+  padding-bottom: 5pt;
+}
+
+.charset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10pt;
+  grid-area: charset;
+}
+.charset > div {
+  width: 80%;
+}
+.charset textarea {
+  height: 100pt;
+  line-height: 160%;
+}
+
+.footer {
+  font-family: "Ubuntu Mono", monospace;
+  font-size: 10pt;
+  padding: 0 5pt;
+  text-align: center;
+  border: 0 solid black;
+  border-top-width: 1pt;
+  grid-area: footer;
+}
+.footer a {
+  color: inherit;
+}
+.footer > span {
+  text-decoration: underline line-through;
+}
+
+/*# sourceMappingURL=main.css.map */
