@@ -46,5 +46,5 @@ jobs:
         publish_dir: .
         # Set a custom commit message with a triggered commit hash
         commit_message: automatically deployed
-        exclude_assets: ".github,.gitignore,*.md,*.json,scss,ts"
+        exclude_assets: ".github,.gitignore,*.md,*.json,node_modules,scss,ts"
 
