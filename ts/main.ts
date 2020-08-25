@@ -24,11 +24,11 @@ const options = new class implements IOptions {
 
 //ACTIONS
 bd.resize.action = () => {
-    const preferredWidth = options.resolution[0] + 35;
+    qr.body.style.setProperty("--preferred-width", options.resolution[0] + 35 + "px");
     if (qr.controls.offsetWidth == qr.Values.controlsMinWidth) {
-        qr.body.style.setProperty("--preview-width", "min(calc(100% - var(--controls-min-width)), " + preferredWidth + "px)");
+        qr.body.style.setProperty("--preview-width", "var(--small-preview)");
     } else {
-        qr.body.style.setProperty("--preview-width", "minmax(" + preferredWidth + "px, 1fr)");
+        qr.body.style.setProperty("--preview-width", "var(--big-preview)");
     }
 }
 
@@ -74,12 +74,14 @@ bd.fontFile.action = (update) => {
 bd.bitmapWidth.action = (update) => {
     if (update) {
         options.resolution[0] = parseInt(qr.bitmapWidth.value);
+        bd.resize.action();
     }
     qr.impreciseHighlight(qr.bitmapWidth, options.resolution[0] % options.cell[0]);
 };
 bd.bitmapHeight.action = (update) => {
     if (update) {
         options.resolution[1] = parseInt(qr.bitmapHeight.value);
+        bd.resize.action();
     }
     qr.impreciseHighlight(qr.bitmapHeight, options.resolution[1] % options.cell[1]);
 };
@@ -138,7 +140,7 @@ bd.charset.action = () => {
 };
 
 //START
-bd.fire([...bd.standard, ...bd.sizes, bd.resize], true);
+bd.fire([...bd.standard, ...bd.sizes], true);
 loadFont({
     classes: false,
     custom: {
