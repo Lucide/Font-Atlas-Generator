@@ -6,20 +6,22 @@
 body {
   font: {
     family: fonts.$openSans;
-    size: 16pt;
+    size: 21px;
   };
   display: grid;
   background-color: white;
-  grid: "header header" minmax(70pt, auto)
-"preview controls" auto
-"charset charset" auto
-"footer footer" auto
-/ minmax(30vh, auto) minmax(150pt, 300pt);
+  --preview-width: 1fr;
+  --controls-min-width: 195px;
+  grid-template: {
+    areas: "header header" "preview controls" "charset charset" "footer footer";
+    rows: minmax(90px, auto) auto auto auto;
+    columns: var(--preview-width) minmax(var(--controls-min-width), 390px);
+  }
 }
 
 .header {
   @include flex(column);
-  padding-bottom: 10pt;
+  padding-bottom: 13px;
   animation: slide 10s linear infinite;
   text-align: center;
   @include defaults.waves;
@@ -40,11 +42,11 @@ body {
   }
 
   :nth-child(1) {
-    font-size: 40pt;
+    font-size: 52px;
   }
 
   :nth-child(2) {
-    font-size: 16pt;
+    font-size: 21px;
   }
 }
 
@@ -52,9 +54,9 @@ body {
   position: relative;
   overflow: hidden;
   border: 0 solid black {
-    right-width: 1pt;
-    top-width: 1pt;
-    radius: 5pt 5pt 0 0;
+    right-width: 1px;
+    top-width: 1px;
+    radius: 7px 7px 0 0;
   }
   grid-area: preview;
 
@@ -67,7 +69,7 @@ body {
     max-width: 100%;
     max-height: 100%;
     @include fillSpace;
-    padding: 5pt;
+    padding: 7px;
     @include defaults.reticulate;
   }
 
@@ -81,36 +83,36 @@ body {
   grid-area: controls;
 
   > :not(.section) {
-    padding-bottom: 10pt;
+    padding-bottom: 13px;
   }
 }
 
 .fontInputs {
   @include tabbed.container {
     @include tabbed.labels {
-      font-size: 15pt;
+      font-size: 20px;
       width: 50%;
       text-align: center;;
-      border: 1pt solid {
-        radius: 5pt 5pt 0 0;
+      border: 1px solid {
+        radius: 7px 7px 0 0;
       }
 
       &:nth-of-type(1) {
-        border-width: 1pt 1pt 1pt 0;
+        border-width: 1px 1px 1px 0;
       }
 
       &:nth-of-type(2) {
-        border-width: 1pt 0 1pt 0;
+        border-width: 1px 0 1px 0;
       }
     }
 
     @include tabbed.tabs {
       @include flex(column);
       align-items: center;
-      padding: 5pt;
+      padding: 7px;
 
       > label {
-        padding-bottom: 10pt;
+        padding-bottom: 13px;
       }
 
       > input {
@@ -124,24 +126,24 @@ body {
 .gridInputs {
   @include flex(column);
   justify-content: space-between;
-  padding: 0 10pt;
+  padding: 0 13px;
 }
 
 .optionsInputs {
   @include flex(column);
   justify-content: space-between;
   align-items: center;
-  padding: 0 10pt;
+  padding: 0 13px;
 
   > :not(.wrappable-input-number) {
-    padding-bottom: 5pt;
+    padding-bottom: 7px;
   }
 }
 
 .charset {
   @include flex(column);
   align-items: center;
-  padding-bottom: 10pt;
+  padding-bottom: 13px;
   grid-area: charset;
 
   > div {
@@ -149,7 +151,7 @@ body {
   }
 
   textarea {
-    height: 100pt;
+    height: 130px;
     line-height: 160%;
   }
 }
@@ -157,12 +159,12 @@ body {
 .footer {
   font: {
     family: fonts.$ubuntuMono;
-    size: 10pt;
+    size: 13px;
   }
-  padding: 0 5pt;
+  padding: 0 7px;
   text-align: center;
   border: 0 solid black {
-    top-width: 1pt;
+    top-width: 1px;
   }
   grid-area: footer;
 

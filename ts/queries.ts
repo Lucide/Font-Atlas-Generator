@@ -1,9 +1,12 @@
+//CONTAINERS
 export const body = document.querySelector("body") as HTMLBodyElement;
+export const preview = document.querySelector(".preview") as HTMLDivElement;
+export const controls = document.querySelector(".controls") as HTMLDivElement;
 //CANVAS
 export const canvas = document.querySelector("canvas") as HTMLCanvasElement;
 //COMPLEX INPUTS HIGHLIGHTING
 export const complexInputs = document.querySelectorAll(".input-number, .input-textarea");
-//INPUT
+//INPUTS
 export const tabFontName = document.querySelector("#tabFontName") as HTMLInputElement;
 export const tabFontFile = document.querySelector("#tabFontFile") as HTMLInputElement;
 export const fontName = document.querySelector("#fontName") as HTMLInputElement;
@@ -22,6 +25,17 @@ export const offsetY = document.querySelector("#offsetY") as HTMLInputElement;
 export const clipCells = document.querySelector("#clipCells") as HTMLInputElement;
 export const showGrid = document.querySelector("#showGrid") as HTMLInputElement;
 export const charset = document.querySelector("#charset") as HTMLInputElement;
+
+export namespace Values {
+    export const controlsMinWidth = parseInt(
+        getComputedStyle(body)
+            .getPropertyValue("--controls-min-width")
+            .replace("px", ""));
+    export const previewPadding = parseInt(
+        getComputedStyle(canvas.parentElement as HTMLDivElement)
+            .padding
+            .replace("px", ""));
+}
 
 function numberContainer(complexInput: HTMLInputElement): HTMLDivElement {
     return (complexInput.parentElement) as HTMLDivElement;

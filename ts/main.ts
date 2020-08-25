@@ -6,7 +6,9 @@ import type {IOptions} from "./atlas";
 import * as vs from "./variation-selector";
 import * as bd from "./bindings";
 import * as qr from "./queries";
+import {body} from "./queries";
 
+//INITIALIZATIONS
 const FALLBACK_FONT = "Adobe Blank";
 const options = new class implements IOptions {
     context2D = qr.canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -19,6 +21,17 @@ const options = new class implements IOptions {
     clip = false;
     grid = false;
 };
+
+//ACTIONS
+bd.resize.action = () => {
+    const preferredWidth = options.resolution[0] + 35;
+    if (qr.controls.offsetWidth == qr.Values.controlsMinWidth) {
+        qr.body.style.setProperty("--preview-width", "min(calc(100% - var(--controls-min-width)), " + preferredWidth + "px)");
+    } else {
+        qr.body.style.setProperty("--preview-width", "minmax(" + preferredWidth + "px, 1fr)");
+    }
+}
+
 bd.tabFontName.action = () => {
     if (qr.tabFontName.checked) {
         bd.fontName.action();
@@ -124,7 +137,8 @@ bd.charset.action = () => {
     options.charset = value;
 };
 
-bd.fire([...bd.standard, ...bd.sizes], true);
+//START
+bd.fire([...bd.standard, ...bd.sizes, bd.resize], true);
 loadFont({
     classes: false,
     custom: {
@@ -141,6 +155,7 @@ loadFont({
 atlas.setOptions(options);
 bd.registerAll();
 
+//DEFINITIONS
 function strictFontFamily(fontFamily: string[]): string[] {
     return [fontFamily[0], FALLBACK_FONT];
 }

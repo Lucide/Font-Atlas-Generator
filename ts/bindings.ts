@@ -1,90 +1,98 @@
 import * as qr from "./queries";
 import {refresh} from "./atlas";
 
-export interface IBinding {
-    readonly element: HTMLInputElement;
+interface IAction {
     action: (update?: boolean) => void;
 }
 
-export const tabFontName: IBinding = {
+interface InputBinding extends IAction {
+    readonly element: HTMLInputElement;
+}
+
+export const resize: IAction = {
+    action: () => {
+    }
+}
+
+export const tabFontName: InputBinding = {
     element: qr.tabFontName,
     action: () => {
     }
 };
-export const tabFontFile: IBinding = {
+export const tabFontFile: InputBinding = {
     element: qr.tabFontFile,
     action: () => {
     }
 };
-export const fontName: IBinding = {
+export const fontName: InputBinding = {
     element: qr.fontName,
     action: () => {
     }
 };
-export const fontFile: IBinding = {
+export const fontFile: InputBinding = {
     element: qr.fontFile,
     action: () => {
     }
 };
 
-export const bitmapWidth: IBinding = {
+export const bitmapWidth: InputBinding = {
     element: qr.bitmapWidth,
     action: () => {
     }
 };
-export const bitmapHeight: IBinding = {
+export const bitmapHeight: InputBinding = {
     element: qr.bitmapHeight,
     action: () => {
     }
 };
-export const cellsRow: IBinding = {
+export const cellsRow: InputBinding = {
     element: qr.cellsRow,
     action: () => {
     }
 };
-export const cellsColumn: IBinding = {
+export const cellsColumn: InputBinding = {
     element: qr.cellsColumn,
     action: () => {
     }
 };
-export const cellWidth: IBinding = {
+export const cellWidth: InputBinding = {
     element: qr.cellWidth,
     action: () => {
     }
 };
-export const cellHeight: IBinding = {
+export const cellHeight: InputBinding = {
     element: qr.cellHeight,
     action: () => {
     }
 };
 
-export const fontSize: IBinding = {
+export const fontSize: InputBinding = {
     element: qr.fontSize,
     action: () => {
     }
 };
 
-export const offsetX: IBinding = {
+export const offsetX: InputBinding = {
     element: qr.offsetX,
     action: () => {
     }
 };
-export const offsetY: IBinding = {
+export const offsetY: InputBinding = {
     element: qr.offsetY,
     action: () => {
     }
 };
-export const clipCells: IBinding = {
+export const clipCells: InputBinding = {
     element: qr.clipCells,
     action: () => {
     }
 };
-export const showGrid: IBinding = {
+export const showGrid: InputBinding = {
     element: qr.showGrid,
     action: () => {
     }
 };
-export const charset: IBinding = {
+export const charset: InputBinding = {
     element: qr.charset,
     action: () => {
     }
@@ -115,10 +123,17 @@ export const standard = [
 
 
 export function registerAll() {
+    registerActions();
     registerStandard();
     registerTabs();
     registerSizes();
     registerComplexInputs();
+}
+
+function registerActions() {
+    window.addEventListener("resize", () => {
+        resize.action()
+    });
 }
 
 function registerStandard() {
@@ -148,7 +163,7 @@ function registerSizes() {
     });
 }
 
-function registerComplexInputs(){
+function registerComplexInputs() {
     qr.complexInputs.forEach((element) => {
         element.addEventListener("focusin", (event) => {
             (event.currentTarget as HTMLElement).classList.add("input-highlighted");
@@ -159,9 +174,9 @@ function registerComplexInputs(){
     });
 }
 
-export function fire(bindings: IBinding[], update: boolean, skip?: IBinding) {
+export function fire(bindings: IAction[], update: boolean, skip?: InputBinding) {
     bindings.forEach((binding) => {
-        if (!(skip && skip.element == binding.element)) {
+        if (!(skip && skip.action == binding.action)) {
             binding.action(update);
         }
     });

@@ -11,8 +11,8 @@ $imprecise-color: #FF6B10;
 }
 
 @mixin -border {
-  border: 1pt solid black {
-    radius: 5pt;
+  border: 1px solid black {
+    radius: 7px;
   };
 
   &:focus {
@@ -31,7 +31,7 @@ $imprecise-color: #FF6B10;
 @mixin text-file {
   @include disableHighlight;
   @include -border;
-  height: 25pt;
+  height: 33px;
 }
 
 @mixin number($field-width) {
@@ -43,14 +43,14 @@ $imprecise-color: #FF6B10;
 
   > input {
     @include disableHighlight;
-    width: calc(100% - 20pt);
+    width: calc(100% - 26px);
     border: none;
   }
 }
 
 @mixin checkbox {
   &:focus {
-    outline: $highlight-color solid 1pt;
+    outline: $highlight-color solid 1px;
     box-shadow: none;
   }
 }
@@ -70,7 +70,7 @@ $imprecise-color: #FF6B10;
     @include fillSpace;
     border: none;
     display: block;
-    padding: 5pt;
+    padding: 7px;
   }
 
 }

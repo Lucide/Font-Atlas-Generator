@@ -16,19 +16,19 @@ input, label, span {
 
 .section {
   font: {
-    size: 23pt;
+    size: 30px;
     weight: bold;
   }
   width: 100%;
-  padding: 5pt;
+  padding: 7px;
   border: 0 solid black {
-    top-width: 1pt;
-    radius: 5pt 5pt 0 0;
+    top-width: 1px;
+    radius: 7px 7px 0 0;
   };
 }
 
 .wrappable-input-number {
-  $label-width: 140pt;
+  $label-width: 182px;
 
   @include flex(row);
   align-items: baseline;
@@ -38,7 +38,7 @@ input, label, span {
   > label {
     display: block;
     width: $label-width;
-    padding-bottom: 3pt;
+    padding-bottom: 4px;
   }
 }
 
@@ -47,8 +47,8 @@ input, label, span {
 }
 
 .input-number {
-  @include inputs.number(80pt);
-  margin-bottom: 7pt;
+  @include inputs.number(104px);
+  margin-bottom: 9px;
 }
 
 .input-checkbox {
@@ -61,7 +61,7 @@ input, label, span {
   > textarea {
     font: {
       family: fonts.$ubuntuMono;
-      size: 13pt;
+      size: 17px;
     }
     resize: vertical;
     line-break: anywhere;
