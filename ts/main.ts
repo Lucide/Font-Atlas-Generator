@@ -24,12 +24,10 @@ const options = new class implements IOptions {
 
 //ACTIONS
 bd.resize.action = () => {
+    //width
     qr.body.style.setProperty("--preferred-width", options.resolution[0] + 35 + "px");
-    if (qr.controls.offsetWidth == qr.Values.controlsMinWidth) {
-        qr.body.style.setProperty("--preview-width", "var(--small-preview)");
-    } else {
-        qr.body.style.setProperty("--preview-width", "var(--big-preview)");
-    }
+    //height
+    qr.body.style.maxHeight = Math.max(window.innerHeight, qr.header.offsetHeight + qr.controlsMinContent() + qr.footer.offsetHeight) + "px";
 }
 
 bd.tabFontName.action = () => {
@@ -119,7 +117,7 @@ bd.cellHeight.action = (update) => {
 };
 
 bd.fontSize.action = () => {
-    options.font.size = qr.fontSize.value + "pt";
+    options.font.size = qr.fontSize.value + "px";
 };
 bd.offsetX.action = () => {
     options.offset[0] = parseInt(qr.offsetX.value);

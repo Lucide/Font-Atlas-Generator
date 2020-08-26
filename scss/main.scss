@@ -12,15 +12,12 @@ body {
   background-color: white;
 
   --preferred-width: "";
-  --small-preview: min(calc(100% - var(--controls-min-width)), var(--preferred-width));
-  --big-preview: minmax(var(--preferred-width), 1fr);
-  --preview-width: 1fr;
-  --controls-min-width: 195px;
-  
+  --controls-min-width: 200px;
   grid-template: {
-    areas: "header header" "preview controls" "charset charset" "footer footer";
-    rows: minmax(90px, auto) auto auto auto;
-    columns: var(--preview-width) minmax(var(--controls-min-width), 390px);
+    areas: "header header" "preview controls" "charset controls" "footer footer";
+    rows: minmax(90px, auto) 1fr auto auto;
+    //noinspection CssInvalidFunction
+    columns: minmax(min(calc(100% - var(--controls-min-width)), var(--preferred-width)), 1fr) minmax(var(--controls-min-width), 390px);
   }
 }
 
@@ -56,7 +53,6 @@ body {
 }
 
 .preview {
-  position: relative;
   overflow: hidden;
   border: 0 solid black {
     right-width: 1px;
@@ -66,13 +62,7 @@ body {
   grid-area: preview;
 
   > div {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
     overflow: scroll;
-    max-width: 100%;
-    max-height: 100%;
     @include fillSpace;
     padding: 7px;
     @include defaults.reticulate;
@@ -87,7 +77,7 @@ body {
   @include flex(column);
   grid-area: controls;
 
-  > :not(.section) {
+  > .section + div {
     padding-bottom: 13px;
   }
 }
@@ -149,10 +139,13 @@ body {
   @include flex(column);
   align-items: center;
   padding-bottom: 13px;
+  border: 1px solid black {
+    width: 0 1px 0 0;
+  }
   grid-area: charset;
 
   > div {
-    width: 80%;
+    width: 90%;
   }
 
   textarea {
@@ -163,7 +156,7 @@ body {
 
 .footer {
   font: {
-    family: fonts.$ubuntuMono;
+    family: fonts.$consolas;
     size: 13px;
   }
   padding: 0 7px;

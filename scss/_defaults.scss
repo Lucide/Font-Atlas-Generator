@@ -14,6 +14,10 @@ input, label, span {
   display: inline-block;
 }
 
+.filler {
+  flex-grow: 1;
+}
+
 .section {
   font: {
     size: 30px;
@@ -60,7 +64,7 @@ input, label, span {
 
   > textarea {
     font: {
-      family: fonts.$ubuntuMono;
+      family: fonts.$consolas;
       size: 17px;
     }
     resize: vertical;

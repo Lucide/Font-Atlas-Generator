@@ -174,7 +174,7 @@ function registerComplexInputs() {
     });
 }
 
-export function fire(bindings: IAction[], update: boolean, skip?: InputBinding) {
+export function fire(bindings: IAction[], update: boolean, skip?: IAction) {
     bindings.forEach((binding) => {
         if (!(skip && skip.action == binding.action)) {
             binding.action(update);

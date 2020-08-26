@@ -1,7 +1,9 @@
 //CONTAINERS
 export const body = document.querySelector("body") as HTMLBodyElement;
+export const header = document.querySelector(".header") as HTMLDivElement;
 export const preview = document.querySelector(".preview") as HTMLDivElement;
 export const controls = document.querySelector(".controls") as HTMLDivElement;
+export const footer = document.querySelector(".footer") as HTMLDivElement;
 //CANVAS
 export const canvas = document.querySelector("canvas") as HTMLCanvasElement;
 //COMPLEX INPUTS HIGHLIGHTING
@@ -26,6 +28,9 @@ export const clipCells = document.querySelector("#clipCells") as HTMLInputElemen
 export const showGrid = document.querySelector("#showGrid") as HTMLInputElement;
 export const charset = document.querySelector("#charset") as HTMLInputElement;
 
+//PRIVATE
+const filler = document.querySelector(".filler") as HTMLDivElement;
+
 export namespace Values {
     export const controlsMinWidth = parseInt(
         getComputedStyle(body)
@@ -35,6 +40,7 @@ export namespace Values {
         getComputedStyle(canvas.parentElement as HTMLDivElement)
             .padding
             .replace("px", ""));
+    export const controlsMinContent = controls.scrollHeight;
 }
 
 function numberContainer(complexInput: HTMLInputElement): HTMLDivElement {
@@ -47,4 +53,8 @@ export function impreciseHighlight(complexInput: HTMLInputElement, remainder: nu
     } else {
         numberContainer(complexInput).classList.remove("input-imprecise");
     }
+}
+
+export function controlsMinContent(): number {
+    return controls.scrollHeight - filler.scrollHeight;
 }

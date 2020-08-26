@@ -22,17 +22,17 @@
         Font
     </div>
     <div class="fontInputs">
-        <input type="radio" id="tabFontName" name="tab-group-font" checked>
+        <input type="radio" id="tabFontName" name="tab-group-font" autocomplete="off" checked>
         <label for="tabFontName">Name</label>
         <div class="tabName">
             <label for="fontName">use an installed font:</label>
-            <input type="text" id="fontName" class="input-text-file" value="DejaVu Sans Mono" spellcheck="false">
+            <input type="text" id="fontName" class="input-text-file" value="DejaVu Sans Mono" autocomplete="off" spellcheck="false">
         </div>
-        <input type="radio" id="tabFontFile" name="tab-group-font">
+        <input type="radio" id="tabFontFile" name="tab-group-font" autocomplete="off">
         <label for="tabFontFile">File</label>
         <div class="tabFile">
             <label for="fontFile">load a font file:</label>
-            <input type="file" id="fontFile" class="input-text-file" accept=".ttf, .otf, .woff, .woff2">
+            <input type="file" id="fontFile" class="input-text-file" accept=".ttf, .otf, .woff, .woff2" autocomplete="off">
         </div>
     </div>
     <div class="section">
@@ -42,37 +42,37 @@
         <div class="wrappable-input-number">
             <label for="bitmapWidth">Bitmap width:</label>
             <div class="input-number">
-                <input type="number" id="bitmapWidth" min="0" value="512">px
+                <input type="number" id="bitmapWidth" min="0" value="512" autocomplete="off">px
             </div>
         </div>
         <div class="wrappable-input-number">
             <label for="bitmapHeight">Bitmap height:</label>
             <div class="input-number">
-                <input type="number" id="bitmapHeight" min="0" value="512">px
+                <input type="number" id="bitmapHeight" min="0" value="512" autocomplete="off">px
             </div>
         </div>
         <div class="wrappable-input-number">
             <label for="cellsRow">Cells per row:</label>
             <div class="input-number">
-                <input type="number" id="cellsRow" min="0" value="16">px
+                <input type="number" id="cellsRow" min="0" value="16" autocomplete="off">px
             </div>
         </div>
         <div class="wrappable-input-number">
             <label for="cellsColumn">Cells per column:</label>
             <div class="input-number">
-                <input type="number" id="cellsColumn" min="0" value="16">px
+                <input type="number" id="cellsColumn" min="0" value="16" autocomplete="off">px
             </div>
         </div>
         <div class="wrappable-input-number">
             <label for="cellWidth">Cell width:</label>
             <div class="input-number">
-                <input type="number" id="cellWidth" min="0" value="32">px
+                <input type="number" id="cellWidth" min="0" value="32" autocomplete="off">px
             </div>
         </div>
         <div class="wrappable-input-number">
             <label for="cellHeight">Cell height:</label>
             <div class="input-number">
-                <input type="number" id="cellHeight" min="0" value="32">px
+                <input type="number" id="cellHeight" min="0" value="32" autocomplete="off">px
             </div>
         </div>
     </div>
@@ -83,35 +83,36 @@
         <div class="wrappable-input-number">
             <label for="fontSize">Font Size:</label>
             <div class="input-number">
-                <input type="number" id="fontSize" min="0" value="13">pt
+                <input type="number" id="fontSize" min="0" value="13" autocomplete="off">px
             </div>
         </div>
         <div class="wrappable-input-number">
             <label for="offsetX">Offset X:</label>
             <div class="input-number">
-                <input type="number" id="offsetX" value="0">px
+                <input type="number" id="offsetX" value="0" autocomplete="off">px
             </div>
         </div>
         <div class="wrappable-input-number">
             <label for="offsetY">Offset Y:</label>
             <div class="input-number">
-                <input type="number" id="offsetY" value="0">px
+                <input type="number" id="offsetY" value="0" autocomplete="off">px
             </div>
         </div>
         <div>
-            <input type="checkbox" id="clipCells" class="input-checkbox">
+            <input type="checkbox" id="clipCells" class="input-checkbox" autocomplete="off">
             <label for="clipCells">clip cells</label>
         </div>
         <div>
-            <input type="checkbox" id="showGrid" class="input-checkbox">
+            <input type="checkbox" id="showGrid" class="input-checkbox" autocomplete="off">
             <label for="showGrid">show grid</label>
         </div>
     </div>
+    <div class="filler"></div>
 </div>
 <div class="charset">
     <label class="section" for="charset">CharSet as string:</label>
     <div class="input-textarea">
-        <textarea id="charset" spellcheck="false"> ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{¦}~⌂ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■□</textarea>
+        <textarea id="charset" autocomplete="off" spellcheck="false">☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{¦}~⌂ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■□</textarea>
     </div>
 </div>
 <div class="footer">
