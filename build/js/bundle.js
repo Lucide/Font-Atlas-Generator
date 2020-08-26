@@ -108,9 +108,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fire = exports.registerAll = exports.standard = exports.sizes = exports.tabs = exports.charset = exports.showGrid = exports.clipCells = exports.offsetY = exports.offsetX = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = void 0;
+exports.fire = exports.registerAll = exports.standard = exports.sizes = exports.tabs = exports.charset = exports.showGrid = exports.clipCells = exports.offsetY = exports.offsetX = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.resize = void 0;
 const qr = __importStar(require("./queries"));
 const atlas_1 = require("./atlas");
+exports.resize = {
+    action: () => {
+    }
+};
 exports.tabFontName = {
     element: qr.tabFontName,
     action: () => {
@@ -214,12 +218,18 @@ exports.standard = [
     exports.charset
 ];
 function registerAll() {
+    registerActions();
     registerStandard();
     registerTabs();
     registerSizes();
     registerComplexInputs();
 }
 exports.registerAll = registerAll;
+function registerActions() {
+    window.addEventListener("resize", () => {
+        exports.resize.action();
+    });
+}
 function registerStandard() {
     exports.standard.forEach((binding) => {
         binding.element.addEventListener("change", () => {
@@ -256,7 +266,7 @@ function registerComplexInputs() {
 }
 function fire(bindings, update, skip) {
     bindings.forEach((binding) => {
-        if (!(skip && skip.element == binding.element)) {
+        if (!(skip && skip.action == binding.action)) {
             binding.action(update);
         }
     });
@@ -301,6 +311,7 @@ const atlas = __importStar(require("./atlas"));
 const vs = __importStar(require("./variation-selector"));
 const bd = __importStar(require("./bindings"));
 const qr = __importStar(require("./queries"));
+//INITIALIZATIONS
 const FALLBACK_FONT = "Adobe Blank";
 const options = new class {
     constructor() {
@@ -314,6 +325,13 @@ const options = new class {
         this.clip = false;
         this.grid = false;
     }
+};
+//ACTIONS
+bd.resize.action = () => {
+    //width
+    qr.body.style.setProperty("--preferred-width", options.resolution[0] + 35 + "px");
+    //height
+    qr.body.style.maxHeight = Math.max(window.innerHeight, qr.header.offsetHeight + qr.controlsMinContent() + qr.footer.offsetHeight) + "px";
 };
 bd.tabFontName.action = () => {
     if (qr.tabFontName.checked) {
@@ -357,12 +375,14 @@ bd.fontFile.action = (update) => {
 bd.bitmapWidth.action = (update) => {
     if (update) {
         options.resolution[0] = parseInt(qr.bitmapWidth.value);
+        bd.resize.action();
     }
     qr.impreciseHighlight(qr.bitmapWidth, options.resolution[0] % options.cell[0]);
 };
 bd.bitmapHeight.action = (update) => {
     if (update) {
         options.resolution[1] = parseInt(qr.bitmapHeight.value);
+        bd.resize.action();
     }
     qr.impreciseHighlight(qr.bitmapHeight, options.resolution[1] % options.cell[1]);
 };
@@ -403,7 +423,7 @@ bd.cellHeight.action = (update) => {
     qr.impreciseHighlight(qr.cellHeight, options.resolution[1] % options.cell[1]);
 };
 bd.fontSize.action = () => {
-    options.font.size = qr.fontSize.value + "pt";
+    options.font.size = qr.fontSize.value + "px";
 };
 bd.offsetX.action = () => {
     options.offset[0] = parseInt(qr.offsetX.value);
@@ -422,6 +442,7 @@ bd.charset.action = () => {
     qr.charset.value = vs.textStyle((value));
     options.charset = value;
 };
+//START
 bd.fire([...bd.standard, ...bd.sizes], true);
 webfontloader_1.load({
     classes: false,
@@ -438,6 +459,7 @@ webfontloader_1.load({
 });
 atlas.setOptions(options);
 bd.registerAll();
+//DEFINITIONS
 function strictFontFamily(fontFamily) {
     return [fontFamily[0], FALLBACK_FONT];
 }
@@ -445,13 +467,18 @@ function strictFontFamily(fontFamily) {
 },{"./atlas":1,"./bindings":2,"./queries":4,"./variation-selector":5,"css-font":11,"promise-file-reader":19,"webfontloader":22}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.impreciseHighlight = exports.charset = exports.showGrid = exports.clipCells = exports.offsetY = exports.offsetX = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.complexInputs = exports.canvas = exports.body = void 0;
+exports.controlsMinContent = exports.impreciseHighlight = exports.Values = exports.charset = exports.showGrid = exports.clipCells = exports.offsetY = exports.offsetX = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.complexInputs = exports.canvas = exports.footer = exports.controls = exports.preview = exports.header = exports.body = void 0;
+//CONTAINERS
 exports.body = document.querySelector("body");
+exports.header = document.querySelector(".header");
+exports.preview = document.querySelector(".preview");
+exports.controls = document.querySelector(".controls");
+exports.footer = document.querySelector(".footer");
 //CANVAS
 exports.canvas = document.querySelector("canvas");
 //COMPLEX INPUTS HIGHLIGHTING
 exports.complexInputs = document.querySelectorAll(".input-number, .input-textarea");
-//INPUT
+//INPUTS
 exports.tabFontName = document.querySelector("#tabFontName");
 exports.tabFontFile = document.querySelector("#tabFontFile");
 exports.fontName = document.querySelector("#fontName");
@@ -468,6 +495,18 @@ exports.offsetY = document.querySelector("#offsetY");
 exports.clipCells = document.querySelector("#clipCells");
 exports.showGrid = document.querySelector("#showGrid");
 exports.charset = document.querySelector("#charset");
+//PRIVATE
+const filler = document.querySelector(".filler");
+var Values;
+(function (Values) {
+    Values.controlsMinWidth = parseInt(getComputedStyle(exports.body)
+        .getPropertyValue("--controls-min-width")
+        .replace("px", ""));
+    Values.previewPadding = parseInt(getComputedStyle(exports.canvas.parentElement)
+        .padding
+        .replace("px", ""));
+    Values.controlsMinContent = exports.controls.scrollHeight;
+})(Values = exports.Values || (exports.Values = {}));
 function numberContainer(complexInput) {
     return (complexInput.parentElement);
 }
@@ -480,6 +519,10 @@ function impreciseHighlight(complexInput, remainder) {
     }
 }
 exports.impreciseHighlight = impreciseHighlight;
+function controlsMinContent() {
+    return exports.controls.scrollHeight - filler.scrollHeight;
+}
+exports.controlsMinContent = controlsMinContent;
 
 },{}],5:[function(require,module,exports){
 "use strict";

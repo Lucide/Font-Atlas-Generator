@@ -28,14 +28,18 @@ input, label, span {
   display: inline-block;
 }
 
+.filler {
+  flex-grow: 1;
+}
+
 .section {
-  font-size: 23pt;
+  font-size: 30px;
   font-weight: bold;
   width: 100%;
-  padding: 5pt;
+  padding: 7px;
   border: 0 solid black;
-  border-top-width: 1pt;
-  border-radius: 5pt 5pt 0 0;
+  border-top-width: 1px;
+  border-radius: 7px 7px 0 0;
 }
 
 .wrappable-input-number {
@@ -47,14 +51,14 @@ input, label, span {
 }
 .wrappable-input-number > label {
   display: block;
-  width: 140pt;
-  padding-bottom: 3pt;
+  width: 182px;
+  padding-bottom: 4px;
 }
 
 .input-text-file {
-  border: 1pt solid black;
-  border-radius: 5pt;
-  height: 25pt;
+  border: 1px solid black;
+  border-radius: 7px;
+  height: 33px;
 }
 .input-text-file:focus {
   outline: none;
@@ -67,17 +71,17 @@ input, label, span {
 .input-number {
   display: inline-block;
   overflow: hidden;
-  width: 80pt;
+  width: 104px;
   white-space: nowrap;
-  border: 1pt solid black;
-  border-radius: 5pt;
-  margin-bottom: 7pt;
+  border: 1px solid black;
+  border-radius: 7px;
+  margin-bottom: 9px;
 }
 .input-number:focus {
   border-color: chartreuse;
 }
 .input-number > input {
-  width: calc(100% - 20pt);
+  width: calc(100% - 26px);
   border: none;
 }
 .input-number > input:focus {
@@ -86,13 +90,13 @@ input, label, span {
 }
 
 .input-checkbox:focus {
-  outline: chartreuse solid 1pt;
+  outline: chartreuse solid 1px;
   box-shadow: none;
 }
 
 .input-textarea {
-  border: 1pt solid black;
-  border-radius: 5pt;
+  border: 1px solid black;
+  border-radius: 7px;
   display: inline-block;
   overflow: hidden;
 }
@@ -104,31 +108,35 @@ input, label, span {
   height: 100%;
   border: none;
   display: block;
-  padding: 5pt;
+  padding: 7px;
 }
 .input-textarea > textarea:focus {
   outline: none;
   box-shadow: none;
 }
 .input-textarea > textarea {
-  font-family: "Ubuntu Mono", monospace;
-  font-size: 13pt;
+  font-family: Consolas;
+  font-size: 17px;
   resize: vertical;
   line-break: anywhere;
 }
 
 body {
   font-family: "Open Sans", sans-serif;
-  font-size: 16pt;
+  font-size: 21px;
   display: grid;
   background-color: white;
-  grid: "header header" minmax(70pt, auto) "preview controls" auto "charset charset" auto "footer footer" auto/minmax(30vh, auto) minmax(150pt, 300pt);
+  --preferred-width: "";
+  --controls-min-width: 200px;
+  grid-template-areas: "header header" "preview controls" "charset controls" "footer footer";
+  grid-template-rows: minmax(90px, auto) 1fr auto auto;
+  grid-template-columns: minmax(min(calc(100% - var(--controls-min-width)), var(--preferred-width)), 1fr) minmax(var(--controls-min-width), 390px);
 }
 
 .header {
   display: flex;
   flex-direction: column;
-  padding-bottom: 10pt;
+  padding-bottom: 13px;
   animation: slide 10s linear infinite;
   text-align: center;
   background-repeat: repeat-x;
@@ -149,32 +157,25 @@ body {
   }
 }
 .header :nth-child(1) {
-  font-size: 40pt;
+  font-size: 52px;
 }
 .header :nth-child(2) {
-  font-size: 16pt;
+  font-size: 21px;
 }
 
 .preview {
-  position: relative;
   overflow: hidden;
   border: 0 solid black;
-  border-right-width: 1pt;
-  border-top-width: 1pt;
-  border-radius: 5pt 5pt 0 0;
+  border-right-width: 1px;
+  border-top-width: 1px;
+  border-radius: 7px 7px 0 0;
   grid-area: preview;
 }
 .preview > div {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
   overflow: scroll;
-  max-width: 100%;
-  max-height: 100%;
   width: 100%;
   height: 100%;
-  padding: 5pt;
+  padding: 7px;
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239a9a9a' fill-opacity='0.26'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 .preview canvas {
@@ -186,8 +187,8 @@ body {
   flex-direction: column;
   grid-area: controls;
 }
-.controls > :not(.section) {
-  padding-bottom: 10pt;
+.controls > .section + div {
+  padding-bottom: 13px;
 }
 
 .fontInputs {
@@ -195,31 +196,31 @@ body {
   flex-wrap: wrap;
 }
 .fontInputs > label {
-  font-size: 15pt;
+  font-size: 20px;
   width: 50%;
   text-align: center;
-  border: 1pt solid;
-  border-radius: 5pt 5pt 0 0;
+  border: 1px solid;
+  border-radius: 7px 7px 0 0;
   display: block;
   order: 1;
   cursor: pointer;
 }
 .fontInputs > label:nth-of-type(1) {
-  border-width: 1pt 1pt 1pt 0;
+  border-width: 1px 1px 1px 0;
 }
 .fontInputs > label:nth-of-type(2) {
-  border-width: 1pt 0 1pt 0;
+  border-width: 1px 0 1px 0;
 }
 .fontInputs > div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5pt;
+  padding: 7px;
   width: 100%;
   order: 2;
 }
 .fontInputs > div > label {
-  padding-bottom: 10pt;
+  padding-bottom: 13px;
 }
 .fontInputs > div > input {
   display: block;
@@ -239,7 +240,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0 10pt;
+  padding: 0 13px;
 }
 
 .optionsInputs {
@@ -247,34 +248,36 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10pt;
+  padding: 0 13px;
 }
 .optionsInputs > :not(.wrappable-input-number) {
-  padding-bottom: 5pt;
+  padding-bottom: 7px;
 }
 
 .charset {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 10pt;
+  padding-bottom: 13px;
+  border: 1px solid black;
+  border-width: 0 1px 0 0;
   grid-area: charset;
 }
 .charset > div {
-  width: 80%;
+  width: 90%;
 }
 .charset textarea {
-  height: 100pt;
+  height: 130px;
   line-height: 160%;
 }
 
 .footer {
-  font-family: "Ubuntu Mono", monospace;
-  font-size: 10pt;
-  padding: 0 5pt;
+  font-family: Consolas;
+  font-size: 13px;
+  padding: 0 7px;
   text-align: center;
   border: 0 solid black;
-  border-top-width: 1pt;
+  border-top-width: 1px;
   grid-area: footer;
 }
 .footer a {

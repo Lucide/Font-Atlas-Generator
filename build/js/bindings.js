@@ -19,9 +19,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fire = exports.registerAll = exports.standard = exports.sizes = exports.tabs = exports.charset = exports.showGrid = exports.clipCells = exports.offsetY = exports.offsetX = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = void 0;
+exports.fire = exports.registerAll = exports.standard = exports.sizes = exports.tabs = exports.charset = exports.showGrid = exports.clipCells = exports.offsetY = exports.offsetX = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.resize = void 0;
 const qr = __importStar(require("./queries"));
 const atlas_1 = require("./atlas");
+exports.resize = {
+    action: () => {
+    }
+};
 exports.tabFontName = {
     element: qr.tabFontName,
     action: () => {
@@ -125,12 +129,18 @@ exports.standard = [
     exports.charset
 ];
 function registerAll() {
+    registerActions();
     registerStandard();
     registerTabs();
     registerSizes();
     registerComplexInputs();
 }
 exports.registerAll = registerAll;
+function registerActions() {
+    window.addEventListener("resize", () => {
+        exports.resize.action();
+    });
+}
 function registerStandard() {
     exports.standard.forEach((binding) => {
         binding.element.addEventListener("change", () => {
@@ -167,7 +177,7 @@ function registerComplexInputs() {
 }
 function fire(bindings, update, skip) {
     bindings.forEach((binding) => {
-        if (!(skip && skip.element == binding.element)) {
+        if (!(skip && skip.action == binding.action)) {
             binding.action(update);
         }
     });

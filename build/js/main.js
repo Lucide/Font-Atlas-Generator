@@ -35,6 +35,7 @@ const atlas = __importStar(require("./atlas"));
 const vs = __importStar(require("./variation-selector"));
 const bd = __importStar(require("./bindings"));
 const qr = __importStar(require("./queries"));
+//INITIALIZATIONS
 const FALLBACK_FONT = "Adobe Blank";
 const options = new class {
     constructor() {
@@ -48,6 +49,13 @@ const options = new class {
         this.clip = false;
         this.grid = false;
     }
+};
+//ACTIONS
+bd.resize.action = () => {
+    //width
+    qr.body.style.setProperty("--preferred-width", options.resolution[0] + 35 + "px");
+    //height
+    qr.body.style.maxHeight = Math.max(window.innerHeight, qr.header.offsetHeight + qr.controlsMinContent() + qr.footer.offsetHeight) + "px";
 };
 bd.tabFontName.action = () => {
     if (qr.tabFontName.checked) {
@@ -91,12 +99,14 @@ bd.fontFile.action = (update) => {
 bd.bitmapWidth.action = (update) => {
     if (update) {
         options.resolution[0] = parseInt(qr.bitmapWidth.value);
+        bd.resize.action();
     }
     qr.impreciseHighlight(qr.bitmapWidth, options.resolution[0] % options.cell[0]);
 };
 bd.bitmapHeight.action = (update) => {
     if (update) {
         options.resolution[1] = parseInt(qr.bitmapHeight.value);
+        bd.resize.action();
     }
     qr.impreciseHighlight(qr.bitmapHeight, options.resolution[1] % options.cell[1]);
 };
@@ -137,7 +147,7 @@ bd.cellHeight.action = (update) => {
     qr.impreciseHighlight(qr.cellHeight, options.resolution[1] % options.cell[1]);
 };
 bd.fontSize.action = () => {
-    options.font.size = qr.fontSize.value + "pt";
+    options.font.size = qr.fontSize.value + "px";
 };
 bd.offsetX.action = () => {
     options.offset[0] = parseInt(qr.offsetX.value);
@@ -156,6 +166,7 @@ bd.charset.action = () => {
     qr.charset.value = vs.textStyle((value));
     options.charset = value;
 };
+//START
 bd.fire([...bd.standard, ...bd.sizes], true);
 webfontloader_1.load({
     classes: false,
@@ -172,6 +183,7 @@ webfontloader_1.load({
 });
 atlas.setOptions(options);
 bd.registerAll();
+//DEFINITIONS
 function strictFontFamily(fontFamily) {
     return [fontFamily[0], FALLBACK_FONT];
 }
