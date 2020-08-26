@@ -21,9 +21,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:sass": "npx sass scss/:build/css/",
-    "build:typescript": "npx -p typescript tsc",
-    "build:browserify": "npx browserify build/js/main.js -o build/js/bundle.js",
+    "build:sass": "npx --no-install sass scss/:build/css/",
+    "build:typescript": "npx --no-install -p typescript tsc",
+    "build:browserify": "npx --no-install browserify build/js/main.js -o build/js/bundle.js",
     "build": "npm run build:sass && npm run build:typescript && npm run build:browserify"
   },
   "author": "Lucide",
