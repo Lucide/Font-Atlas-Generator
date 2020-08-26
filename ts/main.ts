@@ -6,7 +6,7 @@ import type {IOptions} from "./atlas";
 import * as vs from "./variation-selector";
 import * as bd from "./bindings";
 import * as qr from "./queries";
-import {body} from "./queries";
+import {body, footer, header} from "./queries";
 
 //INITIALIZATIONS
 const FALLBACK_FONT = "Adobe Blank";
@@ -24,10 +24,18 @@ const options = new class implements IOptions {
 
 //ACTIONS
 bd.resize.action = () => {
-    //width
-    qr.body.style.setProperty("--preferred-width", options.resolution[0] + 35 + "px");
-    //height
-    qr.body.style.maxHeight = Math.max(window.innerHeight, qr.header.offsetHeight + qr.controlsMinContent() + qr.footer.offsetHeight) + "px";
+    qr.body.style.setProperty("--preview-content-width", options.resolution[0] + 35 + "px");
+    qr.body.style.setProperty("--preview-height", (
+        (qr.footer.getBoundingClientRect().bottom+window.scrollY <= window.innerHeight) ?
+            Math.max(
+                qr.controlsMinHeight() - qr.charsets.offsetHeight,
+                Math.min(
+                    options.resolution[1] + 35,
+                    window.innerHeight - qr.header.offsetHeight - qr.charsetMinHeight() - qr.footer.offsetHeight
+                )
+            ) :
+            qr.controlsMinHeight()
+    ) + "px");
 }
 
 bd.tabFontName.action = () => {
