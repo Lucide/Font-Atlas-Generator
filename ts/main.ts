@@ -26,7 +26,7 @@ const options = new class implements IOptions {
 bd.resize.action = () => {
     qr.body.style.setProperty("--preview-content-width", options.resolution[0] + 35 + "px");
     qr.body.style.setProperty("--preview-height", (
-        (qr.footer.getBoundingClientRect().bottom+window.scrollY <= window.innerHeight) ?
+        (qr.footer.getBoundingClientRect().bottom + window.scrollY <= window.innerHeight) ?
             Math.max(
                 qr.controlsMinHeight() - qr.charsets.offsetHeight,
                 Math.min(
@@ -34,7 +34,10 @@ bd.resize.action = () => {
                     window.innerHeight - qr.header.offsetHeight - qr.charsetMinHeight() - qr.footer.offsetHeight
                 )
             ) :
-            qr.controlsMinHeight()
+            Math.min(
+                options.resolution[1] + 35,
+                qr.controlsMinHeight()
+            )
     ) + "px");
 }
 
