@@ -1,17 +1,22 @@
 name: Publish to GitHub Pages
 
-# Triggers the workflow on push or pull request
+# Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   workflow_dispatch:
   push:
     branches: [ master ]
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  # This workflow contains a single job called "publish"
+  publish:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
     - name: Setup Node.js environment
@@ -31,12 +36,7 @@ jobs:
     
     - name: Build
       run: npm run build
-      
-  publish:
-    needs: [build]
-    runs-on: ubuntu-latest
     
-    steps:
     - name: GitHub Pages
       uses: peaceiris/actions-gh-pages@v3.7.0-8
       with:
@@ -47,4 +47,3 @@ jobs:
         # Set a custom commit message with a triggered commit hash
         commit_message: automatically deployed
         exclude_assets: ".github,.gitignore,*.md,*.json,node_modules,scss,ts"
-
