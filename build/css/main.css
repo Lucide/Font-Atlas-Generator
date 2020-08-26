@@ -126,11 +126,12 @@ body {
   font-size: 21px;
   display: grid;
   background-color: white;
-  --preferred-width: "";
   --controls-min-width: 200px;
+  --preview-content-width: "";
+  --preview-height: "";
   grid-template-areas: "header header" "preview controls" "charset controls" "footer footer";
-  grid-template-rows: minmax(90px, auto) 1fr auto auto;
-  grid-template-columns: minmax(min(calc(100% - var(--controls-min-width)), var(--preferred-width)), 1fr) minmax(var(--controls-min-width), 390px);
+  grid-template-rows: minmax(90px, auto) var(--preview-height) min-content auto;
+  grid-template-columns: minmax(min(calc(100% - var(--controls-min-width)), var(--preview-content-width)), 1fr) minmax(var(--controls-min-width), 390px);
 }
 
 .header {
@@ -164,14 +165,18 @@ body {
 }
 
 .preview {
+  position: relative;
   overflow: hidden;
   border: 0 solid black;
   border-right-width: 1px;
   border-top-width: 1px;
   border-radius: 7px 7px 0 0;
+  width: 100%;
+  height: 100%;
   grid-area: preview;
 }
 .preview > div {
+  position: absolute;
   overflow: scroll;
   width: 100%;
   height: 100%;
@@ -268,6 +273,7 @@ body {
 }
 .charset textarea {
   height: 130px;
+  min-height: 50px;
   line-height: 160%;
 }
 

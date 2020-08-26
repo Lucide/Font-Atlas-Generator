@@ -14,7 +14,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -52,10 +52,10 @@ const options = new class {
 };
 //ACTIONS
 bd.resize.action = () => {
-    //width
-    qr.body.style.setProperty("--preferred-width", options.resolution[0] + 35 + "px");
-    //height
-    qr.body.style.maxHeight = Math.max(window.innerHeight, qr.header.offsetHeight + qr.controlsMinContent() + qr.footer.offsetHeight) + "px";
+    qr.body.style.setProperty("--preview-content-width", options.resolution[0] + 35 + "px");
+    qr.body.style.setProperty("--preview-height", ((qr.footer.getBoundingClientRect().bottom + window.scrollY <= window.innerHeight) ?
+        Math.max(qr.controlsMinHeight() - qr.charsets.offsetHeight, Math.min(options.resolution[1] + 35, window.innerHeight - qr.header.offsetHeight - qr.charsetMinHeight() - qr.footer.offsetHeight)) :
+        Math.min(options.resolution[1] + 35, qr.controlsMinHeight())) + "px");
 };
 bd.tabFontName.action = () => {
     if (qr.tabFontName.checked) {
