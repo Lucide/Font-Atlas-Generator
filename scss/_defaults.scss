@@ -47,7 +47,7 @@ input, label, span {
 }
 
 .input- {
-  .input-text-file {
+  &text-file {
     @include inputs.text-file;
   }
 
