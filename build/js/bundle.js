@@ -91,7 +91,7 @@ function drawGrid(o) {
     outputCtx.restore();
 }
 
-},{"./variation-selector":5,"css-font":11}],2:[function(require,module,exports){
+},{"./variation-selector":5,"css-font":10}],2:[function(require,module,exports){
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -491,7 +491,7 @@ function strictFontFamily(fontFamily) {
     return [fontFamily[0], FALLBACK_FONT];
 }
 
-},{"./atlas":1,"./bindings":2,"./queries":4,"./variation-selector":5,"css-font":11,"promise-file-reader":19,"webfontloader":22}],4:[function(require,module,exports){
+},{"./atlas":1,"./bindings":2,"./queries":4,"./variation-selector":5,"css-font":10,"promise-file-reader":18,"webfontloader":21}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.charsetMinHeight = exports.controlsMinHeight = exports.impreciseHighlight = exports.Values = exports.charset = exports.showGrid = exports.offsetY = exports.offsetX = exports.clipCells = exports.smooth = exports.scale = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.complexInputs = exports.canvas = exports.footer = exports.charsets = exports.controls = exports.preview = exports.header = exports.body = void 0;
@@ -561,23 +561,19 @@ exports.charsetMinHeight = charsetMinHeight;
 
 },{}],5:[function(require,module,exports){
 "use strict";
+//https://www.npmjs.com/package/strip-variation-selectors
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.textStyle = exports.removeAll = void 0;
-const variation_selector_1 = require("@regexp-extra/variation-selector");
 function removeAll(s) {
-    return s.replace(variation_selector_1.VARIATION_SELECTOR, "");
+    return s.replace(/([\u180B-\u180D\uFE00-\uFE0F]|\uDB40[\uDD00-\uDDEF])/g, "");
 }
 exports.removeAll = removeAll;
 function textStyle(s) {
-    return s.replace(/./g, "$&\uFE0E");
+    return s.replace(/./gu, "$&\uFE0E");
 }
 exports.textStyle = textStyle;
 
-},{"@regexp-extra/variation-selector":6}],6:[function(require,module,exports){
-const VARIATION_SELECTOR = /([\u180B-\u180D\uFE00-\uFE0F]|\uDB40[\uDD00-\uDDEF])/g;
-module.exports = VARIATION_SELECTOR;
-
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports=[
 	"xx-small",
 	"x-small",
@@ -590,7 +586,7 @@ module.exports=[
 	"smaller"
 ]
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports=[
 	"normal",
 	"condensed",
@@ -603,14 +599,14 @@ module.exports=[
 	"ultra-expanded"
 ]
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports=[
 	"normal",
 	"italic",
 	"oblique"
 ]
 
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports=[
 	"normal",
 	"bold",
@@ -627,7 +623,7 @@ module.exports=[
 	"900"
 ]
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict'
 
 module.exports = {
@@ -635,7 +631,7 @@ module.exports = {
 	stringify: require('./stringify')
 }
 
-},{"./parse":13,"./stringify":14}],12:[function(require,module,exports){
+},{"./parse":12,"./stringify":13}],11:[function(require,module,exports){
 'use strict'
 
 var sizes = require('css-font-size-keywords')
@@ -648,7 +644,7 @@ module.exports = {
 	}
 }
 
-},{"css-font-size-keywords":7}],13:[function(require,module,exports){
+},{"css-font-size-keywords":6}],12:[function(require,module,exports){
 'use strict'
 
 var unquote = require('unquote')
@@ -757,7 +753,7 @@ function parseLineHeight(value) {
 	return value
 }
 
-},{"./lib/util":12,"css-font-stretch-keywords":8,"css-font-style-keywords":9,"css-font-weight-keywords":10,"css-global-keywords":15,"css-system-font-keywords":16,"string-split-by":20,"unquote":21}],14:[function(require,module,exports){
+},{"./lib/util":11,"css-font-stretch-keywords":7,"css-font-style-keywords":8,"css-font-weight-keywords":9,"css-global-keywords":14,"css-system-font-keywords":15,"string-split-by":19,"unquote":20}],13:[function(require,module,exports){
 'use strict'
 
 var pick = require('pick-by-alias')
@@ -861,14 +857,14 @@ function a2o (a) {
 	return o
 }
 
-},{"./lib/util":12,"css-font-stretch-keywords":8,"css-font-style-keywords":9,"css-font-weight-keywords":10,"css-global-keywords":15,"css-system-font-keywords":16,"pick-by-alias":18}],15:[function(require,module,exports){
+},{"./lib/util":11,"css-font-stretch-keywords":7,"css-font-style-keywords":8,"css-font-weight-keywords":9,"css-global-keywords":14,"css-system-font-keywords":15,"pick-by-alias":17}],14:[function(require,module,exports){
 module.exports=[
 	"inherit",
 	"initial",
 	"unset"
 ]
 
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports=[
 	"caption",
 	"icon",
@@ -878,7 +874,7 @@ module.exports=[
 	"status-bar"
 ]
 
-},{}],17:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict'
 
 /**
@@ -1015,7 +1011,7 @@ parenthesis.stringify = stringify
 
 module.exports = parenthesis
 
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict'
 
 
@@ -1094,7 +1090,7 @@ function toList(arg) {
 	return arg
 }
 
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 function readAs (file, as) {
   if (!(file instanceof Blob)) {
     throw new TypeError('Must be a File or Blob')
@@ -1125,7 +1121,7 @@ module.exports = {
   readAsArrayBuffer: readAsArrayBuffer,
 }
 
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict'
 
 var paren = require('parenthesis')
@@ -1183,7 +1179,7 @@ module.exports = function splitBy (string, separator, o) {
 	return parts
 }
 
-},{"parenthesis":17}],21:[function(require,module,exports){
+},{"parenthesis":16}],20:[function(require,module,exports){
 var reg = /[\'\"]/
 
 module.exports = function unquote(str) {
@@ -1199,7 +1195,7 @@ module.exports = function unquote(str) {
   return str
 }
 
-},{}],22:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /* Web Font Loader v1.6.28 - (c) Adobe Systems, Google. License: Apache 2.0 */(function(){function aa(a,b,c){return a.call.apply(a.bind,arguments)}function ba(a,b,c){if(!a)throw Error();if(2<arguments.length){var d=Array.prototype.slice.call(arguments,2);return function(){var c=Array.prototype.slice.call(arguments);Array.prototype.unshift.apply(c,d);return a.apply(b,c)}}return function(){return a.apply(b,arguments)}}function p(a,b,c){p=Function.prototype.bind&&-1!=Function.prototype.bind.toString().indexOf("native code")?aa:ba;return p.apply(null,arguments)}var q=Date.now||function(){return+new Date};function ca(a,b){this.a=a;this.o=b||a;this.c=this.o.document}var da=!!window.FontFace;function t(a,b,c,d){b=a.c.createElement(b);if(c)for(var e in c)c.hasOwnProperty(e)&&("style"==e?b.style.cssText=c[e]:b.setAttribute(e,c[e]));d&&b.appendChild(a.c.createTextNode(d));return b}function u(a,b,c){a=a.c.getElementsByTagName(b)[0];a||(a=document.documentElement);a.insertBefore(c,a.lastChild)}function v(a){a.parentNode&&a.parentNode.removeChild(a)}
 function w(a,b,c){b=b||[];c=c||[];for(var d=a.className.split(/\s+/),e=0;e<b.length;e+=1){for(var f=!1,g=0;g<d.length;g+=1)if(b[e]===d[g]){f=!0;break}f||d.push(b[e])}b=[];for(e=0;e<d.length;e+=1){f=!1;for(g=0;g<c.length;g+=1)if(d[e]===c[g]){f=!0;break}f||b.push(d[e])}a.className=b.join(" ").replace(/\s+/g," ").replace(/^\s+|\s+$/,"")}function y(a,b){for(var c=a.className.split(/\s+/),d=0,e=c.length;d<e;d++)if(c[d]==b)return!0;return!1}
 function ea(a){return a.o.location.hostname||a.a.location.hostname}function z(a,b,c){function d(){m&&e&&f&&(m(g),m=null)}b=t(a,"link",{rel:"stylesheet",href:b,media:"all"});var e=!1,f=!0,g=null,m=c||null;da?(b.onload=function(){e=!0;d()},b.onerror=function(){e=!0;g=Error("Stylesheet failed to load");d()}):setTimeout(function(){e=!0;d()},0);u(a,"head",b)}

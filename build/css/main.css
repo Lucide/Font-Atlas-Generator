@@ -88,7 +88,6 @@ input, label, span {
 }
 .input-select {
   width: 104px;
-  text-align: center;
   border: 1px solid black;
   border-radius: 7px;
   height: 28px;
@@ -130,17 +129,6 @@ input, label, span {
   font-size: 17px;
   resize: vertical;
   line-break: anywhere;
-}
-
-.image-rendering-auto {
-  image-rendering: auto;
-}
-.image-rendering-crisp-edges {
-  image-rendering: crisp-edges;
-  image-rendering: -webkit-optimize-contrast;
-}
-.image-rendering-pixelated {
-  image-rendering: pixelated;
 }
 
 body {
@@ -276,9 +264,6 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0 13px;
-}
-.optionsInputs #imageRendering {
-  font-size: 15px;
 }
 .optionsInputs > :not(.wrappable-input) {
   padding-bottom: 7px;
