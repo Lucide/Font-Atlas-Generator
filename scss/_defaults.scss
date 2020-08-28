@@ -16,7 +16,6 @@ input, label, span {
 
 .filler {
   flex-grow: 1;
-  //background-color: #FF6B10;
 }
 
 .section {
@@ -32,7 +31,7 @@ input, label, span {
   };
 }
 
-.wrappable-input-number {
+.wrappable-input {
   $label-width: 182px;
 
   @include flex(row);
@@ -47,29 +46,53 @@ input, label, span {
   }
 }
 
-.input-text-file {
-  @include inputs.text-file;
-}
+.input- {
+  .input-text-file {
+    @include inputs.text-file;
+  }
 
-.input-number {
-  @include inputs.number(104px);
-  margin-bottom: 9px;
-}
+  &number {
+    @include inputs.number(104px);
+    margin-bottom: 9px;
+  }
 
-.input-checkbox {
-  @include inputs.checkbox;
-}
+  &select {
+    @include inputs.select(104px);
+    height: 28px;
+    margin-bottom: 9px;
+  }
 
-.input-textarea {
-  @include inputs.textarea;
+  &checkbox {
+    @include inputs.checkbox;
+  }
 
-  > textarea {
-    font: {
-      family: fonts.$consolas;
-      size: 17px;
+  &textarea {
+    @include inputs.textarea;
+
+    > textarea {
+      font: {
+        family: fonts.$consolas;
+        size: 17px;
+      }
+      resize: vertical;
+      line-break: anywhere;
     }
-    resize: vertical;
-    line-break: anywhere;
+  }
+}
+
+.image-rendering- {
+  &auto {
+    image-rendering: auto;
+  }
+
+  &crisp-edges {
+    image-rendering: crisp-edges;
+    //noinspection CssInvalidPropertyValue
+    image-rendering: -webkit-optimize-contrast;
+  }
+
+  &pixelated {
+    image-rendering: pixelated;
   }
 }
 

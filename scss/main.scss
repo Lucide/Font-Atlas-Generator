@@ -2,6 +2,7 @@
 @use "helpers" as *;
 @use "tabbed";
 @use "fonts";
+@use "inputs";
 
 body {
   font: {
@@ -134,7 +135,11 @@ body {
   align-items: center;
   padding: 0 13px;
 
-  > :not(.wrappable-input-number) {
+  #imageRendering {
+    font-size: 15px;
+  }
+
+  > :not(.wrappable-input) {
     padding-bottom: 7px;
   }
 }

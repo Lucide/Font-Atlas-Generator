@@ -6,14 +6,15 @@ import type {IOptions} from "./atlas";
 import * as vs from "./variation-selector";
 import * as bd from "./bindings";
 import * as qr from "./queries";
-import {body, footer, header} from "./queries";
 
 //INITIALIZATIONS
 const FALLBACK_FONT = "Adobe Blank";
 const options = new class implements IOptions {
     context2D = qr.canvas.getContext("2d") as CanvasRenderingContext2D;
     //pure instantiation
-    resolution = [1, 1] as [number, number];
+    size = [1, 1] as [number, number];
+    scale = 1;
+    smooth = true;
     offset = [1, 1] as [number, number]
     cell = [1, 1] as [number, number];
     charset = "a";
@@ -24,18 +25,18 @@ const options = new class implements IOptions {
 
 //ACTIONS
 bd.resize.action = () => {
-    qr.body.style.setProperty("--preview-content-width", options.resolution[0] + 35 + "px");
+    qr.body.style.setProperty("--preview-content-width", options.size[0] + 35 + "px");
     qr.body.style.setProperty("--preview-height", (
         (qr.footer.getBoundingClientRect().bottom + window.scrollY <= window.innerHeight) ?
             Math.max(
                 qr.controlsMinHeight() - qr.charsets.offsetHeight,
                 Math.min(
-                    options.resolution[1] + 35,
+                    options.size[1] + 35,
                     window.innerHeight - qr.header.offsetHeight - qr.charsetMinHeight() - qr.footer.offsetHeight
                 )
             ) :
             Math.min(
-                options.resolution[1] + 35,
+                options.size[1] + 35,
                 qr.controlsMinHeight()
             )
     ) + "px");
@@ -82,33 +83,33 @@ bd.fontFile.action = (update) => {
 };
 bd.bitmapWidth.action = (update) => {
     if (update) {
-        options.resolution[0] = parseInt(qr.bitmapWidth.value);
+        options.size[0] = parseInt(qr.bitmapWidth.value);
         bd.resize.action();
     }
-    qr.impreciseHighlight(qr.bitmapWidth, options.resolution[0] % options.cell[0]);
+    qr.impreciseHighlight(qr.bitmapWidth, options.size[0] % options.cell[0]);
 };
 bd.bitmapHeight.action = (update) => {
     if (update) {
-        options.resolution[1] = parseInt(qr.bitmapHeight.value);
+        options.size[1] = parseInt(qr.bitmapHeight.value);
         bd.resize.action();
     }
-    qr.impreciseHighlight(qr.bitmapHeight, options.resolution[1] % options.cell[1]);
+    qr.impreciseHighlight(qr.bitmapHeight, options.size[1] % options.cell[1]);
 };
 bd.cellsRow.action = (update) => {
     if (update) {
-        options.cell[0] = Math.floor(options.resolution[0] / parseInt(qr.cellsRow.value));
+        options.cell[0] = Math.floor(options.size[0] / parseInt(qr.cellsRow.value));
     } else {
-        qr.cellsRow.value = Math.floor(options.resolution[0] / options.cell[0]) + "";
+        qr.cellsRow.value = Math.floor(options.size[0] / options.cell[0]) + "";
     }
-    qr.impreciseHighlight(qr.cellsRow, options.resolution[0] % options.cell[0]);
+    qr.impreciseHighlight(qr.cellsRow, options.size[0] % options.cell[0]);
 };
 bd.cellsColumn.action = (update) => {
     if (update) {
-        options.cell[1] = Math.floor(options.resolution[1] / parseInt(qr.cellsColumn.value));
+        options.cell[1] = Math.floor(options.size[1] / parseInt(qr.cellsColumn.value));
     } else {
-        qr.cellsColumn.value = Math.floor(options.resolution[1] / options.cell[1]) + "";
+        qr.cellsColumn.value = Math.floor(options.size[1] / options.cell[1]) + "";
     }
-    qr.impreciseHighlight(qr.cellsColumn, options.resolution[1] % options.cell[1]);
+    qr.impreciseHighlight(qr.cellsColumn, options.size[1] % options.cell[1]);
 };
 bd.cellWidth.action = (update) => {
     if (update) {
@@ -116,7 +117,7 @@ bd.cellWidth.action = (update) => {
     } else {
         qr.cellWidth.value = options.cell[0] + "";
     }
-    qr.impreciseHighlight(qr.cellWidth, options.resolution[0] % options.cell[0]);
+    qr.impreciseHighlight(qr.cellWidth, options.size[0] % options.cell[0]);
 };
 bd.cellHeight.action = (update) => {
     if (update) {
@@ -124,24 +125,33 @@ bd.cellHeight.action = (update) => {
     } else {
         qr.cellHeight.value = options.cell[1] + "";
     }
-    qr.impreciseHighlight(qr.cellHeight, options.resolution[1] % options.cell[1]);
+    qr.impreciseHighlight(qr.cellHeight, options.size[1] % options.cell[1]);
 };
 
 bd.fontSize.action = () => {
-    options.font.size = qr.fontSize.value + "px";
+    options.font.size = qr.fontSize.value + "pt";
 };
+bd.clipCells.action = () => {
+    options.clip = qr.clipCells.checked;
+};
+bd.scale.action = () => {
+    const scale = 1 << qr.scale.selectedIndex;
+    options.scale = scale;
+    qr.smooth.disabled = (scale == 1);
+}
+bd.smooth.action = () => {
+    options.smooth=qr.smooth.checked;
+}
 bd.offsetX.action = () => {
     options.offset[0] = parseInt(qr.offsetX.value);
 };
 bd.offsetY.action = () => {
     options.offset[1] = parseInt(qr.offsetY.value);
 };
-bd.clipCells.action = () => {
-    options.clip = qr.clipCells.checked;
-};
 bd.showGrid.action = () => {
     options.grid = qr.showGrid.checked;
 };
+
 bd.charset.action = () => {
     const value = [...new Set(vs.removeAll(qr.charset.value))].join("");
     qr.charset.value = vs.textStyle((value));
@@ -149,7 +159,7 @@ bd.charset.action = () => {
 };
 
 //START
-bd.fire([...bd.standard, ...bd.sizes], true);
+bd.fire([...bd.sizes, ...bd.standard], true);
 loadFont({
     classes: false,
     custom: {

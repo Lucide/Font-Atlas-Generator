@@ -6,7 +6,7 @@ interface IAction {
 }
 
 interface InputBinding extends IAction {
-    readonly element: HTMLInputElement;
+    readonly element: HTMLElement;
 }
 
 export const resize: IAction = {
@@ -71,7 +71,21 @@ export const fontSize: InputBinding = {
     action: () => {
     }
 };
-
+export const scale: InputBinding = {
+    element: qr.scale,
+    action: () => {
+    }
+};
+export const smooth: InputBinding = {
+    element: qr.smooth,
+    action: () => {
+    }
+};
+export const clipCells: InputBinding = {
+    element: qr.clipCells,
+    action: () => {
+    }
+};
 export const offsetX: InputBinding = {
     element: qr.offsetX,
     action: () => {
@@ -82,16 +96,12 @@ export const offsetY: InputBinding = {
     action: () => {
     }
 };
-export const clipCells: InputBinding = {
-    element: qr.clipCells,
-    action: () => {
-    }
-};
 export const showGrid: InputBinding = {
     element: qr.showGrid,
     action: () => {
     }
 };
+
 export const charset: InputBinding = {
     element: qr.charset,
     action: () => {
@@ -114,9 +124,11 @@ export const standard = [
     fontName,
     fontFile,
     fontSize,
+    clipCells,
+    scale,
+    smooth,
     offsetX,
     offsetY,
-    clipCells,
     showGrid,
     charset
 ];
@@ -124,9 +136,9 @@ export const standard = [
 
 export function registerAll() {
     registerActions();
-    registerStandard();
-    registerTabs();
     registerSizes();
+    registerTabs();
+    registerStandard();
     registerComplexInputs();
 }
 

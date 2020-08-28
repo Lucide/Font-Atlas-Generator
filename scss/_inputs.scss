@@ -20,12 +20,14 @@ $imprecise-color: #FF6B10;
   }
 }
 
-.input-highlighted {
-  border-color: $highlight-color !important;
-}
+.input- {
+  &highlighted {
+    border-color: $highlight-color !important;
+  }
 
-.input-imprecise {
-  border-color: $imprecise-color !important;
+  &imprecise {
+    border-color: $imprecise-color !important;
+  }
 }
 
 @mixin text-file {
@@ -46,6 +48,13 @@ $imprecise-color: #FF6B10;
     width: calc(100% - 26px);
     border: none;
   }
+}
+
+@mixin select($field-width) {
+  width: $field-width;
+  text-align: center;
+  @include -border;
+  @include disableHighlight;
 }
 
 @mixin checkbox {
