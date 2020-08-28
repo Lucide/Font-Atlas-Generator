@@ -1,9 +1,9 @@
-import {VARIATION_SELECTOR} from "@regexp-extra/variation-selector";
+//https://www.npmjs.com/package/strip-variation-selectors
 
 export function removeAll(s: string): string {
-    return s.replace(VARIATION_SELECTOR, "");
+    return s.replace(/([\u180B-\u180D\uFE00-\uFE0F]|\uDB40[\uDD00-\uDDEF])/g, "");
 }
 
 export function textStyle(s: string): string {
-    return s.replace(/./g, "$&\uFE0E");
+    return s.replace(/./gu, "$&\uFE0E");
 }

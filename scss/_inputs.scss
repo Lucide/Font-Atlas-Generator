@@ -52,7 +52,6 @@ $imprecise-color: #FF6B10;
 
 @mixin select($field-width) {
   width: $field-width;
-  text-align: center;
   @include -border;
   @include disableHighlight;
 }
