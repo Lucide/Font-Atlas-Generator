@@ -54,16 +54,16 @@ input, label, span {
   padding-bottom: 4px;
 }
 
-.input- .input-text-file {
+.input-text-file {
   border: 1px solid black;
   border-radius: 7px;
   height: 33px;
 }
-.input- .input-text-file:focus {
+.input-text-file:focus {
   outline: none;
   box-shadow: none;
 }
-.input- .input-text-file:focus {
+.input-text-file:focus {
   border-color: chartreuse;
 }
 .input-number {
