@@ -2,7 +2,6 @@
 .input-highlighted {
   border-color: chartreuse !important;
 }
-
 .input-imprecise {
   border-color: #FF6B10 !important;
 }
@@ -42,32 +41,31 @@ input, label, span {
   border-radius: 7px 7px 0 0;
 }
 
-.wrappable-input-number {
+.wrappable-input {
   display: flex;
   flex-direction: row;
   align-items: baseline;
   flex-wrap: wrap;
   justify-content: center;
 }
-.wrappable-input-number > label {
+.wrappable-input > label {
   display: block;
   width: 182px;
   padding-bottom: 4px;
 }
 
-.input-text-file {
+.input- .input-text-file {
   border: 1px solid black;
   border-radius: 7px;
   height: 33px;
 }
-.input-text-file:focus {
+.input- .input-text-file:focus {
   outline: none;
   box-shadow: none;
 }
-.input-text-file:focus {
+.input- .input-text-file:focus {
   border-color: chartreuse;
 }
-
 .input-number {
   display: inline-block;
   overflow: hidden;
@@ -88,12 +86,25 @@ input, label, span {
   outline: none;
   box-shadow: none;
 }
-
+.input-select {
+  width: 104px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 7px;
+  height: 28px;
+  margin-bottom: 9px;
+}
+.input-select:focus {
+  border-color: chartreuse;
+}
+.input-select:focus {
+  outline: none;
+  box-shadow: none;
+}
 .input-checkbox:focus {
   outline: chartreuse solid 1px;
   box-shadow: none;
 }
-
 .input-textarea {
   border: 1px solid black;
   border-radius: 7px;
@@ -119,6 +130,17 @@ input, label, span {
   font-size: 17px;
   resize: vertical;
   line-break: anywhere;
+}
+
+.image-rendering-auto {
+  image-rendering: auto;
+}
+.image-rendering-crisp-edges {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+.image-rendering-pixelated {
+  image-rendering: pixelated;
 }
 
 body {
@@ -255,7 +277,10 @@ body {
   align-items: center;
   padding: 0 13px;
 }
-.optionsInputs > :not(.wrappable-input-number) {
+.optionsInputs #imageRendering {
+  font-size: 15px;
+}
+.optionsInputs > :not(.wrappable-input) {
   padding-bottom: 7px;
 }
 

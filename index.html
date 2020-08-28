@@ -39,37 +39,37 @@
         Grid
     </div>
     <div class="gridInputs">
-        <div class="wrappable-input-number">
+        <div class="wrappable-input">
             <label for="bitmapWidth">Bitmap width:</label>
             <div class="input-number">
                 <input type="number" id="bitmapWidth" min="0" value="512" autocomplete="off">px
             </div>
         </div>
-        <div class="wrappable-input-number">
+        <div class="wrappable-input">
             <label for="bitmapHeight">Bitmap height:</label>
             <div class="input-number">
                 <input type="number" id="bitmapHeight" min="0" value="512" autocomplete="off">px
             </div>
         </div>
-        <div class="wrappable-input-number">
+        <div class="wrappable-input">
             <label for="cellsRow">Cells per row:</label>
             <div class="input-number">
                 <input type="number" id="cellsRow" min="0" value="16" autocomplete="off">px
             </div>
         </div>
-        <div class="wrappable-input-number">
+        <div class="wrappable-input">
             <label for="cellsColumn">Cells per column:</label>
             <div class="input-number">
                 <input type="number" id="cellsColumn" min="0" value="16" autocomplete="off">px
             </div>
         </div>
-        <div class="wrappable-input-number">
+        <div class="wrappable-input">
             <label for="cellWidth">Cell width:</label>
             <div class="input-number">
                 <input type="number" id="cellWidth" min="0" value="32" autocomplete="off">px
             </div>
         </div>
-        <div class="wrappable-input-number">
+        <div class="wrappable-input">
             <label for="cellHeight">Cell height:</label>
             <div class="input-number">
                 <input type="number" id="cellHeight" min="0" value="32" autocomplete="off">px
@@ -80,31 +80,43 @@
         Options
     </div>
     <div class="optionsInputs">
-        <div class="wrappable-input-number">
-            <label for="fontSize">Font Size:</label>
+        <div class="wrappable-input">
+            <label for="fontSize">Font size:</label>
             <div class="input-number">
-                <input type="number" id="fontSize" min="0" value="13" autocomplete="off">px
+                <input type="number" id="fontSize" min="0" value="13" autocomplete="off">pt
             </div>
         </div>
-        <div class="wrappable-input-number">
+        <div>
+            <input type="checkbox" id="clipCells" class="input-checkbox" autocomplete="off">
+            <label for="clipCells">Clip cells</label>
+        </div>
+        <div class="wrappable-input">
+            <label>Draw resolution:</label>
+            <select id="scale" class="input-select" autocomplete="off">
+                <option selected>normal</option>
+                <option>x2</option>
+                <option>x4</option>
+            </select>
+        </div>
+        <div>
+            <input type="checkbox" id="smooth" class="input-checkbox" autocomplete="off" checked>
+            <label for="smooth">Smoothing</label>
+        </div>
+        <div class="wrappable-input">
             <label for="offsetX">Offset X:</label>
             <div class="input-number">
                 <input type="number" id="offsetX" value="0" autocomplete="off">px
             </div>
         </div>
-        <div class="wrappable-input-number">
+        <div class="wrappable-input">
             <label for="offsetY">Offset Y:</label>
             <div class="input-number">
                 <input type="number" id="offsetY" value="0" autocomplete="off">px
             </div>
         </div>
         <div>
-            <input type="checkbox" id="clipCells" class="input-checkbox" autocomplete="off">
-            <label for="clipCells">clip cells</label>
-        </div>
-        <div>
             <input type="checkbox" id="showGrid" class="input-checkbox" autocomplete="off">
-            <label for="showGrid">show grid</label>
+            <label for="showGrid">Show grid</label>
         </div>
     </div>
     <div class="filler"></div>

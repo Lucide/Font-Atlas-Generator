@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.charsetMinRect = exports.charsetMinHeight = exports.controlsMinRect = exports.controlsMinHeight = exports.impreciseHighlight = exports.Values = exports.charset = exports.showGrid = exports.clipCells = exports.offsetY = exports.offsetX = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.complexInputs = exports.canvas = exports.footer = exports.charsets = exports.controls = exports.preview = exports.header = exports.body = void 0;
+exports.charsetMinHeight = exports.controlsMinHeight = exports.impreciseHighlight = exports.Values = exports.charset = exports.showGrid = exports.offsetY = exports.offsetX = exports.clipCells = exports.smooth = exports.scale = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.complexInputs = exports.canvas = exports.footer = exports.charsets = exports.controls = exports.preview = exports.header = exports.body = void 0;
 //CONTAINERS
 exports.body = document.querySelector("body");
 exports.header = document.querySelector(".header");
@@ -24,9 +24,11 @@ exports.cellsColumn = document.querySelector("#cellsColumn");
 exports.cellWidth = document.querySelector("#cellWidth");
 exports.cellHeight = document.querySelector("#cellHeight");
 exports.fontSize = document.querySelector("#fontSize");
+exports.scale = document.querySelector("#scale");
+exports.smooth = document.querySelector("#smooth");
+exports.clipCells = document.querySelector("#clipCells");
 exports.offsetX = document.querySelector("#offsetX");
 exports.offsetY = document.querySelector("#offsetY");
-exports.clipCells = document.querySelector("#clipCells");
 exports.showGrid = document.querySelector("#showGrid");
 exports.charset = document.querySelector("#charset");
 //PRIVATE
@@ -58,15 +60,7 @@ function controlsMinHeight() {
     return exports.controls.scrollHeight - controlsFiller.offsetHeight;
 }
 exports.controlsMinHeight = controlsMinHeight;
-function controlsMinRect() {
-    return controlsFiller.getBoundingClientRect();
-}
-exports.controlsMinRect = controlsMinRect;
 function charsetMinHeight() {
     return exports.charsets.scrollHeight - charsetFiller.offsetHeight;
 }
 exports.charsetMinHeight = charsetMinHeight;
-function charsetMinRect() {
-    return charsetFiller.getBoundingClientRect();
-}
-exports.charsetMinRect = charsetMinRect;

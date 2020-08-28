@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fire = exports.registerAll = exports.standard = exports.sizes = exports.tabs = exports.charset = exports.showGrid = exports.clipCells = exports.offsetY = exports.offsetX = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.resize = void 0;
+exports.fire = exports.registerAll = exports.standard = exports.sizes = exports.tabs = exports.charset = exports.showGrid = exports.offsetY = exports.offsetX = exports.clipCells = exports.smooth = exports.scale = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.resize = void 0;
 const qr = __importStar(require("./queries"));
 const atlas_1 = require("./atlas");
 exports.resize = {
@@ -81,6 +81,21 @@ exports.fontSize = {
     action: () => {
     }
 };
+exports.scale = {
+    element: qr.scale,
+    action: () => {
+    }
+};
+exports.smooth = {
+    element: qr.smooth,
+    action: () => {
+    }
+};
+exports.clipCells = {
+    element: qr.clipCells,
+    action: () => {
+    }
+};
 exports.offsetX = {
     element: qr.offsetX,
     action: () => {
@@ -88,11 +103,6 @@ exports.offsetX = {
 };
 exports.offsetY = {
     element: qr.offsetY,
-    action: () => {
-    }
-};
-exports.clipCells = {
-    element: qr.clipCells,
     action: () => {
     }
 };
@@ -122,17 +132,19 @@ exports.standard = [
     exports.fontName,
     exports.fontFile,
     exports.fontSize,
+    exports.clipCells,
+    exports.scale,
+    exports.smooth,
     exports.offsetX,
     exports.offsetY,
-    exports.clipCells,
     exports.showGrid,
     exports.charset
 ];
 function registerAll() {
     registerActions();
-    registerStandard();
-    registerTabs();
     registerSizes();
+    registerTabs();
+    registerStandard();
     registerComplexInputs();
 }
 exports.registerAll = registerAll;

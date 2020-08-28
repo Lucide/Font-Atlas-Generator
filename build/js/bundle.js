@@ -4,62 +4,65 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.refresh = exports.setOptions = void 0;
 const css_font_1 = require("css-font");
 const variation_selector_1 = require("./variation-selector");
-let gOptions;
-let canvasCtx, cellCtx;
-function setOptions(options) {
-    gOptions = options;
-    canvasCtx = options.context2D;
+let options;
+let outputCtx, canvasCtx, cellCtx;
+function setOptions(o) {
+    options = o;
+    outputCtx = options.context2D;
+    canvasCtx = document.createElement("canvas").getContext("2d");
     cellCtx = document.createElement("canvas").getContext("2d");
 }
 exports.setOptions = setOptions;
-function refresh(options) {
-    if (options) {
-        draw(options);
-        drawGrid(options);
-    }
-    else {
-        draw(gOptions);
-        drawGrid(gOptions);
-    }
-}
-exports.refresh = refresh;
-function initContext(ctx) {
+function initText(ctx) {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "white";
 }
+function clear(ctx) {
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+}
+function refresh() {
+    draw(options);
+    drawGrid(options);
+}
+exports.refresh = refresh;
 function draw(o) {
-    canvasCtx.save();
-    [canvasCtx.canvas.width, canvasCtx.canvas.height] = o.resolution;
-    [cellCtx.canvas.width, cellCtx.canvas.height] = o.cell;
-    canvasCtx.fillStyle = "black";
-    canvasCtx.fillRect(0, 0, o.resolution[0], o.resolution[1]);
+    [outputCtx.canvas.width, outputCtx.canvas.height] = [o.size[0], o.size[1]];
+    [canvasCtx.canvas.width, canvasCtx.canvas.height] = [o.size[0] * o.scale, o.size[1] * o.scale];
+    [cellCtx.canvas.width, cellCtx.canvas.height] = [o.cell[0] * o.scale, o.cell[1] * o.scale];
+    canvasCtx.scale(o.scale, o.scale);
+    cellCtx.scale(o.scale, o.scale);
+    initText(canvasCtx);
+    initText(cellCtx);
     if (o.clip) {
         drawClipped(o);
     }
     else {
         drawUnclipped(o);
     }
-    canvasCtx.restore();
+    outputCtx.save();
+    clear(outputCtx);
+    outputCtx.imageSmoothingEnabled = o.smooth;
+    outputCtx.drawImage(canvasCtx.canvas, 0, 0, o.size[0], o.size[1]);
+    outputCtx.restore();
 }
 function drawClipped(o) {
-    initContext(cellCtx);
     cellCtx.font = css_font_1.stringify(o.font);
-    for (let x = 0, y = 0, i = 0; y + o.cell[1] <= o.resolution[1] && i < o.charset.length; x += o.cell[0], i++) {
-        if (x + o.cell[0] > o.resolution[0]) {
+    for (let x = 0, y = 0, i = 0; y + o.cell[1] <= o.size[1] && i < o.charset.length; x += o.cell[0], i++) {
+        if (x + o.cell[0] > o.size[0]) {
             x = 0;
             y += o.cell[1];
         }
         cellCtx.clearRect(0, 0, o.cell[0], o.cell[1]);
         cellCtx.fillText(variation_selector_1.textStyle(o.charset.charAt(i)), o.offset[0] + o.cell[0] / 2, o.offset[1] + o.cell[1] / 2);
-        canvasCtx.drawImage(cellCtx.canvas, x, y);
+        canvasCtx.drawImage(cellCtx.canvas, x, y, o.cell[0], o.cell[1]);
     }
 }
 function drawUnclipped(o) {
-    initContext(canvasCtx);
     canvasCtx.font = css_font_1.stringify(o.font);
-    for (let x = 0, y = 0, i = 0; y + o.cell[1] <= o.resolution[1] && i < o.charset.length; x += o.cell[0], i++) {
-        if (x + o.cell[0] > o.resolution[0]) {
+    for (let x = 0, y = 0, i = 0; y + o.cell[1] <= o.size[1] && i < o.charset.length; x += o.cell[0], i++) {
+        if (x + o.cell[0] > o.size[0]) {
             x = 0;
             y += o.cell[1];
         }
@@ -67,23 +70,25 @@ function drawUnclipped(o) {
     }
 }
 function drawGrid(o) {
+    outputCtx.save();
     if (o.grid) {
         let pixelOffset = 0.5;
-        canvasCtx.strokeStyle = "#7FFF00";
-        canvasCtx.lineWidth = 1;
-        for (let y = o.cell[1]; y < o.resolution[1]; y += o.cell[1]) {
-            canvasCtx.beginPath();
-            canvasCtx.moveTo(pixelOffset, y + pixelOffset);
-            canvasCtx.lineTo(o.resolution[0] + pixelOffset, y + pixelOffset);
-            canvasCtx.stroke();
+        outputCtx.strokeStyle = "#7FFF00";
+        outputCtx.lineWidth = 1;
+        for (let y = o.cell[1]; y < o.size[1]; y += o.cell[1]) {
+            outputCtx.beginPath();
+            outputCtx.moveTo(pixelOffset, y + pixelOffset);
+            outputCtx.lineTo(o.size[0] + pixelOffset, y + pixelOffset);
+            outputCtx.stroke();
         }
-        for (let x = o.cell[0]; x < o.resolution[0]; x += o.cell[0]) {
-            canvasCtx.beginPath();
-            canvasCtx.moveTo(x + pixelOffset, pixelOffset);
-            canvasCtx.lineTo(x + pixelOffset, o.resolution[1] + pixelOffset);
-            canvasCtx.stroke();
+        for (let x = o.cell[0]; x < o.size[0]; x += o.cell[0]) {
+            outputCtx.beginPath();
+            outputCtx.moveTo(x + pixelOffset, pixelOffset);
+            outputCtx.lineTo(x + pixelOffset, o.size[1] + pixelOffset);
+            outputCtx.stroke();
         }
     }
+    outputCtx.restore();
 }
 
 },{"./variation-selector":5,"css-font":11}],2:[function(require,module,exports){
@@ -108,7 +113,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fire = exports.registerAll = exports.standard = exports.sizes = exports.tabs = exports.charset = exports.showGrid = exports.clipCells = exports.offsetY = exports.offsetX = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.resize = void 0;
+exports.fire = exports.registerAll = exports.standard = exports.sizes = exports.tabs = exports.charset = exports.showGrid = exports.offsetY = exports.offsetX = exports.clipCells = exports.smooth = exports.scale = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.resize = void 0;
 const qr = __importStar(require("./queries"));
 const atlas_1 = require("./atlas");
 exports.resize = {
@@ -170,6 +175,21 @@ exports.fontSize = {
     action: () => {
     }
 };
+exports.scale = {
+    element: qr.scale,
+    action: () => {
+    }
+};
+exports.smooth = {
+    element: qr.smooth,
+    action: () => {
+    }
+};
+exports.clipCells = {
+    element: qr.clipCells,
+    action: () => {
+    }
+};
 exports.offsetX = {
     element: qr.offsetX,
     action: () => {
@@ -177,11 +197,6 @@ exports.offsetX = {
 };
 exports.offsetY = {
     element: qr.offsetY,
-    action: () => {
-    }
-};
-exports.clipCells = {
-    element: qr.clipCells,
     action: () => {
     }
 };
@@ -211,17 +226,19 @@ exports.standard = [
     exports.fontName,
     exports.fontFile,
     exports.fontSize,
+    exports.clipCells,
+    exports.scale,
+    exports.smooth,
     exports.offsetX,
     exports.offsetY,
-    exports.clipCells,
     exports.showGrid,
     exports.charset
 ];
 function registerAll() {
     registerActions();
-    registerStandard();
-    registerTabs();
     registerSizes();
+    registerTabs();
+    registerStandard();
     registerComplexInputs();
 }
 exports.registerAll = registerAll;
@@ -317,7 +334,9 @@ const options = new class {
     constructor() {
         this.context2D = qr.canvas.getContext("2d");
         //pure instantiation
-        this.resolution = [1, 1];
+        this.size = [1, 1];
+        this.scale = 1;
+        this.smooth = true;
         this.offset = [1, 1];
         this.cell = [1, 1];
         this.charset = "a";
@@ -328,10 +347,10 @@ const options = new class {
 };
 //ACTIONS
 bd.resize.action = () => {
-    qr.body.style.setProperty("--preview-content-width", options.resolution[0] + 35 + "px");
+    qr.body.style.setProperty("--preview-content-width", options.size[0] + 35 + "px");
     qr.body.style.setProperty("--preview-height", ((qr.footer.getBoundingClientRect().bottom + window.scrollY <= window.innerHeight) ?
-        Math.max(qr.controlsMinHeight() - qr.charsets.offsetHeight, Math.min(options.resolution[1] + 35, window.innerHeight - qr.header.offsetHeight - qr.charsetMinHeight() - qr.footer.offsetHeight)) :
-        Math.min(options.resolution[1] + 35, qr.controlsMinHeight())) + "px");
+        Math.max(qr.controlsMinHeight() - qr.charsets.offsetHeight, Math.min(options.size[1] + 35, window.innerHeight - qr.header.offsetHeight - qr.charsetMinHeight() - qr.footer.offsetHeight)) :
+        Math.min(options.size[1] + 35, qr.controlsMinHeight())) + "px");
 };
 bd.tabFontName.action = () => {
     if (qr.tabFontName.checked) {
@@ -374,35 +393,35 @@ bd.fontFile.action = (update) => {
 };
 bd.bitmapWidth.action = (update) => {
     if (update) {
-        options.resolution[0] = parseInt(qr.bitmapWidth.value);
+        options.size[0] = parseInt(qr.bitmapWidth.value);
         bd.resize.action();
     }
-    qr.impreciseHighlight(qr.bitmapWidth, options.resolution[0] % options.cell[0]);
+    qr.impreciseHighlight(qr.bitmapWidth, options.size[0] % options.cell[0]);
 };
 bd.bitmapHeight.action = (update) => {
     if (update) {
-        options.resolution[1] = parseInt(qr.bitmapHeight.value);
+        options.size[1] = parseInt(qr.bitmapHeight.value);
         bd.resize.action();
     }
-    qr.impreciseHighlight(qr.bitmapHeight, options.resolution[1] % options.cell[1]);
+    qr.impreciseHighlight(qr.bitmapHeight, options.size[1] % options.cell[1]);
 };
 bd.cellsRow.action = (update) => {
     if (update) {
-        options.cell[0] = Math.floor(options.resolution[0] / parseInt(qr.cellsRow.value));
+        options.cell[0] = Math.floor(options.size[0] / parseInt(qr.cellsRow.value));
     }
     else {
-        qr.cellsRow.value = Math.floor(options.resolution[0] / options.cell[0]) + "";
+        qr.cellsRow.value = Math.floor(options.size[0] / options.cell[0]) + "";
     }
-    qr.impreciseHighlight(qr.cellsRow, options.resolution[0] % options.cell[0]);
+    qr.impreciseHighlight(qr.cellsRow, options.size[0] % options.cell[0]);
 };
 bd.cellsColumn.action = (update) => {
     if (update) {
-        options.cell[1] = Math.floor(options.resolution[1] / parseInt(qr.cellsColumn.value));
+        options.cell[1] = Math.floor(options.size[1] / parseInt(qr.cellsColumn.value));
     }
     else {
-        qr.cellsColumn.value = Math.floor(options.resolution[1] / options.cell[1]) + "";
+        qr.cellsColumn.value = Math.floor(options.size[1] / options.cell[1]) + "";
     }
-    qr.impreciseHighlight(qr.cellsColumn, options.resolution[1] % options.cell[1]);
+    qr.impreciseHighlight(qr.cellsColumn, options.size[1] % options.cell[1]);
 };
 bd.cellWidth.action = (update) => {
     if (update) {
@@ -411,7 +430,7 @@ bd.cellWidth.action = (update) => {
     else {
         qr.cellWidth.value = options.cell[0] + "";
     }
-    qr.impreciseHighlight(qr.cellWidth, options.resolution[0] % options.cell[0]);
+    qr.impreciseHighlight(qr.cellWidth, options.size[0] % options.cell[0]);
 };
 bd.cellHeight.action = (update) => {
     if (update) {
@@ -420,19 +439,27 @@ bd.cellHeight.action = (update) => {
     else {
         qr.cellHeight.value = options.cell[1] + "";
     }
-    qr.impreciseHighlight(qr.cellHeight, options.resolution[1] % options.cell[1]);
+    qr.impreciseHighlight(qr.cellHeight, options.size[1] % options.cell[1]);
 };
 bd.fontSize.action = () => {
-    options.font.size = qr.fontSize.value + "px";
+    options.font.size = qr.fontSize.value + "pt";
+};
+bd.clipCells.action = () => {
+    options.clip = qr.clipCells.checked;
+};
+bd.scale.action = () => {
+    const scale = 1 << qr.scale.selectedIndex;
+    options.scale = scale;
+    qr.smooth.disabled = (scale == 1);
+};
+bd.smooth.action = () => {
+    options.smooth = qr.smooth.checked;
 };
 bd.offsetX.action = () => {
     options.offset[0] = parseInt(qr.offsetX.value);
 };
 bd.offsetY.action = () => {
     options.offset[1] = parseInt(qr.offsetY.value);
-};
-bd.clipCells.action = () => {
-    options.clip = qr.clipCells.checked;
 };
 bd.showGrid.action = () => {
     options.grid = qr.showGrid.checked;
@@ -443,7 +470,7 @@ bd.charset.action = () => {
     options.charset = value;
 };
 //START
-bd.fire([...bd.standard, ...bd.sizes], true);
+bd.fire([...bd.sizes, ...bd.standard], true);
 webfontloader_1.load({
     classes: false,
     custom: {
@@ -467,7 +494,7 @@ function strictFontFamily(fontFamily) {
 },{"./atlas":1,"./bindings":2,"./queries":4,"./variation-selector":5,"css-font":11,"promise-file-reader":19,"webfontloader":22}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.charsetMinRect = exports.charsetMinHeight = exports.controlsMinRect = exports.controlsMinHeight = exports.impreciseHighlight = exports.Values = exports.charset = exports.showGrid = exports.clipCells = exports.offsetY = exports.offsetX = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.complexInputs = exports.canvas = exports.footer = exports.charsets = exports.controls = exports.preview = exports.header = exports.body = void 0;
+exports.charsetMinHeight = exports.controlsMinHeight = exports.impreciseHighlight = exports.Values = exports.charset = exports.showGrid = exports.offsetY = exports.offsetX = exports.clipCells = exports.smooth = exports.scale = exports.fontSize = exports.cellHeight = exports.cellWidth = exports.cellsColumn = exports.cellsRow = exports.bitmapHeight = exports.bitmapWidth = exports.fontFile = exports.fontName = exports.tabFontFile = exports.tabFontName = exports.complexInputs = exports.canvas = exports.footer = exports.charsets = exports.controls = exports.preview = exports.header = exports.body = void 0;
 //CONTAINERS
 exports.body = document.querySelector("body");
 exports.header = document.querySelector(".header");
@@ -491,9 +518,11 @@ exports.cellsColumn = document.querySelector("#cellsColumn");
 exports.cellWidth = document.querySelector("#cellWidth");
 exports.cellHeight = document.querySelector("#cellHeight");
 exports.fontSize = document.querySelector("#fontSize");
+exports.scale = document.querySelector("#scale");
+exports.smooth = document.querySelector("#smooth");
+exports.clipCells = document.querySelector("#clipCells");
 exports.offsetX = document.querySelector("#offsetX");
 exports.offsetY = document.querySelector("#offsetY");
-exports.clipCells = document.querySelector("#clipCells");
 exports.showGrid = document.querySelector("#showGrid");
 exports.charset = document.querySelector("#charset");
 //PRIVATE
@@ -525,18 +554,10 @@ function controlsMinHeight() {
     return exports.controls.scrollHeight - controlsFiller.offsetHeight;
 }
 exports.controlsMinHeight = controlsMinHeight;
-function controlsMinRect() {
-    return controlsFiller.getBoundingClientRect();
-}
-exports.controlsMinRect = controlsMinRect;
 function charsetMinHeight() {
     return exports.charsets.scrollHeight - charsetFiller.offsetHeight;
 }
 exports.charsetMinHeight = charsetMinHeight;
-function charsetMinRect() {
-    return charsetFiller.getBoundingClientRect();
-}
-exports.charsetMinRect = charsetMinRect;
 
 },{}],5:[function(require,module,exports){
 "use strict";
