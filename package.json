@@ -23,7 +23,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:sass": "npx --no-install sass --no-source-map -s=compressed scss/:build/css/",
+    "build:sass": "npx --no-install sass --no-source-map --style compressed scss/:build/css/",
     "build:typescript": "npx --no-install tsc --build",
     "build:browserify": "npx --no-install browserify build/js/main.js -o build/js/app.js",
     "build:workbox": "npx --no-install workbox generateSW",
