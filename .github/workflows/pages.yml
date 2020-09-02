@@ -21,6 +21,8 @@ jobs:
 
     - name: Setup Node.js environment
       uses: actions/setup-node@v1.4.3
+      with:
+        node-version: 12.18.x 
     
     - name: Cache node modules
       uses: actions/cache@v2
