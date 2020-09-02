@@ -1,6 +1,7 @@
 import {load as loadFont} from "webfontloader";
 import {readAsArrayBuffer} from "promise-file-reader";
 import {parse as parseCSSFont} from "css-font";
+import {Workbox} from "workbox-window";
 import * as atlas from "./atlas";
 import type {IOptions} from "./atlas";
 import * as vs from "./variation-selector";
@@ -23,7 +24,20 @@ const options = new class implements IOptions {
     grid = false;
 };
 
-//ACTIONS
+//START
+if ("serviceWorker" in navigator) {
+    const wb = new Workbox("sw.js");
+
+    wb.addEventListener("activated", () => {
+        console.log("new service worker activated, reloading to cache everything");
+        location.reload();
+    });
+    wb.register();
+    if (!navigator.onLine) {
+        qr.header.classList.add("offline");
+    }
+}
+
 bd.resize.action = () => {
     qr.body.style.setProperty("--preview-content-width", options.size[0] + 35 + "px");
     qr.body.style.setProperty("--preview-height", (
@@ -140,7 +154,7 @@ bd.scale.action = () => {
     qr.smooth.disabled = (scale == 1);
 }
 bd.smooth.action = () => {
-    options.smooth=qr.smooth.checked;
+    options.smooth = qr.smooth.checked;
 }
 bd.offsetX.action = () => {
     options.offset[0] = parseInt(qr.offsetX.value);
@@ -158,7 +172,6 @@ bd.charset.action = () => {
     options.charset = value;
 };
 
-//START
 bd.fire([...bd.sizes, ...bd.standard], true);
 loadFont({
     classes: false,

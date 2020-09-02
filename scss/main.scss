@@ -31,6 +31,10 @@ body {
   @include defaults.waves;
   grid-area: header;
 
+  &.offline{
+    @include defaults.dashed-waves
+  }
+
   a {
     color: inherit;
     text-decoration: inherit;

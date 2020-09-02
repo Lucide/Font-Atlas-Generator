@@ -1,12 +1,6 @@
 {
-  "extends": "@tsconfig/recommended/tsconfig.json",
-  "compilerOptions": {
-    "module": "CommonJS",
-    "target": "es6",
-    "outDir": "build/js",
-    "baseUrl": "ts/@types"
-  },
-  "exclude": [
-    "node_modules"
-  ]
+  "references": [
+    { "path": "ts/app" }
+  ],
+  "files": []
 }

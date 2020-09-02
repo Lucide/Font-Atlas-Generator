@@ -1,0 +1,11 @@
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "target": "es6",
+    "sourceMap": false,
+    "outDir": "../build/js",
+    "baseUrl": "./@types",
+    "composite": true,
+    "lib": ["es6"]
+  }
+}

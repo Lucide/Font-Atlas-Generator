@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig_base.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": ".",
+    "lib": ["dom"]
+  },
+  "include": [
+    "*.ts"
+  ]
+}
