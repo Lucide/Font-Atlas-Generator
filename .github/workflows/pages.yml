@@ -39,10 +39,12 @@ jobs:
     
     - name: Clean
       run: |
-        rm -rf .gitignore
+        rm -rf node_modules
         rm -rf scss
         rm -rf ts
+        rm -rf .gitignore
         rm -rf *.json
+        rm -rf *.d.ts
         rm -rf *.map
         rm -f *.md
         find build/js/ ! -name 'app.js' -type f -exec rm -f {} +
