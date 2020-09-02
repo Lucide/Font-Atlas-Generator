@@ -1,6 +1,7 @@
 {
+  "files": [],
+  "include": [],
   "references": [
     { "path": "ts/app" }
-  ],
-  "files": []
+  ]
 }

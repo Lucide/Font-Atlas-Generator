@@ -4,6 +4,7 @@
     "target": "es6",
     "sourceMap": false,
     "outDir": "../build/js",
+    "tsBuildInfoFile": "../build/js/.tsbuildinfo",
     "baseUrl": "./@types",
     "composite": true,
     "lib": ["es6"]
