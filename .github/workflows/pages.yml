@@ -46,6 +46,7 @@ jobs:
         rm -rf ts
         rm -rf .gitignore
         rm -rf *.json
+        rm -rf *.tsbuildinfo
         rm -rf *.d.ts
         rm -rf *.map
         rm -f *.md
