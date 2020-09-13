@@ -2974,7 +2974,7 @@
     setCacheNameDetails({
         prefix: "font-atlas-generator",
     });
-    precacheAndRoute([{"revision":"2efb59a31693ab3657539cda4a4a8eea","url":"index.html"},{"revision":"3e2ab4028397367a6fef53bd73d52e65","url":"assets/AdobeBlank.otf.woff"},{"revision":"519a5da51bc46c3e98d4fa46a8bdeb53","url":"assets/DejaVuSansMono-webfont.woff"},{"revision":"b983f7106a1ac81d5da51fdbbc6ffed6","url":"assets/favicon.png"},{"revision":"0dc61a458a4d7f3ff56a91484f368eb9","url":"build/js/app.js"},{"revision":"ac0154c073275931b821ff9c97792386","url":"build/css/main.css"}]);
+    precacheAndRoute([{"revision":"2efb59a31693ab3657539cda4a4a8eea","url":"index.html"},{"revision":"3e2ab4028397367a6fef53bd73d52e65","url":"assets/AdobeBlank.otf.woff"},{"revision":"519a5da51bc46c3e98d4fa46a8bdeb53","url":"assets/DejaVuSansMono-webfont.woff"},{"revision":"b983f7106a1ac81d5da51fdbbc6ffed6","url":"assets/favicon.png"},{"revision":"0da745cccf723def38c9c710f0f403bc","url":"build/js/app.js"},{"revision":"ac0154c073275931b821ff9c97792386","url":"build/css/main.css"}]);
     cleanupOutdatedCaches();
     registerRoute(({ url }) => {
         return url.origin == "https://fonts.googleapis.com"
