@@ -17,14 +17,12 @@ export interface IOptions {
 
 let options: IOptions;
 let outputCtx: CanvasRenderingContext2D,
-    canvasCtx: CanvasRenderingContext2D,
-    cellCtx: CanvasRenderingContext2D;
+    renderCtx: CanvasRenderingContext2D;
 
 export function setOptions(o: IOptions) {
     options = o;
     outputCtx = options.context2D;
-    canvasCtx = (document.createElement("canvas") as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
-    cellCtx = (document.createElement("canvas") as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
+    renderCtx = (document.createElement("canvas") as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
 }
 
 function initText(ctx: CanvasRenderingContext2D) {
@@ -48,6 +46,10 @@ function draw(o: IOptions) {
     [outputCtx.canvas.width, outputCtx.canvas.height] = [o.size[0], o.size[1]];
     clear(outputCtx);
     outputCtx.imageSmoothingEnabled = o.smooth;
+    [renderCtx.canvas.width, renderCtx.canvas.height] = o.clip ? [o.cell[0] * o.scale, o.cell[1] * o.scale] : [o.size[0] * o.scale, o.size[1] * o.scale];
+    renderCtx.scale(o.scale, o.scale);
+    initText(renderCtx);
+    renderCtx.font = stringifyCSSFont(o.font);
     if (o.clip) {
         drawClipped(o);
     } else {
@@ -57,34 +59,26 @@ function draw(o: IOptions) {
 }
 
 function drawClipped(o: IOptions) {
-    [cellCtx.canvas.width, cellCtx.canvas.height] = [o.cell[0] * o.scale, o.cell[1] * o.scale];
-    cellCtx.scale(o.scale, o.scale);
-    initText(cellCtx);
-    cellCtx.font = stringifyCSSFont(o.font);
     for (let x = 0, y = 0, i = 0; y + o.cell[1] <= o.size[1] && i < o.charset.length; x += o.cell[0], i++) {
         if (x + o.cell[0] > o.size[0]) {
             x = 0;
             y += o.cell[1];
         }
-        cellCtx.clearRect(0, 0, o.cell[0], o.cell[1]);
-        cellCtx.fillText(textStyle(o.charset.charAt(i)), o.offset[0] + o.cell[0] / 2, o.offset[1] + o.cell[1] / 2);
-        outputCtx.drawImage(cellCtx.canvas, x, y, o.cell[0], o.cell[1]);
+        renderCtx.clearRect(0, 0, o.cell[0], o.cell[1]);
+        renderCtx.fillText(textStyle(o.charset.charAt(i)), o.offset[0] + o.cell[0] / 2, o.offset[1] + o.cell[1] / 2);
+        outputCtx.drawImage(renderCtx.canvas, x, y, o.cell[0], o.cell[1]);
     }
 }
 
 function drawUnclipped(o: IOptions) {
-    [canvasCtx.canvas.width, canvasCtx.canvas.height] = [o.size[0] * o.scale, o.size[1] * o.scale];
-    canvasCtx.scale(o.scale, o.scale);
-    initText(canvasCtx);
-    canvasCtx.font = stringifyCSSFont(o.font);
     for (let x = 0, y = 0, i = 0; y + o.cell[1] <= o.size[1] && i < o.charset.length; x += o.cell[0], i++) {
         if (x + o.cell[0] > o.size[0]) {
             x = 0;
             y += o.cell[1];
         }
-        canvasCtx.fillText(textStyle(o.charset.charAt(i)), x + o.offset[0] + o.cell[0] / 2, y + o.offset[1] + o.cell[1] / 2);
+        renderCtx.fillText(textStyle(o.charset.charAt(i)), x + o.offset[0] + o.cell[0] / 2, y + o.offset[1] + o.cell[1] / 2);
     }
-    outputCtx.drawImage(canvasCtx.canvas, 0, 0, o.size[0], o.size[1]);
+    outputCtx.drawImage(renderCtx.canvas, 0, 0, o.size[0], o.size[1]);
 }
 
 function drawGrid(o: IOptions) {

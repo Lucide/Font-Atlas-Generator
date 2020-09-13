@@ -14,99 +14,27 @@ export const resize: IAction = {
     }
 }
 
-export const tabFontName: InputBinding = {
-    element: qr.tabFontName,
-    action: () => {
-    }
-};
-export const tabFontFile: InputBinding = {
-    element: qr.tabFontFile,
-    action: () => {
-    }
-};
-export const fontName: InputBinding = {
-    element: qr.fontName,
-    action: () => {
-    }
-};
-export const fontFile: InputBinding = {
-    element: qr.fontFile,
-    action: () => {
-    }
-};
+export const tabFontName = emptyBinding(qr.tabFontName);
+export const tabFontFile = emptyBinding(qr.tabFontFile);
+export const fontName = emptyBinding(qr.fontName);
+export const fontFile = emptyBinding(qr.fontFile);
 
-export const bitmapWidth: InputBinding = {
-    element: qr.bitmapWidth,
-    action: () => {
-    }
-};
-export const bitmapHeight: InputBinding = {
-    element: qr.bitmapHeight,
-    action: () => {
-    }
-};
-export const cellsRow: InputBinding = {
-    element: qr.cellsRow,
-    action: () => {
-    }
-};
-export const cellsColumn: InputBinding = {
-    element: qr.cellsColumn,
-    action: () => {
-    }
-};
-export const cellWidth: InputBinding = {
-    element: qr.cellWidth,
-    action: () => {
-    }
-};
-export const cellHeight: InputBinding = {
-    element: qr.cellHeight,
-    action: () => {
-    }
-};
+export const bitmapWidth = emptyBinding(qr.bitmapWidth);
+export const bitmapHeight = emptyBinding(qr.bitmapHeight);
+export const cellsRow = emptyBinding(qr.cellsRow);
+export const cellsColumn = emptyBinding(qr.cellsColumn);
+export const cellWidth = emptyBinding(qr.cellWidth);
+export const cellHeight = emptyBinding(qr.cellHeight);
 
-export const fontSize: InputBinding = {
-    element: qr.fontSize,
-    action: () => {
-    }
-};
-export const scale: InputBinding = {
-    element: qr.scale,
-    action: () => {
-    }
-};
-export const smooth: InputBinding = {
-    element: qr.smooth,
-    action: () => {
-    }
-};
-export const clipCells: InputBinding = {
-    element: qr.clipCells,
-    action: () => {
-    }
-};
-export const offsetX: InputBinding = {
-    element: qr.offsetX,
-    action: () => {
-    }
-};
-export const offsetY: InputBinding = {
-    element: qr.offsetY,
-    action: () => {
-    }
-};
-export const showGrid: InputBinding = {
-    element: qr.showGrid,
-    action: () => {
-    }
-};
+export const fontSize = emptyBinding(qr.fontSize);
+export const scale = emptyBinding(qr.scale);
+export const smooth = emptyBinding(qr.smooth);
+export const clipCells = emptyBinding(qr.clipCells);
+export const offsetX = emptyBinding(qr.offsetX);
+export const offsetY = emptyBinding(qr.offsetY);
+export const showGrid = emptyBinding(qr.showGrid);
 
-export const charset: InputBinding = {
-    element: qr.charset,
-    action: () => {
-    }
-};
+export const charset = emptyBinding(qr.charset);
 
 export const tabs = [
     tabFontName,
@@ -133,6 +61,13 @@ export const standard = [
     charset
 ];
 
+function emptyBinding(element: HTMLElement): InputBinding {
+    return {
+        element: element,
+        action: () => {
+        }
+    }
+}
 
 export function registerAll() {
     registerActions();

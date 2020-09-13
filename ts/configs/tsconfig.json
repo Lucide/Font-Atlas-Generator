@@ -1,8 +1,5 @@
 {
   "extends": "../tsconfig_base.json",
-  "compilerOptions": {
-    "lib": ["webworker"]
-  },
   "include": [
     "*.ts"
   ]

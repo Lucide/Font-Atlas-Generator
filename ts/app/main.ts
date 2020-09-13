@@ -33,9 +33,13 @@ if ("serviceWorker" in navigator) {
         location.reload();
     });
     wb.register();
-    if (!navigator.onLine) {
-        qr.header.classList.add("offline");
-    }
+    navigator.serviceWorker.addEventListener("message", (event) => {
+        if (event.data.msg == "offline") {
+            qr.header.classList.add("offline");
+        }
+    },{
+        once: true
+    });
 }
 
 bd.resize.action = () => {

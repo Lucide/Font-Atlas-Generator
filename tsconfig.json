@@ -2,6 +2,14 @@
   "files": [],
   "include": [],
   "references": [
-    { "path": "ts/app" }
+    {
+      "path": "ts/configs"
+    },
+    {
+      "path": "ts/app"
+    },
+    {
+      "path": "ts/sw"
+    }
   ]
 }
