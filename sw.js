@@ -871,6 +871,26 @@
         cacheNames.updateDetails(details);
     }
 
+    /*
+      Copyright 2019 Google LLC
+
+      Use of this source code is governed by an MIT-style
+      license that can be found in the LICENSE file or at
+      https://opensource.org/licenses/MIT.
+    */
+    /**
+     * Force a service worker to activate immediately, instead of
+     * [waiting](https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle#waiting)
+     * for existing clients to close.
+     *
+     * @memberof module:workbox-core
+     */
+    function skipWaiting() {
+        // We need to explicitly call `self.skipWaiting()` here because we're
+        // shadowing `skipWaiting` with this local function.
+        self.addEventListener('install', () => self.skipWaiting());
+    }
+
     // @ts-ignore
     try {
         self['workbox:precaching:5.1.3'] && _();
@@ -2974,7 +2994,13 @@
     setCacheNameDetails({
         prefix: "font-atlas-generator",
     });
-    precacheAndRoute([{"revision":"2efb59a31693ab3657539cda4a4a8eea","url":"index.html"},{"revision":"3e2ab4028397367a6fef53bd73d52e65","url":"assets/AdobeBlank.otf.woff"},{"revision":"519a5da51bc46c3e98d4fa46a8bdeb53","url":"assets/DejaVuSansMono-webfont.woff"},{"revision":"b983f7106a1ac81d5da51fdbbc6ffed6","url":"assets/favicon.png"},{"revision":"0da745cccf723def38c9c710f0f403bc","url":"build/js/app.js"},{"revision":"ac0154c073275931b821ff9c97792386","url":"build/css/main.css"}]);
+    skipWaiting();
+    // self.addEventListener("message", (event) => {
+    //     if ((event.data as Message).type == "SKIP_WAITING") {
+    //         self.skipWaiting();
+    //     }
+    // });
+    precacheAndRoute([{"revision":"2efb59a31693ab3657539cda4a4a8eea","url":"index.html"},{"revision":"3e2ab4028397367a6fef53bd73d52e65","url":"assets/AdobeBlank.otf.woff"},{"revision":"519a5da51bc46c3e98d4fa46a8bdeb53","url":"assets/DejaVuSansMono-webfont.woff"},{"revision":"b983f7106a1ac81d5da51fdbbc6ffed6","url":"assets/favicon.png"},{"revision":"1b62c30734ca43e98dd7b7c93c0bbe56","url":"build/js/app.js"},{"revision":"ac0154c073275931b821ff9c97792386","url":"build/css/main.css"}]);
     cleanupOutdatedCaches();
     registerRoute(({ url }) => {
         return url.origin == "https://fonts.googleapis.com"
@@ -2984,17 +3010,7 @@
         plugins: [
             {
                 fetchDidFail: async function ({ event }) {
-                    if (!event)
-                        return;
-                    const fetchEvent = event;
-                    if (!fetchEvent.clientId)
-                        return;
-                    const client = await self.clients.get(fetchEvent.clientId);
-                    if (!client)
-                        return;
-                    client.postMessage({
-                        msg: "offline"
-                    });
+                    await messageClient(event);
                 }
             }
         ]
@@ -3014,5 +3030,15 @@
     setCatchHandler(async () => {
         return Response.error();
     });
+    async function messageClient(event) {
+        if (!event.clientId)
+            return;
+        const client = await self.clients.get(event.clientId);
+        if (!client)
+            return;
+        client.postMessage({
+            type: "OFFLINE"
+        });
+    }
 
 }());
