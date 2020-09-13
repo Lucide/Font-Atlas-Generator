@@ -2971,19 +2971,10 @@
         }
     }
 
-    var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-        return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-            step((generator = generator.apply(thisArg, _arguments || [])).next());
-        });
-    };
     setCacheNameDetails({
         prefix: "font-atlas-generator",
     });
-    precacheAndRoute([{"revision":"2efb59a31693ab3657539cda4a4a8eea","url":"index.html"},{"revision":"3e2ab4028397367a6fef53bd73d52e65","url":"assets/AdobeBlank.otf.woff"},{"revision":"519a5da51bc46c3e98d4fa46a8bdeb53","url":"assets/DejaVuSansMono-webfont.woff"},{"revision":"b983f7106a1ac81d5da51fdbbc6ffed6","url":"assets/favicon.png"},{"revision":"6ee0b61440347c71ec187a0761113b0c","url":"build/js/app.js"},{"revision":"ac0154c073275931b821ff9c97792386","url":"build/css/main.css"}]);
+    precacheAndRoute([{"revision":"2efb59a31693ab3657539cda4a4a8eea","url":"index.html"},{"revision":"3e2ab4028397367a6fef53bd73d52e65","url":"assets/AdobeBlank.otf.woff"},{"revision":"519a5da51bc46c3e98d4fa46a8bdeb53","url":"assets/DejaVuSansMono-webfont.woff"},{"revision":"b983f7106a1ac81d5da51fdbbc6ffed6","url":"assets/favicon.png"},{"revision":"0dc61a458a4d7f3ff56a91484f368eb9","url":"build/js/app.js"},{"revision":"ac0154c073275931b821ff9c97792386","url":"build/css/main.css"}]);
     cleanupOutdatedCaches();
     registerRoute(({ url }) => {
         return url.origin == "https://fonts.googleapis.com"
@@ -2992,19 +2983,17 @@
         cacheName: "cdn",
         plugins: [
             {
-                fetchDidFail: function ({ event }) {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        if (!event)
-                            return;
-                        const fetchEvent = event;
-                        if (!fetchEvent.clientId)
-                            return;
-                        const client = yield self.clients.get(fetchEvent.clientId);
-                        if (!client)
-                            return;
-                        client.postMessage({
-                            msg: "offline"
-                        });
+                fetchDidFail: async function ({ event }) {
+                    if (!event)
+                        return;
+                    const fetchEvent = event;
+                    if (!fetchEvent.clientId)
+                        return;
+                    const client = await self.clients.get(fetchEvent.clientId);
+                    if (!client)
+                        return;
+                    client.postMessage({
+                        msg: "offline"
                     });
                 }
             }
@@ -3022,8 +3011,8 @@
             }),
         ],
     }));
-    setCatchHandler(() => __awaiter(void 0, void 0, void 0, function* () {
+    setCatchHandler(async () => {
         return Response.error();
-    }));
+    });
 
 }());
