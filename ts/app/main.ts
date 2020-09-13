@@ -2,6 +2,7 @@ import {load as loadFont} from "webfontloader";
 import {readAsArrayBuffer} from "promise-file-reader";
 import {parse as parseCSSFont} from "css-font";
 import {Workbox} from "workbox-window";
+import type {Message} from "common/message";
 import * as atlas from "./atlas";
 import type {IOptions} from "./atlas";
 import * as vs from "./variation-selector";
@@ -28,18 +29,25 @@ const options = new class implements IOptions {
 if ("serviceWorker" in navigator) {
     const wb = new Workbox("sw.js");
 
-    wb.addEventListener("activated", () => {
-        console.log("new service worker activated, reloading to cache everything");
-        location.reload();
+    wb.addEventListener("activated", (event) => {
+        if (!event.isUpdate) {
+            console.log("new service worker activated, reloading to cache everything");
+            location.reload();
+        }
     });
-    wb.register();
+    // wb.addEventListener("waiting", () => {
+    //     wb.messageSW({
+    //         type: "SKIP_WAITING"
+    //     } as Message);
+    // });
     navigator.serviceWorker.addEventListener("message", (event) => {
-        if (event.data.msg == "offline") {
+        if ((event.data as Message).type == "OFFLINE") {
             qr.offlineDecorations();
         }
     }, {
         once: true
     });
+    wb.register();
 }
 
 bd.resize.action = () => {

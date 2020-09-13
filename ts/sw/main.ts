@@ -1,9 +1,10 @@
-import {setCacheNameDetails} from "workbox-core"
+import {setCacheNameDetails, skipWaiting} from "workbox-core"
 import {precacheAndRoute, cleanupOutdatedCaches} from 'workbox-precaching';
 import {registerRoute, setCatchHandler} from "workbox-routing";
 import {StaleWhileRevalidate, CacheFirst} from "workbox-strategies";
 import {CacheableResponsePlugin} from "workbox-cacheable-response";
 import {ExpirationPlugin} from "workbox-expiration";
+import type {Message} from "common/message";
 
 declare var self: ServiceWorkerGlobalScope;
 export {};
@@ -11,6 +12,14 @@ export {};
 setCacheNameDetails({
     prefix: "font-atlas-generator",
 })
+
+skipWaiting();
+
+// self.addEventListener("message", (event) => {
+//     if ((event.data as Message).type == "SKIP_WAITING") {
+//         self.skipWaiting();
+//     }
+// });
 
 precacheAndRoute(self.__WB_MANIFEST);
 
@@ -26,14 +35,7 @@ registerRoute(
         plugins: [
             {
                 fetchDidFail: async function ({event}) {
-                    if (!event) return;
-                    const fetchEvent = event as FetchEvent;
-                    if (!fetchEvent.clientId) return;
-                    const client = await self.clients.get(fetchEvent.clientId);
-                    if (!client) return;
-                    client.postMessage({
-                        msg: "offline"
-                    });
+                    await messageClient(event as FetchEvent);
                 }
             }
         ]
@@ -59,3 +61,13 @@ registerRoute(
 setCatchHandler(async () => {
     return Response.error();
 });
+
+async function messageClient(event: FetchEvent) {
+    if (!event.clientId) return;
+    const client = await self.clients.get(event.clientId);
+    if (!client) return;
+    client.postMessage({
+        type: "OFFLINE"
+    } as Message);
+}
+
