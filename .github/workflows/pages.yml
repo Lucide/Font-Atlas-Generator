@@ -41,17 +41,14 @@ jobs:
     
     - name: Clean
       run: |
+        rm -f .gitignore
         rm -rf node_modules
         rm -rf scss
         rm -rf ts
-        rm -rf .gitignore
+        rm -rf build/js/*/
         rm -rf *.json
-        rm -rf *.tsbuildinfo
-        rm -rf *.d.ts
-        rm -rf *.map
         rm -f *.md
-        find build/js/ ! -name 'app.js' -type f -exec rm -f {} +
-    
+
     - name: GitHub Pages
       uses: peaceiris/actions-gh-pages@v3.7.0-8
       with:
