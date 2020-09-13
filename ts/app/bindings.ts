@@ -69,6 +69,14 @@ function emptyBinding(element: HTMLElement): InputBinding {
     }
 }
 
+export function unfocusOnEnter(element: HTMLElement) {
+    element.addEventListener("keydown", (event) => {
+        if (!event.isComposing && event.key == "Enter") {
+            element.blur();
+        }
+    });
+}
+
 export function registerAll() {
     registerActions();
     registerSizes();

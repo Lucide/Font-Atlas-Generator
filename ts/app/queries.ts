@@ -30,7 +30,7 @@ export const offsetX = document.querySelector("#offsetX") as HTMLInputElement;
 export const offsetY = document.querySelector("#offsetY") as HTMLInputElement;
 export const showGrid = document.querySelector("#showGrid") as HTMLInputElement;
 
-export const charset = document.querySelector("#charset") as HTMLInputElement;
+export const charset = document.querySelector("#charset") as HTMLTextAreaElement;
 
 //PRIVATE
 const controlsFiller = document.querySelector(".controls .filler") as HTMLDivElement;
@@ -50,6 +50,10 @@ export namespace Values {
 
 function numberContainer(complexInput: HTMLInputElement): HTMLDivElement {
     return (complexInput.parentElement) as HTMLDivElement;
+}
+
+export function offlineDecorations() {
+    header.classList.add("offline");
 }
 
 export function impreciseHighlight(complexInput: HTMLInputElement, remainder: number) {

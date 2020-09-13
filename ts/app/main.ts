@@ -35,9 +35,9 @@ if ("serviceWorker" in navigator) {
     wb.register();
     navigator.serviceWorker.addEventListener("message", (event) => {
         if (event.data.msg == "offline") {
-            qr.header.classList.add("offline");
+            qr.offlineDecorations();
         }
-    },{
+    }, {
         once: true
     });
 }
@@ -192,6 +192,7 @@ loadFont({
 });
 atlas.setOptions(options);
 bd.registerAll();
+bd.unfocusOnEnter(qr.charset);
 
 //DEFINITIONS
 function strictFontFamily(fontFamily: string[]): string[] {
