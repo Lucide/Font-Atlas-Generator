@@ -57,4 +57,4 @@ jobs:
         # Set an input directory for deployment.
         publish_dir: .
         # Set a custom commit message with a triggered commit hash
-        commit_message: automatically deployed
+        commit_message: ${{ github.event.head_commit.message }}
