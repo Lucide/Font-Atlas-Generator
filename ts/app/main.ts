@@ -83,7 +83,7 @@ bd.tabFontFile.action = () => {
 bd.fontName.action = () => {
     let value = qr.fontName.value.trim();
     if (value.length == 0) {
-        value = options.font.family.join(" ");
+        value = options.font.family[0];
     }
     qr.fontName.value = value;
     options.font.family = strictFontFamily(parseCSSFont(options.font.size + " " + value).family);
