@@ -59,24 +59,24 @@ function draw(o: IOptions) {
 }
 
 function drawClipped(o: IOptions) {
-    for (let x = 0, y = 0, i = 0; y + o.cell[1] <= o.size[1] && i < o.charset.length; x += o.cell[0], i++) {
-        if (x + o.cell[0] > o.size[0]) {
-            x = 0;
-            y += o.cell[1];
+    let i=0;
+    for (let y = 0; y + o.cell[1] <= o.size[1] && i < o.charset.length; y += o.cell[1]) {
+        for (let x = 0; x + o.cell[0] <= o.size[0] && i < o.charset.length; x += o.cell[0]) {
+            renderCtx.clearRect(0, 0, o.cell[0], o.cell[1]);
+            renderCtx.fillText(textStyle(o.charset.charAt(i)), o.offset[0] + o.cell[0] / 2, o.offset[1] + o.cell[1] / 2);
+            outputCtx.drawImage(renderCtx.canvas, x, y, o.cell[0], o.cell[1]);
+            i++;
         }
-        renderCtx.clearRect(0, 0, o.cell[0], o.cell[1]);
-        renderCtx.fillText(textStyle(o.charset.charAt(i)), o.offset[0] + o.cell[0] / 2, o.offset[1] + o.cell[1] / 2);
-        outputCtx.drawImage(renderCtx.canvas, x, y, o.cell[0], o.cell[1]);
     }
 }
 
 function drawUnclipped(o: IOptions) {
-    for (let x = 0, y = 0, i = 0; y + o.cell[1] <= o.size[1] && i < o.charset.length; x += o.cell[0], i++) {
-        if (x + o.cell[0] > o.size[0]) {
-            x = 0;
-            y += o.cell[1];
+    let i=0;
+    for (let y = 0; y + o.cell[1] <= o.size[1] && i < o.charset.length; y += o.cell[1]) {
+        for (let x = 0; x + o.cell[0] <= o.size[0] && i < o.charset.length; x += o.cell[0]) {
+            renderCtx.fillText(textStyle(o.charset.charAt(i)), x + o.offset[0] + o.cell[0] / 2, y + o.offset[1] + o.cell[1] / 2);
+            i++
         }
-        renderCtx.fillText(textStyle(o.charset.charAt(i)), x + o.offset[0] + o.cell[0] / 2, y + o.offset[1] + o.cell[1] / 2);
     }
     outputCtx.drawImage(renderCtx.canvas, 0, 0, o.size[0], o.size[1]);
 }
