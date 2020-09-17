@@ -3000,7 +3000,7 @@
     //         self.skipWaiting();
     //     }
     // });
-    precacheAndRoute([{"revision":"ae8581d74b6816612f994e4e534ebd62","url":"index.html"},{"revision":"3e2ab4028397367a6fef53bd73d52e65","url":"assets/AdobeBlank.otf.woff"},{"revision":"519a5da51bc46c3e98d4fa46a8bdeb53","url":"assets/DejaVuSansMono-webfont.woff"},{"revision":"b983f7106a1ac81d5da51fdbbc6ffed6","url":"assets/favicon.png"},{"revision":"1b62c30734ca43e98dd7b7c93c0bbe56","url":"build/js/app.js"},{"revision":"ac0154c073275931b821ff9c97792386","url":"build/css/main.css"}]);
+    precacheAndRoute([{"revision":"ae8581d74b6816612f994e4e534ebd62","url":"index.html"},{"revision":"3e2ab4028397367a6fef53bd73d52e65","url":"assets/AdobeBlank.otf.woff"},{"revision":"519a5da51bc46c3e98d4fa46a8bdeb53","url":"assets/DejaVuSansMono-webfont.woff"},{"revision":"b983f7106a1ac81d5da51fdbbc6ffed6","url":"assets/favicon.png"},{"revision":"40e697105983d76ca92005a68ce65f10","url":"build/js/app.js"},{"revision":"ac0154c073275931b821ff9c97792386","url":"build/css/main.css"}]);
     cleanupOutdatedCaches();
     registerRoute(({ url }) => {
         return url.origin == "https://fonts.googleapis.com"
