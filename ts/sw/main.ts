@@ -33,6 +33,7 @@ registerRoute(
     new StaleWhileRevalidate({
         cacheName: "cdn",
         plugins: [
+            new CacheableResponsePlugin({statuses: [200]}),
             {
                 fetchDidFail: async function ({event}) {
                     await messageClient(event as FetchEvent);
