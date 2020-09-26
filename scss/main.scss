@@ -31,7 +31,7 @@ body {
   @include defaults.waves;
   grid-area: header;
 
-  &.offline{
+  &.offline {
     @include defaults.dashed-waves
   }
 
@@ -91,12 +91,14 @@ body {
   }
 }
 
-.fontInputs {
+.mandatoryFont {
+  padding-bottom: 10px;
+
   @include tabbed.container {
     @include tabbed.labels {
       font-size: 20px;
       width: 50%;
-      text-align: center;;
+      text-align: center;
       border: 1px solid {
         radius: 7px 7px 0 0;
       }
@@ -116,15 +118,24 @@ body {
       padding: 7px;
 
       > label {
-        padding-bottom: 13px;
+        padding-bottom: 5px;
       }
 
       > input {
         display: block;
-        width: 80%;
+        width: 95%;
       }
     }
   }
+}
+
+.fallbackFontTemplate{
+  display: none;
+}
+
+.fallbackFont {
+  @extend .mandatoryFont;
+  padding-bottom: 0px;
 }
 
 .gridInputs {
@@ -138,7 +149,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0 13px;
-  
+
   > :not(.wrappable-input) {
     padding-bottom: 7px;
   }

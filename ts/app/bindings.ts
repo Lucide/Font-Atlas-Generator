@@ -1,23 +1,32 @@
 import * as qr from "./queries";
+import type {FontInput} from "./queries";
 import {refresh} from "./atlas";
 
-interface IAction {
+interface Action {
     action: (update?: boolean) => void;
 }
 
-interface InputBinding extends IAction {
+interface InputBinding extends Action {
     readonly element: HTMLElement;
 }
 
-export const resize: IAction = {
-    action: () => {
-    }
+interface FontInputActions {
+    tabFontName: (index: number, update?: boolean) => void,
+    tabFontFile: (index: number, update?: boolean) => void,
+    fontName: (index: number, update?: boolean) => void,
+    fontFile: (index: number, update?: boolean) => void
 }
 
-export const tabFontName = emptyBinding(qr.tabFontName);
-export const tabFontFile = emptyBinding(qr.tabFontFile);
-export const fontName = emptyBinding(qr.fontName);
-export const fontFile = emptyBinding(qr.fontFile);
+export const resize: Action = emptyAction();
+
+export const fontInput: FontInputActions = {
+    tabFontName: emptyAction,
+    tabFontFile: emptyAction,
+    fontName: emptyAction,
+    fontFile: emptyAction
+}
+
+export const fallbackFontsCount = emptyBinding(qr.fallbackFontsCount);
 
 export const bitmapWidth = emptyBinding(qr.bitmapWidth);
 export const bitmapHeight = emptyBinding(qr.bitmapHeight);
@@ -36,10 +45,6 @@ export const showGrid = emptyBinding(qr.showGrid);
 
 export const charset = emptyBinding(qr.charset);
 
-export const tabs = [
-    tabFontName,
-    tabFontFile
-];
 export const sizes = [
     bitmapWidth,
     bitmapHeight,
@@ -49,8 +54,7 @@ export const sizes = [
     cellHeight
 ];
 export const standard = [
-    fontName,
-    fontFile,
+    fallbackFontsCount,
     fontSize,
     clipCells,
     scale,
@@ -61,11 +65,17 @@ export const standard = [
     charset
 ];
 
+function emptyAction(): Action {
+    return {
+        action: () => {
+        }
+    };
+}
+
 function emptyBinding(element: HTMLElement): InputBinding {
     return {
         element: element,
-        action: () => {
-        }
+        action: emptyAction
     }
 }
 
@@ -79,8 +89,8 @@ export function unfocusOnEnter(element: HTMLElement) {
 
 export function registerAll() {
     registerActions();
+    registerFontInput(0);
     registerSizes();
-    registerTabs();
     registerStandard();
     registerComplexInputs();
 }
@@ -91,19 +101,28 @@ function registerActions() {
     });
 }
 
+export function registerFontInput(index: number) {
+    qr.fontInputs[index].tabFontName.addEventListener("change", () => {
+        fontInput.tabFontName(index, true);//, qr.fontInputs[index].tabFontName);
+    });
+    qr.fontInputs[index].tabFontFile.addEventListener("change", () => {
+        fontInput.tabFontFile(index, true);//, qr.fontInputs[index].tabFontFile);
+    });
+    qr.fontInputs[index].fontName.addEventListener("change", () => {
+        fontInput.fontName(index, true);//, qr.fontInputs[index].fontName);
+        refresh();
+    });
+    qr.fontInputs[index].fontFile.addEventListener("change", () => {
+        fontInput.fontFile(index, true);//, qr.fontInputs[index].fontFile);
+        refresh();
+    });
+}
+
 function registerStandard() {
     standard.forEach((binding) => {
         binding.element.addEventListener("change", () => {
             binding.action(true);
             refresh();
-        });
-    });
-}
-
-function registerTabs() {
-    tabs.forEach((binding) => {
-        binding.element.addEventListener("change", () => {
-            binding.action(true);
         });
     });
 }
@@ -129,7 +148,13 @@ function registerComplexInputs() {
     });
 }
 
-export function fire(bindings: IAction[], update: boolean, skip?: IAction) {
+export function fireAll() {
+    fontInput.fontName(0, true);
+    fontInput.fontFile(0, true);
+    fire([...sizes, ...standard], true);
+}
+
+function fire(bindings: Action[], update: boolean, skip?: Action) {
     bindings.forEach((binding) => {
         if (!(skip && skip.action == binding.action)) {
             binding.action(update);

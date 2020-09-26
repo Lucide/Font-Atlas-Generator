@@ -20,20 +20,40 @@
 </div>
 <div class="controls">
     <div class="section">
-        Font
+        Fonts
     </div>
-    <div class="fontInputs">
-        <input type="radio" id="tabFontName" name="tab-group-font" autocomplete="off" checked>
-        <label for="tabFontName">Name</label>
-        <div class="tabName">
-            <label for="fontName">use an installed font:</label>
-            <input type="text" id="fontName" class="input-text-file" value="DejaVu Sans Mono" autocomplete="off" spellcheck="false">
+    <div class="fontsInputs">
+        <div class="mandatoryFont">
+            <input type="radio" id="tabFontName" name="tab-group-font" autocomplete="off" checked>
+            <label for="tabFontName">Name</label>
+            <div class="tabName">
+                <label for="fontName">use an installed font:</label>
+                <input type="text" id="fontName" class="input-text-file" value="DejaVu Sans Mono" autocomplete="off" spellcheck="false">
+            </div>
+            <input type="radio" id="tabFontFile" name="tab-group-font" autocomplete="off">
+            <label for="tabFontFile">File</label>
+            <div class="tabFile">
+                <label for="fontFile">load a font file:</label>
+                <input type="file" id="fontFile" class="input-text-file" accept=".ttf, .otf, .woff, .woff2" autocomplete="off">
+            </div>
         </div>
-        <input type="radio" id="tabFontFile" name="tab-group-font" autocomplete="off">
-        <label for="tabFontFile">File</label>
-        <div class="tabFile">
-            <label for="fontFile">load a font file:</label>
-            <input type="file" id="fontFile" class="input-text-file" accept=".ttf, .otf, .woff, .woff2" autocomplete="off">
+        <div class="wrappable-input">
+            <label for="bitmapWidth">Fallback fonts:</label>
+            <div class="input-number">
+                <input type="number" id="fallbackFontsCount" min="0" value="0" autocomplete="off">n
+            </div>
+        </div>
+        <div class="fallbackFont fallbackFontTemplate">
+            <input type="radio" id="tabFFontName" name="tab-group-ffont" autocomplete="off" checked>
+            <label for="tabFFontName">Name</label>
+            <div class="tabName">
+                <input type="text" id="ffontName" class="input-text-file" value="DejaVu Sans Mono" autocomplete="off" spellcheck="false">
+            </div>
+            <input type="radio" id="tabFFontFile" name="tab-group-ffont" autocomplete="off">
+            <label for="tabFFontFile">File</label>
+            <div class="tabFile">
+                <input type="file" id="ffontFile" class="input-text-file" accept=".ttf, .otf, .woff, .woff2" autocomplete="off">
+            </div>
         </div>
     </div>
     <div class="section">

@@ -13,6 +13,7 @@ import * as qr from "./queries";
 const FALLBACK_FONT = "Adobe Blank";
 const options = new class implements IOptions {
     context2D = qr.canvas.getContext("2d") as CanvasRenderingContext2D;
+    font = parseCSSFont("10pt " + FALLBACK_FONT + "," + FALLBACK_FONT);
     //pure instantiation
     size = [1, 1] as [number, number];
     scale = 1;
@@ -20,7 +21,6 @@ const options = new class implements IOptions {
     offset = [1, 1] as [number, number]
     cell = [1, 1] as [number, number];
     charset = "a";
-    font = parseCSSFont("10pt Adobe NotDef");
     clip = false;
     grid = false;
 };
@@ -68,44 +68,69 @@ bd.resize.action = () => {
     ) + "px");
 }
 
-bd.tabFontName.action = () => {
-    if (qr.tabFontName.checked) {
-        bd.fontName.action();
+bd.fontInput.tabFontName = (index) => {
+    const tabFontName = qr.fontInputs[index].tabFontName;
+    if (tabFontName.checked) {
+        bd.fontInput.fontName(index);
         atlas.refresh();
     }
 };
-bd.tabFontFile.action = () => {
-    if (qr.tabFontFile.checked) {
-        bd.fontFile.action(false);
+bd.fontInput.tabFontFile = (index) => {
+    const tabFontFile = qr.fontInputs[index].tabFontFile;
+    if (tabFontFile.checked) {
+        bd.fontInput.fontFile(index);
         atlas.refresh();
     }
 };
-bd.fontName.action = () => {
-    let value = qr.fontName.value.trim();
+bd.fontInput.fontName = (index) => {
+    const fontName = qr.fontInputs[index].fontName;
+    let value = fontName.value.trim();
     if (value.length == 0) {
         value = options.font.family[0];
     }
-    qr.fontName.value = value;
-    options.font.family = strictFontFamily(parseCSSFont(options.font.size + " " + value).family);
+    fontName.value = value;
+    options.font.family[index] = value;//parseCSSFont(options.font.size + " " + value).family);
 };
-bd.fontFile.action = (update) => {
-    const files = qr.fontFile.files as FileList;
-    if (files.length > 0) {
+bd.fontInput.fontFile = (index, update) => {
+    const fontFile = qr.fontInputs[index].fontFile;
+    if (fontFile.files!.length > 0) {
+        const file = fontFile.files![0];
         if (update) {
-            readAsArrayBuffer(files[0]).then(async (arrayBuffer) => {
-                const font = new FontFace("custom", arrayBuffer);
+            readAsArrayBuffer(file).then(async (arrayBuffer) => {
+                const font = new FontFace(file.name, arrayBuffer);
                 await font.load();
-                document.fonts.clear();
+                // document.fonts.clear();
                 document.fonts.add(font);
                 atlas.refresh();
             }).catch(() => {
-                qr.fontFile.value = "";
+                fontFile.value = "";
             });
         }
-        options.font.family = strictFontFamily(["custom"]);
+        options.font.family[index] = file.name;
     }/* else {
         bd.fontName.action();
     }*/
+};
+bd.fallbackFontsCount.action = () => {
+    let diff = (parseInt(qr.fallbackFontsCount.value) + 1) - qr.fontInputs.length,
+        index;
+    if (diff > 0) {
+        for (; diff > 0; diff--) {
+            index = qr.fontInputs.length;
+            options.font.family.push(FALLBACK_FONT);
+            qr.addFallbackFontField();
+            bd.registerFontInput(index);
+            bd.fontInput.fontName(index);
+        }
+    } else {
+        for (; diff < 0; diff++) {
+            qr.removeFallbackFontField();
+            index = qr.fontInputs.length;
+            options.font.family.pop();
+            options.font.family[index] = FALLBACK_FONT;
+            //unregister
+        }
+    }
 };
 bd.bitmapWidth.action = (update) => {
     if (update) {
@@ -184,7 +209,7 @@ bd.charset.action = () => {
     options.charset = value;
 };
 
-bd.fire([...bd.sizes, ...bd.standard], true);
+bd.fireAll();
 loadFont({
     classes: false,
     custom: {
@@ -201,8 +226,3 @@ loadFont({
 atlas.setOptions(options);
 bd.registerAll();
 bd.unfocusOnEnter(qr.charset);
-
-//DEFINITIONS
-function strictFontFamily(fontFamily: string[]): string[] {
-    return [fontFamily[0], FALLBACK_FONT];
-}
