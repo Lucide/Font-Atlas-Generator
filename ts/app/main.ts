@@ -120,7 +120,7 @@ bd.fallbackFontsCount.action = () => {
             options.font.family.push(FALLBACK_FONT);
             qr.addFallbackFontField();
             bd.registerFontInput(index);
-            bd.fontInput.fontName(index);
+            // bd.fontInput.fontName(index);
         }
     } else {
         for (; diff < 0; diff++) {

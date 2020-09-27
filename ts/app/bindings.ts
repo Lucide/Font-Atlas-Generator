@@ -150,7 +150,7 @@ function registerComplexInputs() {
 
 export function fireAll() {
     fontInput.fontName(0, true);
-    fontInput.fontFile(0, true);
+    // fontInput.fontFile(0, true);
     fire([...sizes, ...standard], true);
 }
 
