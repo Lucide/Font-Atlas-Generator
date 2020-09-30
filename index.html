@@ -10,8 +10,15 @@
 </head>
 <body>
 <div class="header">
-    <div><a href="https://github.com/Lucide/font-atlas-generator" target="_blank">Font Atlas Generator</a></div>
-    <div>generate a sprite atlas from a specified font and charset</div>
+    <div class="title">
+        <div><a href="https://github.com/Lucide/font-atlas-generator" target="_blank">Font Atlas Generator</a></div>
+        <div>generate a sprite atlas from a specified font and charset</div>
+    </div>
+    <div class="exportInputs">
+        <button type="button" id="exportREXPaint" class="input-button">export charset for REXPaint</button>
+        <div class="filler"></div>
+        <button type="button" id="saveImage" class="input-button">save image</button>
+    </div>
 </div>
 <div class="preview">
     <div>
@@ -175,7 +182,8 @@
     <span><a href="https://github.com/shinnn/variation-selector-regex" target="_blank">@regexp-extra/variation-selector</a></span>,
     service workers,
     <a href="https://github.com/GoogleChrome/workbox" target="_blank">workbox</a>,
-    <a href="https://github.com/rollup/rollup" target="_blank">rollup</a>
+    <a href="https://github.com/rollup/rollup" target="_blank">rollup</a>,
+    <a href="https://github.com/eligrey/FileSaver.js/" target="_blank">FileSaver.js</a>
 </div>
 <script type="text/javascript" src="build/js/app.js"></script>
 </body>
