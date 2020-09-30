@@ -8,7 +8,7 @@ Generate a [texture atlas](https://en.wikipedia.org/wiki/Texture_atlas) from a s
 * enter the font name if you have it already available in your system (*e.g. it's installed*), otherwise, you can load a font file
 * you can define an arbitrary amount of fallback fonts in the corresponding fields regulated by the *Fallback fonts* spinner. The usage is top to bottom.
 * tweak the settings to achieve the desired layout
-* save the image by right clicking on *save image*
+* save the image by clicking on *save image*
 
 > **Warning**, the app uses unicode [variation selectors](https://en.wikipedia.org/wiki/Variation_Selectors_(Unicode_block)) to prevent browsers from showing symbols in the emoji style. If you copy the string in the "charset" textarea, for every char there will be a `U+FE0E` variation selector following.
 
