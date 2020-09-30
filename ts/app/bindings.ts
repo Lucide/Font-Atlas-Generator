@@ -19,6 +19,9 @@ interface FontInputActions {
 
 export const resize: Action = emptyAction();
 
+export const saveImage=emptyBinding(qr.saveImage);
+export const exportREXPaint=emptyBinding(qr.exportREXPaint);
+
 export const fontInput: FontInputActions = {
     tabFontName: emptyAction,
     tabFontFile: emptyAction,
@@ -45,6 +48,10 @@ export const showGrid = emptyBinding(qr.showGrid);
 
 export const charset = emptyBinding(qr.charset);
 
+export const exports=[
+    saveImage,
+    exportREXPaint,
+];
 export const sizes = [
     bitmapWidth,
     bitmapHeight,
@@ -89,6 +96,7 @@ export function unfocusOnEnter(element: HTMLElement) {
 
 export function registerAll() {
     registerActions();
+    registerExports();
     registerFontInput(0);
     registerSizes();
     registerStandard();
@@ -98,6 +106,14 @@ export function registerAll() {
 function registerActions() {
     window.addEventListener("resize", () => {
         resize.action()
+    });
+}
+
+function registerExports(){
+    exports.forEach((binding) => {
+        binding.element.addEventListener("click", () => {
+            binding.action(true);
+        });
     });
 }
 
@@ -131,7 +147,7 @@ function registerSizes() {
     sizes.forEach((binding) => {
         binding.element.addEventListener("change", () => {
             binding.action(true);
-            fire(sizes, false, binding);
+            fire(sizes, false, [binding]);
             refresh();
         });
     });
@@ -154,9 +170,9 @@ export function fireAll() {
     fire([...sizes, ...standard], true);
 }
 
-function fire(bindings: Action[], update: boolean, skip?: Action) {
-    bindings.forEach((binding) => {
-        if (!(skip && skip.action == binding.action)) {
+function fire(actions: Action[], update: boolean, skip?: Action[]) {
+    actions.forEach((binding) => {
+        if (!(skip && skip.includes(binding))) {
             binding.action(update);
         }
     });

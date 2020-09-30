@@ -24,12 +24,15 @@ body {
 }
 
 .header {
+  grid-area: header;
+}
+
+.title {
   @include flex(column);
-  padding-bottom: 13px;
   animation: slide 10s linear infinite;
   text-align: center;
+  padding-bottom: 10px;
   @include defaults.waves;
-  grid-area: header;
 
   &.offline {
     @include defaults.dashed-waves
@@ -55,6 +58,27 @@ body {
 
   :nth-child(2) {
     font-size: 21px;
+  }
+}
+
+.exportInputs {
+  display: flex;
+  justify-content: space-between;
+  border: 0 solid black {
+    top-width: 1px;
+    radius: 7px 7px 0 0;
+  };
+
+  > button {
+    padding {
+      top: 2px;
+      bottom: 2px
+    }
+    border-width: 0 1px;
+  }
+
+  > button:not(button:last-child) {
+    margin-right: 20px;
   }
 }
 
@@ -129,7 +153,7 @@ body {
   }
 }
 
-.fallbackFontTemplate{
+.fallbackFontTemplate {
   display: none;
 }
 

@@ -1,6 +1,7 @@
 import {load as loadFont} from "webfontloader";
 import {readAsArrayBuffer} from "promise-file-reader";
 import {parse as parseCSSFont} from "css-font";
+import {saveAs} from "file-saver";
 import {Workbox} from "workbox-window";
 import type {Message} from "common/message";
 import * as atlas from "./atlas";
@@ -67,7 +68,22 @@ bd.resize.action = () => {
             )
     ) + "px");
 }
-
+bd.saveImage.action = () => {
+    qr.canvas.toBlob((image) => {
+        saveAs(image!, getFileName() + ".png");
+    });
+}
+bd.exportREXPaint.action = () => {
+    let content = "";
+    for (let i = 0; i < options.charset.length; i++) {
+        content += i + " " + options.charset.codePointAt(i) + " //" + options.charset.charAt(i) + "\r\n";
+    }
+    saveAs(new File([content],
+        getFileName() + ".txt",
+        {
+            type: "text/plain;charset=utf-8",
+        }));
+};
 bd.fontInput.tabFontName = (index) => {
     const tabFontName = qr.fontInputs[index].tabFontName;
     if (tabFontName.checked) {
@@ -226,3 +242,11 @@ loadFont({
 atlas.setOptions(options);
 bd.registerAll();
 bd.unfocusOnEnter(qr.charset);
+
+function getFileName(): string {
+    let fileName = options.font.family[0];
+    if (fileName.lastIndexOf(".") != -1) {
+        return fileName.substr(0, fileName.lastIndexOf("."));
+    }
+    return fileName;
+}

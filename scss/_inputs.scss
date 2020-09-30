@@ -66,6 +66,8 @@ $imprecise-color: #FF6B10;
 @mixin button {
   @include disableHighlight;
   @include -border;
+  background-color: white;
+  cursor: pointer;
 }
 
 @mixin textarea {

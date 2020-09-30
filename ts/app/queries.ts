@@ -6,6 +6,7 @@ const charsetFiller = document.querySelector(".charset .filler") as HTMLDivEleme
 export const body = document.querySelector("body") as HTMLBodyElement;
 export const header = document.querySelector(".header") as HTMLDivElement;
 export const preview = document.querySelector(".preview") as HTMLDivElement;
+export const exportInputs=document.querySelector(".exportInputs") as HTMLDivElement;
 export const controls = document.querySelector(".controls") as HTMLDivElement;
 export const fontsInputs = document.querySelector(".fontsInputs") as HTMLDivElement;
 export const gridInputs = document.querySelector(".gridInputs") as HTMLDivElement;
@@ -16,6 +17,9 @@ export const canvas = document.querySelector("canvas") as HTMLCanvasElement;
 //COMPLEX INPUTS HIGHLIGHTING
 export const complexInputs = document.querySelectorAll(".input-number, .input-textarea");
 //INPUTS
+export const saveImage=document.querySelector("#saveImage") as HTMLButtonElement;
+export const exportREXPaint=document.querySelector("#exportREXPaint") as HTMLButtonElement;
+
 export const fallbackFontsCount = document.querySelector("#fallbackFontsCount") as HTMLInputElement;
 
 export const bitmapWidth = document.querySelector("#bitmapWidth") as HTMLInputElement;
