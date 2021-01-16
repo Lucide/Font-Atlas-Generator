@@ -1,5 +1,4 @@
 import * as qr from "./queries";
-import type {FontInput} from "./queries";
 import {refresh} from "./atlas";
 
 interface Action {
@@ -19,8 +18,8 @@ interface FontInputActions {
 
 export const resize: Action = emptyAction();
 
-export const saveImage=emptyBinding(qr.saveImage);
-export const exportREXPaint=emptyBinding(qr.exportREXPaint);
+export const saveImage = emptyBinding(qr.saveImage);
+export const exportREXPaint = emptyBinding(qr.exportREXPaint);
 
 export const fontInput: FontInputActions = {
     tabFontName: emptyAction,
@@ -48,7 +47,7 @@ export const showGrid = emptyBinding(qr.showGrid);
 
 export const charset = emptyBinding(qr.charset);
 
-export const exports=[
+export const exports = [
     saveImage,
     exportREXPaint,
 ];
@@ -109,11 +108,26 @@ function registerActions() {
     });
 }
 
-function registerExports(){
+function registerExports() {
     exports.forEach((binding) => {
         binding.element.addEventListener("click", () => {
             binding.action(true);
         });
+    });
+}
+
+export function registerMessageBox(index: number): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+        qr.messageBoxes[index].ok.addEventListener("click", () => {
+            qr.removeMessageBox(index);
+            resolve(true);
+        }, {once: true});
+        if (!qr.messageBoxes[index].notification) {
+            qr.messageBoxes[index].cancel!.addEventListener("click", () => {
+                qr.removeMessageBox(index);
+                resolve(false);
+            }, {once: true});
+        }
     });
 }
 

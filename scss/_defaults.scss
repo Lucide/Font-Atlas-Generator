@@ -14,6 +14,14 @@ input, label, span {
   display: inline-block;
 }
 
+.template {
+  display: none !important;
+}
+
+.hidden {
+  visibility: hidden !important;
+}
+
 .filler {
   flex-grow: 1;
 }
@@ -49,6 +57,12 @@ input, label, span {
 .input- {
   &button {
     @include inputs.button;
+  }
+
+  &navButton {
+    @include inputs.button;
+    border-bottom-width: 0;
+    border-radius: 7px 7px 0 0;
   }
 
   &text-file {

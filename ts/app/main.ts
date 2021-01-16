@@ -3,7 +3,6 @@ import {readAsArrayBuffer} from "promise-file-reader";
 import {parse as parseCSSFont} from "css-font";
 import {saveAs} from "file-saver";
 import {Workbox} from "workbox-window";
-import type {Message} from "common/message";
 import * as atlas from "./atlas";
 import type {IOptions} from "./atlas";
 import * as vs from "./variation-selector";
@@ -30,24 +29,41 @@ const options = new class implements IOptions {
 if ("serviceWorker" in navigator) {
     const wb = new Workbox("sw.js");
 
+    // first run
     wb.addEventListener("activated", (event) => {
         if (!event.isUpdate) {
-            console.log("new service worker activated, reloading to cache everything");
-            location.reload();
+            const index = qr.addMessageBox(
+                "<b>This app can be used offline!</b><br>" +
+                "Data will be cached starting on the next reload. Press ok to reload now.",
+                false);
+            bd.registerMessageBox(index).then((ok) => {
+                if (ok) {
+                    window.location.reload();
+                }
+            });
         }
     });
-    // wb.addEventListener("waiting", () => {
-    //     wb.messageSW({
-    //         type: "SKIP_WAITING"
-    //     } as Message);
-    // });
+    // update
+    wb.addEventListener("waiting", () => {
+        const index = qr.addMessageBox(
+            "<b>Update Available</b><br>" +
+            "New version available, reload the page to activate it!",
+            false);
+        bd.registerMessageBox(index).then((ok) => {
+            if (ok) {
+                wb.addEventListener("controlling", () => {
+                    window.location.reload();
+                });
+                wb.messageSkipWaiting();
+            }
+        });
+    });
     navigator.serviceWorker.addEventListener("message", (event) => {
-        if ((event.data as Message).type == "OFFLINE") {
+        if (event?.data.type as string == "OFFLINE") {
             qr.offlineDecorations();
         }
-    }, {
-        once: true
-    });
+    }, {once: true});
+
     wb.register();
 }
 
@@ -73,13 +89,30 @@ bd.saveImage.action = () => {
         saveAs(image!, getFileName() + ".png");
     });
 }
-bd.exportREXPaint.action = () => {
+bd.exportREXPaint.action = async () => {
+    for (let i = 0; i < options.charset.length; i++) {
+        if (i == 32 && !options.charset.charAt(i).match(/\s/)) {
+            const index = qr.addMessageBox(
+                "<b>" +
+                `The character at index 32(${options.charset.charAt(i)}) is not a whitespace character` +
+                "</b><br>" +
+                "Since REXPaint does not store any additional information about a " +
+                "cell aside from glyph, foreground color, and background color (not even in the engine), there is no " +
+                "other dedicated way to indicate \"there is no character assigned here\", so that's the job of the " +
+                "space glyph, which the engine hard codes to be at index 32, where it resides for the CP437 layout.", false);
+            const ok = await bd.registerMessageBox(index);
+            if (!ok) {
+                atlas.highlightCell(32);
+                return;
+            }
+        }
+    }
     let content = "";
     for (let i = 0; i < options.charset.length; i++) {
-        content += i + " " + options.charset.codePointAt(i) + " //" + options.charset.charAt(i) + "\r\n";
+        content += `${i} ${options.charset.codePointAt(i)} //${options.charset.charAt(i)}\r\n`;
     }
     saveAs(new File([content],
-        getFileName() + ".txt",
+        `${getFileName()}.txt`,
         {
             type: "text/plain;charset=utf-8",
         }));
@@ -115,17 +148,18 @@ bd.fontInput.fontFile = (index, update) => {
             readAsArrayBuffer(file).then(async (arrayBuffer) => {
                 const font = new FontFace(file.name, arrayBuffer);
                 await font.load();
-                // document.fonts.clear();
                 document.fonts.add(font);
                 atlas.refresh();
             }).catch(() => {
                 fontFile.value = "";
+                const index = qr.addMessageBox(
+                    "<b>Couldn't load font file</b><br>" +
+                    "The file might be corrupt, or unsupported.");
+                bd.registerMessageBox(index);
             });
         }
         options.font.family[index] = file.name;
-    }/* else {
-        bd.fontName.action();
-    }*/
+    }
 };
 bd.fallbackFontsCount.action = () => {
     let diff = (parseInt(qr.fallbackFontsCount.value) + 1) - qr.fontInputs.length,

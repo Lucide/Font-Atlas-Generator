@@ -64,21 +64,10 @@ body {
 .exportInputs {
   display: flex;
   justify-content: space-between;
-  border: 0 solid black {
-    top-width: 1px;
-    radius: 7px 7px 0 0;
-  };
 
   > button {
-    padding {
-      top: 2px;
-      bottom: 2px
-    }
-    border-width: 0 1px;
-  }
-
-  > button:not(button:last-child) {
-    margin-right: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px
   }
 }
 
@@ -153,13 +142,9 @@ body {
   }
 }
 
-.fallbackFontTemplate {
-  display: none;
-}
-
 .fallbackFont {
   @extend .mandatoryFont;
-  padding-bottom: 0px;
+  padding-bottom: 0;
 }
 
 .gridInputs {
@@ -218,4 +203,48 @@ body {
   > span {
     text-decoration: underline line-through;
   }
+}
+
+.messageBoxContainer {
+  position: fixed;
+  @include fillSpace;
+  background-color: rgba(0, 0, 0, .5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.messageBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 500px;
+  border: 1px solid black {
+    radius: 7px;
+  }
+  background-color: white;
+  padding: 10px 10px;
+  text-align: center;
+
+  > span {
+    display: block;
+    padding-bottom: 20px;
+  }
+
+  > div {
+    display: flex;
+    width: 100%;
+    min-width: 200px;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  > button {
+    display: block;
+  }
+}
+
+.gabibbo{
+  display: flex;
 }

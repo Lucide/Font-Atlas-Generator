@@ -59,7 +59,7 @@ function draw(o: IOptions) {
 }
 
 function drawClipped(o: IOptions) {
-    let i=0;
+    let i = 0;
     for (let y = 0; y + o.cell[1] <= o.size[1] && i < o.charset.length; y += o.cell[1]) {
         for (let x = 0; x + o.cell[0] <= o.size[0] && i < o.charset.length; x += o.cell[0]) {
             renderCtx.clearRect(0, 0, o.cell[0], o.cell[1]);
@@ -71,7 +71,7 @@ function drawClipped(o: IOptions) {
 }
 
 function drawUnclipped(o: IOptions) {
-    let i=0;
+    let i = 0;
     for (let y = 0; y + o.cell[1] <= o.size[1] && i < o.charset.length; y += o.cell[1]) {
         for (let x = 0; x + o.cell[0] <= o.size[0] && i < o.charset.length; x += o.cell[0]) {
             renderCtx.fillText(textStyle(o.charset.charAt(i)), x + o.offset[0] + o.cell[0] / 2, y + o.offset[1] + o.cell[1] / 2);
@@ -84,7 +84,7 @@ function drawUnclipped(o: IOptions) {
 function drawGrid(o: IOptions) {
     outputCtx.save();
     if (o.grid) {
-        let pixelOffset = 0.5;
+        const pixelOffset = 0.5;
         outputCtx.strokeStyle = "#7FFF00";
         outputCtx.lineWidth = 1;
         for (let y = o.cell[1]; y < o.size[1]; y += o.cell[1]) {
@@ -100,5 +100,19 @@ function drawGrid(o: IOptions) {
             outputCtx.stroke();
         }
     }
+    outputCtx.restore();
+}
+
+export function highlightCell(index: number) {
+    const o: IOptions = options;
+    outputCtx.save();
+    const pixelOffset = 0.5;
+    outputCtx.strokeStyle = "#ff0000";
+    outputCtx.lineWidth = 1;
+    const indX = index % (Math.floor(o.size[0] / o.cell[0]) + 1);
+    const indY = Math.floor(index / Math.floor(o.size[1] / o.cell[1]));
+    outputCtx.beginPath();
+    outputCtx.rect(o.cell[0] * indX + pixelOffset, o.cell[1] * indY + pixelOffset, o.cell[0], o.cell[1]);
+    outputCtx.stroke();
     outputCtx.restore();
 }
