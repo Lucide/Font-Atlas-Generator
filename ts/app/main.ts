@@ -277,7 +277,6 @@ atlas.setOptions(options);
 bd.registerAll();
 bd.unfocusOnEnter(qr.charset);
 
-//bob
 function getFileName(): string {
     let fileName = options.font.family[0];
     if (fileName.lastIndexOf(".") != -1) {
