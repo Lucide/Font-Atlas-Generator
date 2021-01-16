@@ -3327,15 +3327,6 @@
         }
     }
 
-    var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-        return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-            step((generator = generator.apply(thisArg, _arguments || [])).next());
-        });
-    };
     setCacheNameDetails({
         prefix: "font-atlas-generator",
     });
@@ -3344,7 +3335,7 @@
             self.skipWaiting();
         }
     });
-    precacheAndRoute([{"revision":"277e1e8de486a1abe13e89102b643b77","url":"index.html"},{"revision":"3e2ab4028397367a6fef53bd73d52e65","url":"assets/AdobeBlank.otf.woff"},{"revision":"519a5da51bc46c3e98d4fa46a8bdeb53","url":"assets/DejaVuSansMono-webfont.woff"},{"revision":"b983f7106a1ac81d5da51fdbbc6ffed6","url":"assets/favicon.png"},{"revision":"d5b2aacc59313a94cb05c7ac57ff6359","url":"build/js/app.js"},{"revision":"01d56a52ad31c562023b807d65869522","url":"build/css/main.css"}]);
+    precacheAndRoute([{"revision":"277e1e8de486a1abe13e89102b643b77","url":"index.html"},{"revision":"3e2ab4028397367a6fef53bd73d52e65","url":"assets/AdobeBlank.otf.woff"},{"revision":"519a5da51bc46c3e98d4fa46a8bdeb53","url":"assets/DejaVuSansMono-webfont.woff"},{"revision":"b983f7106a1ac81d5da51fdbbc6ffed6","url":"assets/favicon.png"},{"revision":"3d22dd3a4991ed700e66aa49daa5d54e","url":"build/js/app.js"},{"revision":"01d56a52ad31c562023b807d65869522","url":"build/css/main.css"}]);
     cleanupOutdatedCaches();
     registerRoute(({ url }) => {
         return url.origin == "https://fonts.googleapis.com"
@@ -3354,10 +3345,8 @@
         plugins: [
             new CacheableResponsePlugin({ statuses: [200] }),
             {
-                fetchDidFail: function ({ event }) {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        yield messageClient(event);
-                    });
+                fetchDidFail: async function ({ event }) {
+                    await messageClient(event);
                 }
             }
         ]
@@ -3374,21 +3363,19 @@
             }),
         ],
     }));
-    setCatchHandler(() => __awaiter(void 0, void 0, void 0, function* () {
+    setCatchHandler(async () => {
         return Response.error();
-    }));
-    function messageClient(event) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!event.clientId)
-                return;
-            const client = yield self.clients.get(event.clientId);
-            if (!client)
-                return;
-            client.postMessage({
-                data: {
-                    type: "OFFLINE"
-                }
-            });
+    });
+    async function messageClient(event) {
+        if (!event.clientId)
+            return;
+        const client = await self.clients.get(event.clientId);
+        if (!client)
+            return;
+        client.postMessage({
+            data: {
+                type: "OFFLINE"
+            }
         });
     }
 
