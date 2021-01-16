@@ -15,9 +15,9 @@
         <div>generate a sprite atlas from a specified font and charset</div>
     </div>
     <div class="exportInputs">
-        <button type="button" id="exportREXPaint" class="input-button">export charset for REXPaint</button>
-        <div class="filler"></div>
-        <button type="button" id="saveImage" class="input-button">save image</button>
+        <button type="button" id="exportREXPaint" class="input-navButton">export charset for REXPaint</button>
+        <!--        <div class="filler"></div>-->
+        <button type="button" id="saveImage" class="input-navButton">save image</button>
     </div>
 </div>
 <div class="preview">
@@ -50,7 +50,7 @@
                 <input type="number" id="fallbackFontsCount" min="0" value="0" autocomplete="off">n
             </div>
         </div>
-        <div class="fallbackFont fallbackFontTemplate">
+        <div class="fallbackFont template">
             <input type="radio" id="tabFFontName" name="tab-group-ffont" autocomplete="off" checked>
             <label for="tabFFontName">Name</label>
             <div class="tabName">
@@ -119,7 +119,7 @@
             <label for="clipCells">Clip cells</label>
         </div>
         <div class="wrappable-input">
-            <label>Supersamplng:</label>
+            <label for="scale">Supersamplng:</label>
             <select id="scale" class="input-select" autocomplete="off">
                 <option selected>none</option>
                 <option>x2</option>
@@ -161,8 +161,6 @@
     <a href="https://www.jetbrains.com/webstorm/" target="_blank">webstorm</a>,
     <a href="https://www.npmjs.com/" target="_blank">npm</a>,
     <a href="https://sass-lang.com/" target="_blank">sass</a>,
-    <span><a href="http://browserify.org/" target="_blank">browserify</a></span>,
-    <span><a href="https://github.com/benbria/aliasify" target="_blank">aliasify</a></span>,
     ES6 modules,
     CommonJS,
     javascript,
@@ -184,6 +182,15 @@
     <a href="https://github.com/GoogleChrome/workbox" target="_blank">workbox</a>,
     <a href="https://github.com/rollup/rollup" target="_blank">rollup</a>,
     <a href="https://github.com/eligrey/FileSaver.js/" target="_blank">FileSaver.js</a>
+</div>
+<div class="messageBoxContainer template">
+    <div class="messageBox template">
+        <span id="messageBoxMessage">message</span>
+        <div>
+            <button type="button" id="messageBoxOk" class="input-button">ok</button>
+            <button type="button" id="messageBoxCancel" class="input-button template">cancel</button>
+        </div>
+    </div>
 </div>
 <script type="text/javascript" src="build/js/app.js"></script>
 </body>
