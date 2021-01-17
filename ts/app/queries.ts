@@ -1,7 +1,7 @@
 //PRIVATE
 const messageBoxContainer = document.querySelector(".messageBoxContainer") as HTMLDivElement;
 const messageBoxTemplate = document.querySelector(".messageBox") as HTMLDivElement;
-const fallbackFontTemplate = document.querySelector(".fallbackFontTemplate") as HTMLDivElement;
+const fallbackFontTemplate = document.querySelector(".fallbackFont") as HTMLDivElement;
 const controlsFiller = document.querySelector(".controls .filler") as HTMLDivElement;
 const charsetFiller = document.querySelector(".charset .filler") as HTMLDivElement;
 //CONTAINERS
