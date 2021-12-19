@@ -31,7 +31,7 @@ body {
   @include flex(column);
   animation: slide 10s linear infinite;
   text-align: center;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   @include defaults.waves;
 
   &.offline {
