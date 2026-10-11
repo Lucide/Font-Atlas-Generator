@@ -164,11 +164,21 @@ function registerStandard() {
             binding.action(true);
             refresh();
         };
-        binding.element.addEventListener("change", onUpdate);
         if (binding.element instanceof HTMLInputElement && binding.element.type === "color") {
             binding.element.addEventListener("input", onUpdate);
+        } else {
+            binding.element.addEventListener("change", onUpdate);
         }
     });
+}
+
+export function applyCharsetNow() {
+    if (charsetRefreshTimer !== undefined) {
+        clearTimeout(charsetRefreshTimer);
+        charsetRefreshTimer = undefined;
+    }
+    charset.action(true);
+    refresh();
 }
 
 function registerCharset() {

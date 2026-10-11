@@ -88,11 +88,13 @@ bd.resize.action = () => {
     ) + "px");
 }
 bd.saveImage.action = () => {
+    bd.applyCharsetNow();
     atlas.exportImage((image) => {
         saveAs(image!, getFileName() + ".png");
     });
 }
 bd.exportREXPaint.action = async () => {
+    bd.applyCharsetNow();
     for (let i = 0; i < options.charset.length; i++) {
         if (i == 32 && !options.charset.charAt(i).match(/\s/)) {
             const index = qr.addMessageBox(
