@@ -38,12 +38,15 @@ export const cellWidth = emptyBinding(qr.cellWidth);
 export const cellHeight = emptyBinding(qr.cellHeight);
 
 export const fontSize = emptyBinding(qr.fontSize);
+export const fontColor = emptyBinding(qr.fontColor);
 export const scale = emptyBinding(qr.scale);
 export const smooth = emptyBinding(qr.smooth);
 export const clipCells = emptyBinding(qr.clipCells);
 export const offsetX = emptyBinding(qr.offsetX);
 export const offsetY = emptyBinding(qr.offsetY);
 export const showGrid = emptyBinding(qr.showGrid);
+export const backgroundColor = emptyBinding(qr.backgroundColor);
+export const transparentBackground = emptyBinding(qr.transparentBackground);
 
 export const charset = emptyBinding(qr.charset);
 
@@ -62,14 +65,19 @@ export const sizes = [
 export const standard = [
     fallbackFontsCount,
     fontSize,
+    fontColor,
     clipCells,
     scale,
     smooth,
     offsetX,
     offsetY,
     showGrid,
-    charset
+    backgroundColor,
+    transparentBackground,
 ];
+
+const CHARSET_REFRESH_DEBOUNCE_MS = 2000;
+let charsetRefreshTimer: ReturnType<typeof setTimeout> | undefined;
 
 function emptyAction(): Action {
     return {
@@ -81,8 +89,9 @@ function emptyAction(): Action {
 function emptyBinding(element: HTMLElement): InputBinding {
     return {
         element: element,
-        action: emptyAction
-    }
+        action: () => {
+        }
+    };
 }
 
 export function unfocusOnEnter(element: HTMLElement) {
@@ -99,6 +108,7 @@ export function registerAll() {
     registerFontInput(0);
     registerSizes();
     registerStandard();
+    registerCharset();
     registerComplexInputs();
 }
 
@@ -150,11 +160,39 @@ export function registerFontInput(index: number) {
 
 function registerStandard() {
     standard.forEach((binding) => {
-        binding.element.addEventListener("change", () => {
+        const onUpdate = () => {
             binding.action(true);
             refresh();
-        });
+        };
+        if (binding.element instanceof HTMLInputElement && binding.element.type === "color") {
+            binding.element.addEventListener("input", onUpdate);
+        } else {
+            binding.element.addEventListener("change", onUpdate);
+        }
     });
+}
+
+export function applyCharsetNow() {
+    if (charsetRefreshTimer !== undefined) {
+        clearTimeout(charsetRefreshTimer);
+        charsetRefreshTimer = undefined;
+    }
+    charset.action(true);
+    refresh();
+}
+
+function registerCharset() {
+    const scheduleRefresh = () => {
+        if (charsetRefreshTimer !== undefined) {
+            clearTimeout(charsetRefreshTimer);
+        }
+        charsetRefreshTimer = setTimeout(() => {
+            charsetRefreshTimer = undefined;
+            charset.action(true);
+            refresh();
+        }, CHARSET_REFRESH_DEBOUNCE_MS);
+    };
+    charset.element.addEventListener("input", scheduleRefresh);
 }
 
 function registerSizes() {
@@ -181,7 +219,7 @@ function registerComplexInputs() {
 export function fireAll() {
     fontInput.fontName(0, true);
     // fontInput.fontFile(0, true);
-    fire([...sizes, ...standard], true);
+    fire([...sizes, ...standard, charset], true);
 }
 
 function fire(actions: Action[], update: boolean, skip?: Action[]) {

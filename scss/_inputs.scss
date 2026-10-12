@@ -70,6 +70,15 @@ $imprecise-color: #FF6B10;
   cursor: pointer;
 }
 
+@mixin color {
+  @include -border;
+  @include disableHighlight;
+  width: 33px;
+  height: 33px;
+  padding: 2px;
+  cursor: pointer;
+}
+
 @mixin textarea {
   @include -border;
   display: inline-block;

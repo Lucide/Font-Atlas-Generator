@@ -32,12 +32,15 @@ export const cellWidth = document.querySelector("#cellWidth") as HTMLInputElemen
 export const cellHeight = document.querySelector("#cellHeight") as HTMLInputElement;
 
 export const fontSize = document.querySelector("#fontSize") as HTMLInputElement;
+export const fontColor = document.querySelector("#fontColor") as HTMLInputElement;
 export const scale = document.querySelector("#scale") as HTMLSelectElement;
 export const smooth = document.querySelector("#smooth") as HTMLInputElement;
 export const clipCells = document.querySelector("#clipCells") as HTMLInputElement;
 export const offsetX = document.querySelector("#offsetX") as HTMLInputElement;
 export const offsetY = document.querySelector("#offsetY") as HTMLInputElement;
 export const showGrid = document.querySelector("#showGrid") as HTMLInputElement;
+export const backgroundColor = document.querySelector("#backgroundColor") as HTMLInputElement;
+export const transparentBackground = document.querySelector("#transparentBackground") as HTMLInputElement;
 
 export const charset = document.querySelector("#charset") as HTMLTextAreaElement;
 

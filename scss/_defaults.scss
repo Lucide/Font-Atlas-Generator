@@ -84,6 +84,11 @@ input, label, span {
     @include inputs.checkbox;
   }
 
+  &color {
+    @include inputs.color;
+    margin-bottom: 9px;
+  }
+
   &textarea {
     @include inputs.textarea;
 

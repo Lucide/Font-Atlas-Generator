@@ -23,6 +23,9 @@ const options = new class implements IOptions {
     charset = "a";
     clip = false;
     grid = false;
+    transparentBackground = false;
+    fontColor = "#ffffff";
+    backgroundColor = "#000000";
 };
 
 //START
@@ -85,11 +88,13 @@ bd.resize.action = () => {
     ) + "px");
 }
 bd.saveImage.action = () => {
-    qr.canvas.toBlob((image) => {
+    bd.applyCharsetNow();
+    atlas.exportImage((image) => {
         saveAs(image!, getFileName() + ".png");
     });
 }
 bd.exportREXPaint.action = async () => {
+    bd.applyCharsetNow();
     for (let i = 0; i < options.charset.length; i++) {
         if (i == 32 && !options.charset.charAt(i).match(/\s/)) {
             const index = qr.addMessageBox(
@@ -232,6 +237,9 @@ bd.cellHeight.action = (update) => {
 bd.fontSize.action = () => {
     options.font.size = qr.fontSize.value + "pt";
 };
+bd.fontColor.action = () => {
+    options.fontColor = qr.fontColor.value;
+};
 bd.clipCells.action = () => {
     options.clip = qr.clipCells.checked;
 };
@@ -251,6 +259,12 @@ bd.offsetY.action = () => {
 };
 bd.showGrid.action = () => {
     options.grid = qr.showGrid.checked;
+};
+bd.backgroundColor.action = () => {
+    options.backgroundColor = qr.backgroundColor.value;
+};
+bd.transparentBackground.action = () => {
+    options.transparentBackground = qr.transparentBackground.checked;
 };
 
 bd.charset.action = () => {

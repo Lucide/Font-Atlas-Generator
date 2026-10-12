@@ -13,6 +13,9 @@ export interface IOptions {
     charset: string;
     clip: boolean;
     grid: boolean;
+    transparentBackground: boolean;
+    fontColor: string;
+    backgroundColor: string;
 }
 
 let options: IOptions;
@@ -25,52 +28,68 @@ export function setOptions(o: IOptions) {
     renderCtx = (document.createElement("canvas") as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
 }
 
-function initText(ctx: CanvasRenderingContext2D) {
+function initText(ctx: CanvasRenderingContext2D, fontColor: string) {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = "white";
+    ctx.fillStyle = fontColor;
 }
 
-function clear(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+function clear(ctx: CanvasRenderingContext2D, transparent: boolean, backgroundColor: string) {
+    if (transparent) {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    } else {
+        ctx.fillStyle = backgroundColor;
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    }
 }
 
 export function refresh() {
-    draw(options);
+    drawContent(options, outputCtx, false);
     drawGrid(options);
 }
 
-function draw(o: IOptions) {
-    outputCtx.save();
-    [outputCtx.canvas.width, outputCtx.canvas.height] = [o.size[0], o.size[1]];
-    clear(outputCtx);
-    outputCtx.imageSmoothingEnabled = o.smooth;
-    [renderCtx.canvas.width, renderCtx.canvas.height] = o.clip ? [o.cell[0] * o.scale, o.cell[1] * o.scale] : [o.size[0] * o.scale, o.size[1] * o.scale];
-    renderCtx.scale(o.scale, o.scale);
-    initText(renderCtx);
-    renderCtx.font = stringifyCSSFont(o.font);
-    if (o.clip) {
-        drawClipped(o);
+export function exportImage(callback: (blob: Blob | null) => void) {
+    if (options.transparentBackground) {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+        drawContent(options, ctx, true);
+        canvas.toBlob(callback);
     } else {
-        drawUnclipped(o);
+        options.context2D.canvas.toBlob(callback);
     }
-    outputCtx.restore();
 }
 
-function drawClipped(o: IOptions) {
+function drawContent(o: IOptions, targetCtx: CanvasRenderingContext2D, transparent: boolean) {
+    targetCtx.save();
+    [targetCtx.canvas.width, targetCtx.canvas.height] = [o.size[0], o.size[1]];
+    clear(targetCtx, transparent, o.backgroundColor);
+    targetCtx.imageSmoothingEnabled = o.smooth;
+    [renderCtx.canvas.width, renderCtx.canvas.height] = o.clip ? [o.cell[0] * o.scale, o.cell[1] * o.scale] : [o.size[0] * o.scale, o.size[1] * o.scale];
+    renderCtx.setTransform(1, 0, 0, 1, 0, 0);
+    renderCtx.scale(o.scale, o.scale);
+    initText(renderCtx, o.fontColor);
+    renderCtx.font = stringifyCSSFont(o.font);
+    if (o.clip) {
+        drawClipped(o, targetCtx);
+    } else {
+        drawUnclipped(o, targetCtx);
+    }
+    targetCtx.restore();
+}
+
+function drawClipped(o: IOptions, targetCtx: CanvasRenderingContext2D) {
     let i = 0;
     for (let y = 0; y + o.cell[1] <= o.size[1] && i < o.charset.length; y += o.cell[1]) {
         for (let x = 0; x + o.cell[0] <= o.size[0] && i < o.charset.length; x += o.cell[0]) {
             renderCtx.clearRect(0, 0, o.cell[0], o.cell[1]);
             renderCtx.fillText(textStyle(o.charset.charAt(i)), o.offset[0] + o.cell[0] / 2, o.offset[1] + o.cell[1] / 2);
-            outputCtx.drawImage(renderCtx.canvas, x, y, o.cell[0], o.cell[1]);
+            targetCtx.drawImage(renderCtx.canvas, x, y, o.cell[0], o.cell[1]);
             i++;
         }
     }
 }
 
-function drawUnclipped(o: IOptions) {
+function drawUnclipped(o: IOptions, targetCtx: CanvasRenderingContext2D) {
     let i = 0;
     for (let y = 0; y + o.cell[1] <= o.size[1] && i < o.charset.length; y += o.cell[1]) {
         for (let x = 0; x + o.cell[0] <= o.size[0] && i < o.charset.length; x += o.cell[0]) {
@@ -78,7 +97,7 @@ function drawUnclipped(o: IOptions) {
             i++
         }
     }
-    outputCtx.drawImage(renderCtx.canvas, 0, 0, o.size[0], o.size[1]);
+    targetCtx.drawImage(renderCtx.canvas, 0, 0, o.size[0], o.size[1]);
 }
 
 function drawGrid(o: IOptions) {
